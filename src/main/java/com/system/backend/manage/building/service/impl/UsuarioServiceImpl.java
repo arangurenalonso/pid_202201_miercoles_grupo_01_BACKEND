@@ -3,10 +3,11 @@ package com.system.backend.manage.building.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.system.backend.manage.building.entity.Rol;
+import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.repository.IRoleRepository;
 import com.system.backend.manage.building.repository.IUsuarioRepository;
@@ -25,17 +26,22 @@ public class UsuarioServiceImpl implements UsuarioService {
 	private IRoleRepository roleRepo;
 	
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@Override
 	public Usuario saveUser(Usuario user) {
 		// TODO Auto-generated method stub
-		log.info("Saving new user {} to the database",user.getName());
+		log.info("Saving new user {} to the database",user.getUsername());
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return usuarioRepo.save(user);
 	}
 
 	@Override
-	public Rol saveRole(Rol role) {
+	public Role saveRole(Role role) {
 		// TODO Auto-generated method stub
-		log.info("Saving new role {} to the database",role.getNombre());
+		log.info("Saving new role {} to the database",role.getName());
+		
 		return roleRepo.save(role);
 	}
 
@@ -43,7 +49,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public void addRoleToUsuario(String username, String roleName) {
 		log.info("Adding role {} to user {} ",roleName,username);
 		Usuario user=usuarioRepo.findByUsername(username);
-		Rol role=roleRepo.findByNombre(roleName);
+		Role role=roleRepo.findByName(roleName);
 		user.getRoles().add(role);
 		
 	}
@@ -61,5 +67,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		log.info("Fetching All users");
 		return usuarioRepo.findAll();
 	}
-
+	
+	
 }
+

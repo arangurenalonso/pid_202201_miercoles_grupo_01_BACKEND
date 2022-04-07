@@ -1,12 +1,11 @@
 package com.system.backend.manage.building.entity;
 
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,43 +14,52 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
-
+@AllArgsConstructor
 
 @Entity
-@Table(name = "usuarios", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
-		@UniqueConstraint(columnNames = { "email" }) })
+@Table(name = "usuarios")
 public class Usuario {
-
-	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String name;
-	private String username;
+	
+	@NotEmpty(message = "No puede estar vacio!!!!!")
+	@Column(nullable = false, unique = true)
+	private String username;	
+	
+	@NotEmpty(message = "No puede estar vacio!!!!!")
+	@Email(message = "Debe ingresar un correo válido")
+	@Column(nullable = false, unique = true)
 	private String email;
+	
 	private String password;
-
-	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	@JoinTable(name = "usuarios_roles", 
-				joinColumns = @JoinColumn(name = "usuario_id"), 
-				inverseJoinColumns = @JoinColumn(name = "role_id"),
-				uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario_id","role_id"})})
-	private List<Rol> roles=new ArrayList<>();
-
+	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "persona_id", referencedColumnName = "id")
+    private Persona  persona=new Persona();
 
 	
+	/********************************************
+	 * fetch = FetchType.EAGER When I fetch the user or when I load the user; at the
+	 * same time I load all of their roles in the database So there's no time that
+	 * I'm going to load a user and I'm not going to load the role that's why I set
+	 * this to eager; Because I want lo load all of the roles whenever I load the
+	 * user
+	 ******************************************/
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "permisos", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = {
+			@UniqueConstraint(columnNames = { "usuario_id", "role_id" }) })
+	private List<Role> roles = new ArrayList<>();
 
 }
