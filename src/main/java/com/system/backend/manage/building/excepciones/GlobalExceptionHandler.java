@@ -24,8 +24,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.system.backend.manage.building.dto.ResponseDetails;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.system.backend.manage.building.dto.Response;
 
 /******************************************************************
@@ -46,6 +44,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 	*/
 	@ExceptionHandler(CustomAppException.class)
 	public ResponseEntity<?> manejarBlogAppException(CustomAppException e,WebRequest webRequest){
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Entro al manejarBlogAppException");
 		ResponseDetails responseDetaile=new ResponseDetails();
 		responseDetaile.setCodigoEstado(e.getStatusCode());
 		responseDetaile.setMensaje(e.getExceptionMessage());
@@ -57,7 +56,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 		response.setDetalle(responseDetaile);
 		
 		
-		return new ResponseEntity<>(response,e.getEstado());
+		return new ResponseEntity<Response>(response,e.getEstado());
 	}
 	
 	@ExceptionHandler(AuthenticationException.class)
@@ -112,30 +111,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 		response.setMessage("Acceso denegado; se requiere de los permisos necesario para acceder a este recurso");
 		
 		return new ResponseEntity<>(response,HttpStatus.UNAUTHORIZED);
-		
-	}
-	@ExceptionHandler(JWTDecodeException.class)
-	public ResponseEntity<?> manejarJWTDecodeException(JWTDecodeException ex,WebRequest webRequest){
-		ResponseDetails responseDetails = 
-				new ResponseDetails(400,ex.getMessage(), webRequest.getDescription(false));
-		Response response=new Response();
-		response.setType("Error");
-		response.setDetalle(responseDetails);
-		response.setMessage("Error al decodificar el token - Ha ingresado un token no valido");
-		
-		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
-		
-	}
-	@ExceptionHandler(TokenExpiredException.class)
-	public ResponseEntity<?> manejarTokenExpiredException(TokenExpiredException ex,WebRequest webRequest){
-		ResponseDetails responseDetails = 
-				new ResponseDetails(400,ex.getMessage(), webRequest.getDescription(false));
-		Response response=new Response();
-		response.setType("Error");
-		response.setDetalle(responseDetails);
-		response.setMessage("Token Expirado - el token ingresado ha expirado");
-		
-		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
 		
 	}
 	@ExceptionHandler(NullPointerException.class)

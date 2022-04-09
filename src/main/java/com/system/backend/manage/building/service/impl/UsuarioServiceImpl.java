@@ -7,6 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.system.backend.manage.building.entity.Permiso;
+import com.system.backend.manage.building.entity.PermisoId;
 import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.repository.IRoleRepository;
@@ -50,7 +52,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 		log.info("Adding role {} to user {} ",roleName,username);
 		Usuario user=usuarioRepo.findByUsername(username);
 		Role role=roleRepo.findByName(roleName);
-		user.getRoles().add(role);
+		PermisoId permisoId=new PermisoId(user.getId(),role.getId());
+		user.getPermiso().add(new Permiso(permisoId,user,role));
 		
 	}
 

@@ -34,16 +34,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	 * */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Entramos en UserDetailsService: ");
 		Usuario usuario = usuarioRepo.findByUsername(username);
 		if(usuario==null) {
-			log.error("Error en el login: no existe el usuario '"+username+"' en el sistema!");
 			throw new UsernameNotFoundException("Error en el login: no existe el usuario '"+username+"' en el sistema!");
 		}
 		log.info("User found in the database: {}",username);
-		List<GrantedAuthority> authorities=usuario.getRoles()
+		List<GrantedAuthority> authorities=usuario.getPermiso()
 												.stream()
-												.map(role->{
-													return new SimpleGrantedAuthority(role.getName()); 
+												.map(permiso->{
+													return new SimpleGrantedAuthority(permiso.getRole().getName()); 
 												})
 												.collect(Collectors.toList());
 		

@@ -10,8 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.system.backend.manage.building.entity.Persona;
+import com.system.backend.manage.building.entity.Propietario;
 import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.entity.Usuario;
+import com.system.backend.manage.building.service.PersonaService;
+import com.system.backend.manage.building.service.PropietarioService;
 import com.system.backend.manage.building.service.UsuarioService;
 
 @SpringBootApplication
@@ -27,7 +30,9 @@ public class Pid202201MiercolesGrupo01BackendApplication {
 		return new BCryptPasswordEncoder();
 	}
 	@Bean
-	CommandLineRunner run (UsuarioService userService) {
+	CommandLineRunner run (UsuarioService userService, 
+			PropietarioService propietarioService,
+			PersonaService personaService) {
 		// TODO Auto-generated method stub
 		return args -> {
 			userService.saveRole(new Role(null,"ROLE_USER"));
@@ -52,6 +57,16 @@ public class Pid202201MiercolesGrupo01BackendApplication {
 			userService.addRoleToUsuario("arnold", "ROLE_SUPER_ADMIN");
 			userService.addRoleToUsuario("arnold", "ROLE_ADMIN");
 			userService.addRoleToUsuario("arnold", "ROLE_USER");
+			
+			Propietario propietario1 = new Propietario(null,new Date(),"","989777585",per1);
+			propietarioService.savePropietario(propietario1);
+			
+			Persona per5 = new Persona(null,"Kevin","Ledesma","78547878",true,new Date());
+			personaService.savePersona(per5);
+			
+			//Propietario propietario2 = new Propietario(null,new Date(),"","969696969",per5);
+			//propietarioService.savePropietario(propietario2);
+			
 		};
 	}
 }

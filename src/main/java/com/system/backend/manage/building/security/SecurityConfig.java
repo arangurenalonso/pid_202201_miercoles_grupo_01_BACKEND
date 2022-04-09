@@ -66,12 +66,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/persona/list/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/auth/token/refresh/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
-		http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/users").hasAnyAuthority("ROLE_USER");
+		http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/user/list/**").hasAnyAuthority("ROLE_USER");
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/user/save/**").hasAnyAuthority("ROLE_ADMIN");
-		//http.authorizeRequests().anyRequest().permitAll();
-		http.authorizeRequests().anyRequest().authenticated();
+		http.authorizeRequests().anyRequest().permitAll();
+		//http.authorizeRequests().anyRequest().authenticated();
 
 		http.exceptionHandling().authenticationEntryPoint(authenticationEntryPointJwt);
 		http.exceptionHandling().accessDeniedHandler(accessDeniedHandlerJwt);

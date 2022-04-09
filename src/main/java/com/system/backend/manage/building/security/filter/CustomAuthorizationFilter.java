@@ -28,20 +28,18 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doFilterInternal: "+isPathNeedsToBeAuthorized(request));
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+request.getServletPath());
 		if (!isPathNeedsToBeAuthorized(request)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 		// obtenemos el token de la solicitud HTTP
 		String token = generateToken.getBearerTokend(request);
-		if(token==null) {
-			filterChain.doFilter(request, response);
-			//Enviar un error
-			return;
-		}
+		 
 		// Validamos el token haciendo la Decodificamos el token
 		DecodedJWT decodedJWT = generateToken.validarToken(token, response);
+		
 		// Obtenemos el usuario
 		String username = decodedJWT.getSubject();
 		UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
@@ -57,9 +55,18 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 	}
 
 	private boolean isPathNeedsToBeAuthorized(HttpServletRequest request) {
-		if (request.getServletPath().equals("/api/auth/login")
-				|| request.getServletPath().equals("/api/auth/token/refresh"))
+		
+		if (
+				   request.getServletPath().equals("/api/auth/login")
+				|| request.getServletPath().equals("/api/auth/token/refresh")
+				|| request.getServletPath().equals("/api/persona/list")
+				|| request.getServletPath().startsWith("/api/propietario")
+				|| request.getServletPath().startsWith("/api/visitante")
+				) {
 			return false;
+		}
+			
+			
 		return true;
 	}
 	/*

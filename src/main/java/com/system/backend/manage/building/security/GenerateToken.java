@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -33,7 +34,6 @@ import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.system.backend.manage.building.dto.AuthTokenDTO;
-import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.excepciones.CustomAppException;
 import com.system.backend.manage.building.utils.AppConstantes;
@@ -71,7 +71,9 @@ public class GenerateToken {
 		String access_token = JWT.create().withSubject(usuario.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))// 10 minutos
 				.withIssuer(usuario.getUsername())
-				.withClaim("roles", usuario.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+				.withClaim("roles", usuario.getPermiso().stream().map(permiso->{
+					return permiso.getRole().getName();
+				}).collect(Collectors.toList()))
 				.sign(algorithm);
 
 		String refresh_token = JWT.create().withSubject(usuario.getUsername())
@@ -88,18 +90,26 @@ public class GenerateToken {
 	public String getBearerTokend(HttpServletRequest request) {
 		
 		String authorizationHeader = request.getHeader("Authorization");
-		if (authorizationHeader == null)
-			throw new CustomAppException("No se encontró el nombre del campo 'Authorization' dentro de las cabeceras",
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> authorizationHeader: "+authorizationHeader);
+		if (authorizationHeader == null) {
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Entro al null: ");
+			SecurityContextHolder.clearContext();
+
+			throw new CustomAppException("Es necesario especificar el campo 'Authorization' dentro de las cabeceras",
 					400, " header fieldname not found; Authorization request header is required",
 					"NullPointerException", HttpStatus.BAD_REQUEST);
+		}
+			
 		if (!StringUtils.hasText(authorizationHeader)) {
+			SecurityContextHolder.clearContext();
 			throw new CustomAppException("El campo Authorization está vacío",
 					400, "Authorization Header is empty",
 					"NullPointerException", HttpStatus.BAD_REQUEST);
 		}
 		if (!authorizationHeader.startsWith(AppConstantes.BEARER)) {
-			throw new CustomAppException("No se encontró el nombre del campo 'Authorization' dentro de las cabeceras",
-					400, " header fieldname not found; Authorization request header is required",
+			SecurityContextHolder.clearContext();
+			throw new CustomAppException("La solicitud de Authorización debe de empezar con las palabras 'Bearer '",
+					400, " Authorizatio request must starts with 'Bearer'",
 					"NullPointerException", HttpStatus.BAD_REQUEST);
 		}
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OK");
@@ -117,18 +127,19 @@ public class GenerateToken {
 
 			return decodedJWT;
 		} catch (TokenExpiredException e) {
-
+			SecurityContextHolder.clearContext();
 			throw new CustomAppException("El token ha expirado", 400, e.getMessage(), "TokenExpiredException",
 					HttpStatus.BAD_REQUEST);
 
 		} catch (JWTDecodeException e) {
-
+			SecurityContextHolder.clearContext();
 			throw new CustomAppException("Error al decodificar el token: token no valido", 400, e.getMessage(),
 					"TokenExpiredException", HttpStatus.BAD_REQUEST);
 
 		}
 
 		catch (Exception e) {
+			SecurityContextHolder.clearContext();
 			response.setHeader("error", e.getMessage());
 			response.setStatus(HttpStatus.FORBIDDEN.value());
 			Map<String, String> error = new HashMap<>();

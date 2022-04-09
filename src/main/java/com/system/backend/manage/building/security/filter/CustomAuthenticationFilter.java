@@ -41,8 +41,12 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 	
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Usuario: "+username);
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Constraseña: "+password);
+
 			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
 					password);
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> authenticationToken: "+authenticationToken.toString());
 			return authenticationManager.authenticate(authenticationToken);
 
 	}
@@ -59,5 +63,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		new ObjectMapper().writeValue(response.getOutputStream(), responseToken);
 	}
 
+	@Override
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException failed) throws IOException, ServletException {
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Authenticacion Fallida");
+		super.unsuccessfulAuthentication(request, response, failed);
+	}
 
+	
+	
 }

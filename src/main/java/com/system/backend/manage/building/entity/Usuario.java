@@ -12,13 +12,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,7 +30,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "usuarios")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
+@Table(name = "usuarios")     
 public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,9 +47,11 @@ public class Usuario {
 	private String email;
 	
 	private String password;
+	
+	
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "persona_id", referencedColumnName = "id")
-    private Persona  persona=new Persona();
+	private Persona  persona=new Persona();
 
 	
 	/********************************************
@@ -57,9 +61,7 @@ public class Usuario {
 	 * this to eager; Because I want lo load all of the roles whenever I load the
 	 * user
 	 ******************************************/
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "permisos", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = {
-			@UniqueConstraint(columnNames = { "usuario_id", "role_id" }) })
-	private List<Role> roles = new ArrayList<>();
+	@OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private List<Permiso> permiso = new ArrayList<>();
 
 }
