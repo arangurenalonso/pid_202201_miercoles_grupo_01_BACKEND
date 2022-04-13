@@ -8,5 +8,4 @@ public class AppConstantes {
 	public final static String  BEARER= "Bearer ";
 	public final static long JWT_ACCESS_TOKEN_EXPIRATION_MILLISECONDS=10*60*1000;//10 MINUTOS
 	public final static long JWT_REFRESH_TOKEN_EXPIRATION_MILLISECONDS=20*60*1000;//20 MINUTOS
-
 }

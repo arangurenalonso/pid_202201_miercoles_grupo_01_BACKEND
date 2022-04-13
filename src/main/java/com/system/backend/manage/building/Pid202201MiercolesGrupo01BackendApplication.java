@@ -17,9 +17,10 @@ import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.PropietarioService;
+import com.system.backend.manage.building.dto.DepartamentoDTO;
+import com.system.backend.manage.building.service.DepartamentoService;
 import com.system.backend.manage.building.service.UsuarioService;
 
-import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -67,9 +68,8 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 	}
 	*/
 	@Bean
-	CommandLineRunner run (UsuarioService userService, 
-			PropietarioService propietarioService,
-			PersonaService personaService) {
+	CommandLineRunner run (UsuarioService userService,PropietarioService propietarioService,
+			PersonaService personaService,DepartamentoService departService) {
 		// TODO Auto-generated method stub
 		return args -> {
 			userService.saveRole(new Role(null,"ROLE_USER"));
@@ -103,6 +103,33 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			
 			Propietario propietario2 = new Propietario(null,new Date(),"","969696969",per5);
 			propietarioService.savePropietario(propietario2);
+			
+		   departService.crearDepartamento(new DepartamentoDTO(1,"100","902579922"));
+		   departService.crearDepartamento(new DepartamentoDTO(2,"101","901547831"));
+		   departService.crearDepartamento(new DepartamentoDTO(3,"102","903651875"));
+		   departService.crearDepartamento(new DepartamentoDTO(4,"103","936427437"));
+		   departService.crearDepartamento(new DepartamentoDTO(5,"104","9462131351"));
+		   departService.crearDepartamento(new DepartamentoDTO(6,"105","9641318411"));
+		   departService.crearDepartamento(new DepartamentoDTO(7,"106","9654112233"));
+		   departService.crearDepartamento(new DepartamentoDTO(8,"107","9642311796"));
+		   departService.crearDepartamento(new DepartamentoDTO(9,"108","9414111637"));
+		   departService.crearDepartamento(new DepartamentoDTO(10,"109","9999999999"));
+		   departService.crearDepartamento(new DepartamentoDTO(11,"110","9111111111"));
+		   departService.crearDepartamento(new DepartamentoDTO(12,"111","9333244165"));
+		   departService.crearDepartamento(new DepartamentoDTO(13,"112","9445556631"));
+		   departService.crearDepartamento(new DepartamentoDTO(14,"113","9663332147"));
+		   departService.crearDepartamento(new DepartamentoDTO(15,"114","9000345144"));
+		   departService.crearDepartamento(new DepartamentoDTO(16,"115","9256314563"));
+		   departService.crearDepartamento(new DepartamentoDTO(17,"116","9642136156"));
+		   
+		   departService.crearDepartamento(new DepartamentoDTO(18,"117","9541321354"));
+		   departService.crearDepartamento(new DepartamentoDTO(19,"118","9666666666"));
+		   departService.crearDepartamento(new DepartamentoDTO(20,"119","9563216112"));
+		   departService.crearDepartamento(new DepartamentoDTO(21,"120","9202366325"));
+		   
+		   departService.crearDepartamento(new DepartamentoDTO(23,"",""));
+
+			
 			
 		};
 	}

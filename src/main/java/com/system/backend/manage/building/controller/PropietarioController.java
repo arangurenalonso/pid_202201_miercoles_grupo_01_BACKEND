@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.system.backend.manage.building.dto.Response;
 import com.system.backend.manage.building.dto.ResponseDetails;
 import com.system.backend.manage.building.entity.Propietario;
-import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.service.PropietarioService;
-import com.system.backend.manage.building.service.UsuarioService;
 
 @RestController
 @RequestMapping("/api/propietario")
