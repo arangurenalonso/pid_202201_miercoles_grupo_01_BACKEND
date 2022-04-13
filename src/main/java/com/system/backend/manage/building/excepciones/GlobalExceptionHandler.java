@@ -90,7 +90,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 		Response response=new Response();
 		response.setType("Error");
 		response.setDetalle(errorDetalles);
-		response.setMessage("Busqueda Realizada no encontrada+");
+		response.setMessage("Busqueda Realizada no encontrada");
 		
 		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
 		
