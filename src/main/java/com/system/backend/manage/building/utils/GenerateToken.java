@@ -1,4 +1,4 @@
-package com.system.backend.manage.building.security;
+package com.system.backend.manage.building.utils;
 
 import java.io.IOException;
 import java.util.Date;
@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -36,7 +39,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.system.backend.manage.building.dto.AuthTokenDTO;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.excepciones.CustomAppException;
-import com.system.backend.manage.building.utils.AppConstantes;
 
 @Component
 public class GenerateToken {
@@ -86,28 +88,30 @@ public class GenerateToken {
 		return tokens;
 	}
 
+   
+	
 	// Bearer token de acceso
-	public String getBearerTokend(HttpServletRequest request) {
+	public String getBearerTokend(HttpServletRequest request, HttpServletResponse response) {
 		
 		String authorizationHeader = request.getHeader("Authorization");
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> authorizationHeader: "+authorizationHeader);
 		if (authorizationHeader == null) {
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Entro al null: ");
 			SecurityContextHolder.clearContext();
-
 			throw new CustomAppException("Es necesario especificar el campo 'Authorization' dentro de las cabeceras",
-					400, " header fieldname not found; Authorization request header is required",
-					"NullPointerException", HttpStatus.BAD_REQUEST);
+					401, " header fieldname not found; Authorization request header is required",
+					"NullPointerException", HttpStatus.UNAUTHORIZED);
 		}
 			
 		if (!StringUtils.hasText(authorizationHeader)) {
 			SecurityContextHolder.clearContext();
-			throw new CustomAppException("El campo Authorization está vacío",
-					400, "Authorization Header is empty",
+			throw new CustomAppException("La solicitud de Authorización debe de empezar con las palabras 'Bearer '",
+					400, " Authorizatio request must starts with 'Bearer'",
 					"NullPointerException", HttpStatus.BAD_REQUEST);
 		}
 		if (!authorizationHeader.startsWith(AppConstantes.BEARER)) {
-			SecurityContextHolder.clearContext();
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Entro a que le falta el bearer");
+	
 			throw new CustomAppException("La solicitud de Authorización debe de empezar con las palabras 'Bearer '",
 					400, " Authorizatio request must starts with 'Bearer'",
 					"NullPointerException", HttpStatus.BAD_REQUEST);
@@ -117,39 +121,33 @@ public class GenerateToken {
 		
 	}
 
-	public DecodedJWT validarToken(String token, HttpServletResponse response)
+	public DecodedJWT validarToken(String token, HttpServletRequest request, HttpServletResponse response)
 			throws StreamWriteException, DatabindException, IOException {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Validar Token");
 		try {
 			Algorithm algorithm = Algorithm.HMAC256(AppConstantes.JWT_SECRET.getBytes());
 			JWTVerifier verifier = JWT.require(algorithm).build();
 			DecodedJWT decodedJWT = verifier.verify(token);
-
+			String username = decodedJWT.getSubject();
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> USUARIO OBTENIDO: "+username);
 			return decodedJWT;
 		} catch (TokenExpiredException e) {
 			SecurityContextHolder.clearContext();
-			throw new CustomAppException("El token ha expirado", 400, e.getMessage(), "TokenExpiredException",
-					HttpStatus.BAD_REQUEST);
+			throw new CustomAppException("El token ha expirado", 401, e.getMessage(), "TokenExpiredException",
+					HttpStatus.UNAUTHORIZED);
 
 		} catch (JWTDecodeException e) {
 			SecurityContextHolder.clearContext();
-			throw new CustomAppException("Error al decodificar el token: token no valido", 400, e.getMessage(),
-					"TokenExpiredException", HttpStatus.BAD_REQUEST);
+			throw new CustomAppException("Error al decodificar el token: token no valido", 401, e.getMessage(),
+					"TokenExpiredException", HttpStatus.UNAUTHORIZED);
 
 		}
-
 		catch (Exception e) {
 			SecurityContextHolder.clearContext();
-			response.setHeader("error", e.getMessage());
-			response.setStatus(HttpStatus.FORBIDDEN.value());
-			Map<String, String> error = new HashMap<>();
-			error.put("error_message", e.getMessage());
-			error.put("error_type", e.toString());
-			error.put("UBICACION DEL ERROR", "AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII EXEPTION GENERAL");
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			new ObjectMapper().writeValue(response.getOutputStream(), error);
+			//SecurityContextHolder.clearContext();
+			throw new CustomAppException(">>>>>>>>>>>Generate Token Exeption: "+e, 401, e.getMessage(),
+					"Exception", HttpStatus.UNAUTHORIZED);
 		}
-		return null;
 
 	}
 }

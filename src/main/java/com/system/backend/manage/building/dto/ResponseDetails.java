@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResponseDetails {
 
-	private int codigoEstado;
+	private int httpStatusCode;
 	private String mensaje;
 	private Object data;
 

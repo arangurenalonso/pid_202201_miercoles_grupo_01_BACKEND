@@ -1,7 +1,7 @@
 package com.system.backend.manage.building.excepciones;
 
 import org.springframework.http.HttpStatus;
-
+import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Component
 public class CustomAppException extends RuntimeException {
 
 	private String principalMessage;

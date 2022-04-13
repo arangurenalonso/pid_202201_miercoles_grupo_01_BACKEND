@@ -2,6 +2,8 @@ package com.system.backend.manage.building;
 
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,9 +19,12 @@ import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.PropietarioService;
 import com.system.backend.manage.building.service.UsuarioService;
 
-@SpringBootApplication
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-public class Pid202201MiercolesGrupo01BackendApplication {
+@SpringBootApplication
+public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfigurer{
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Pid202201MiercolesGrupo01BackendApplication.class, args);
@@ -29,6 +34,38 @@ public class Pid202201MiercolesGrupo01BackendApplication {
 	public static BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	 @Override
+	    public void addCorsMappings(CorsRegistry registry) {
+	        registry.addMapping("/**")
+	                .allowedOrigins(
+	                        "http://localhost:4200"
+	                )
+	                .allowedMethods(
+	                        "GET",
+	                        "PUT",
+	                        "POST",
+	                        "DELETE",
+	                        "PATCH",
+	                        "OPTIONS"
+	                );
+	    }
+	/*
+	@Bean
+	public CorsFilter corsFilter() {
+		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+		corsConfiguration.setAllowCredentials(true);
+		corsConfiguration.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+		corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
+				"Accept", "Jwt-Token", "Authorization", "Origin, Accept", "X-Requested-With",
+				"Access-Control-Request-Method", "Access-Control-Request-Headers"));
+		corsConfiguration.setExposedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Jwt-Token", "Authorization",
+				"Access-Control-Allow-Origin", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"));
+		corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+		return new CorsFilter(urlBasedCorsConfigurationSource);
+	}
+	*/
 	@Bean
 	CommandLineRunner run (UsuarioService userService, 
 			PropietarioService propietarioService,
@@ -46,10 +83,10 @@ public class Pid202201MiercolesGrupo01BackendApplication {
 			Persona per3=new Persona(null,"jim","Carry","77777777",true,new Date());
 			Persona per4=new Persona(null,"arnold","Schwarzenegger","66666666",true,new Date());
 			
-			userService.saveUser(new Usuario(null,"john","john@gmail.com","1234",per1,new ArrayList<>()));
-			userService.saveUser(new Usuario(null,"will","will@gmail.com","1234",per2,new ArrayList<>()));
-			userService.saveUser(new Usuario(null,"jim","jim@gmail.com","1234",per3,new ArrayList<>()));
-			userService.saveUser(new Usuario(null,"arnold","arnold@gmail.com","1234",per4,new ArrayList<>()));
+			userService.saveUser(new Usuario(null,"john","john@gmail.com","1234",per1,new Date(),new Date(),true,true,new ArrayList<>()));
+			userService.saveUser(new Usuario(null,"will","will@gmail.com","1234",per2,new Date(),new Date(),true,true,new ArrayList<>()));
+			userService.saveUser(new Usuario(null,"jim","jim@gmail.com","1234",per3,new Date(),new Date(),true,true,new ArrayList<>()));
+			userService.saveUser(new Usuario(null,"arnold","arnold@gmail.com","1234",per4,new Date(),new Date(),true,true,new ArrayList<>()));
 
 			userService.addRoleToUsuario("John", "ROLE_USER");
 			userService.addRoleToUsuario("will", "ROLE_MANAGER");
@@ -64,8 +101,8 @@ public class Pid202201MiercolesGrupo01BackendApplication {
 			Persona per5 = new Persona(null,"Kevin","Ledesma","78547878",true,new Date());
 			personaService.savePersona(per5);
 			
-			//Propietario propietario2 = new Propietario(null,new Date(),"","969696969",per5);
-			//propietarioService.savePropietario(propietario2);
+			Propietario propietario2 = new Propietario(null,new Date(),"","969696969",per5);
+			propietarioService.savePropietario(propietario2);
 			
 		};
 	}

@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Response {
 	private String type;
-	private String message;
+	private String reason;
 	private Object detalle;
 	
 }

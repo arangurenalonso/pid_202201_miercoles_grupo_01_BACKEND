@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 //import org.springframework.security.access.AccessDeniedException;
 //import org.springframework.security.authentication.BadCredentialsException;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,6 +21,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -29,7 +32,8 @@ import com.system.backend.manage.building.dto.Response;
 /******************************************************************
  * Maneja todas las captura de excepción de toda nuestra aplicacion
  * *****************************************************************/
-@ControllerAdvice //RestControllerAdvice
+@ControllerAdvice //
+@RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 	/*
 	@ExceptionHandler(ResourceNotFoundException.class)
@@ -46,13 +50,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 	public ResponseEntity<?> manejarBlogAppException(CustomAppException e,WebRequest webRequest){
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Entro al manejarBlogAppException");
 		ResponseDetails responseDetaile=new ResponseDetails();
-		responseDetaile.setCodigoEstado(e.getStatusCode());
+		responseDetaile.setHttpStatusCode(e.getStatusCode());
 		responseDetaile.setMensaje(e.getExceptionMessage());
 		responseDetaile.setData(e.getSpecificExceptions());
 		
 		Response response=new Response();
 		response.setType("Error");
-		response.setMessage(e.getPrincipalMessage());
+		response.setReason(e.getPrincipalMessage());
 		response.setDetalle(responseDetaile);
 		
 		
@@ -67,7 +71,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 		Response response=new Response();
 		response.setType("Error");
 		response.setDetalle(errorDetalles);
-		response.setMessage("Error al momento de authenticarse; usuario y contraseña invalido");
+		response.setReason("Error al momento de authenticarse; usuario y contraseña invalido");
 		return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	@ExceptionHandler(DataIntegrityViolationException.class)
@@ -78,7 +82,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 		Response response=new Response();
 		response.setType("Error");
 		response.setDetalle(errorDetalles);
-		response.setMessage("Conflicto con las restriccciones; la información no cumple las reglas establecidas en la tabla de la BD");
+		response.setReason("Conflicto con las restriccciones; la información no cumple las reglas establecidas en la tabla de la BD");
 		return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -88,7 +92,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 		Response response=new Response();
 		response.setType("Error");
 		response.setDetalle(responseDetails);
-		response.setMessage("Acceso denegado; el usuario o contraseña son incorrectos");
+		response.setReason("Acceso denegado; el usuario o contraseña son incorrectos");
 		return new ResponseEntity<>(response,HttpStatus.UNAUTHORIZED);		
 	}
 	
@@ -108,7 +112,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 		Response response=new Response();
 		response.setType("Error");
 		response.setDetalle(responseDetails);
-		response.setMessage("Acceso denegado; se requiere de los permisos necesario para acceder a este recurso");
+		response.setReason("Acceso denegado; se requiere de los permisos necesario para acceder a este recurso");
 		
 		return new ResponseEntity<>(response,HttpStatus.UNAUTHORIZED);
 		
@@ -119,7 +123,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 		Response response=new Response();
 		response.setType("Error");
 		response.setDetalle(errorDetalles);
-		response.setMessage(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>GlobalExceptionHandler Null pointer exception");
+		response.setReason(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>GlobalExceptionHandler Null pointer exception");
+		
+		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+		
+	}
+	
+	@ExceptionHandler(RuntimeException.class)
+	public ResponseEntity<?> manejarRuntimeException(RuntimeException e,WebRequest webRequest){
+		ResponseDetails errorDetalles = new ResponseDetails(600,e+"----"+e.toString(), webRequest.getDescription(false));
+		Response response=new Response();
+		response.setType("Error");
+		response.setDetalle(errorDetalles);
+		response.setReason(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>RuntimeException GLOBAL EXCEPTION");
 		
 		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
 		
@@ -130,7 +146,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 		Response response=new Response();
 		response.setType("Error");
 		response.setDetalle(errorDetalles);
-		response.setMessage(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>GlobalExceptionHandler Manejador de execpcion generalizada");
+		response.setReason(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>GlobalExceptionHandler Manejador de execpcion generalizada");
 		
 		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
 		

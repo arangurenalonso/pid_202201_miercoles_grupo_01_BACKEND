@@ -33,13 +33,13 @@ public class PropietarioController {
 			
 		}
 		ResponseDetails resDetail=new ResponseDetails();
-		resDetail.setCodigoEstado(200);
+		resDetail.setHttpStatusCode(200);
 		resDetail.setMensaje("Cantidad de Propietarios encontrado encontrados: "+lstPropietarios.size());
 		resDetail.setData(lstPropietarios);
 		
 		Response res=new Response();
 		res.setType("success");
-		res.setMessage("Se encontro la lista de Propietarios");
+		res.setReason("Se encontro la lista de Propietarios");
 		res.setDetalle(resDetail);
 		
 		return new ResponseEntity<Response>(res,HttpStatus.OK);

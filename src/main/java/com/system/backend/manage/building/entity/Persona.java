@@ -49,7 +49,7 @@ public class Persona implements Serializable{
 	private String dni;
 	
 	@Column(name="estado")
-	private Boolean enabled;
+	private Boolean estado;
 	
 
 
@@ -69,14 +69,14 @@ public class Persona implements Serializable{
 	public Persona(Long id,
 			@NotEmpty(message = "No puede estar vacio!!!!!") @Size(min = 2, max = 20, message = "El tamaño debe estar entre 4 y 12 caracteres") String nombre,
 			@NotEmpty(message = "No puede estar vacio!!!!!") @Size(min = 2, max = 20, message = "El tamaño debe estar entre 4 y 12 caracteres") String apellido,
-			@NotEmpty(message = "No puede estar vacio!!!!!") String dni, Boolean enabled,
+			@NotEmpty(message = "No puede estar vacio!!!!!") String dni, Boolean estado,
 			@NotNull(message = "No puede estar vacio") Date createAt) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.dni = dni;
-		this.enabled = enabled;
+		this.estado = estado;
 		this.createAt = createAt;
 	}
 
