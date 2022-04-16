@@ -34,6 +34,27 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 		return departamentorespuesta;
 
 	}
+	private Departamento mapearEntidad(DepartamentoDTO departamentoDTO) {
+
+		Departamento departamento = new Departamento();
+		
+		departamento.setId(departamentoDTO.getId());
+		departamento.setDepnumero(departamentoDTO.getDepnumero());
+		departamento.setDeptelef(departamentoDTO.getDeptelef());
+		departamento.setEstado(departamentoDTO.getEstado());
+		return departamento;
+
+	}
+	private DepartamentoDTO mapearDTO(Departamento departamento) {
+		DepartamentoDTO departamentoDTO = new DepartamentoDTO();
+		
+		departamentoDTO.setId(departamento.getId());
+		departamentoDTO.setDepnumero(departamento.getDepnumero());
+		departamentoDTO.setDeptelef(departamento.getDeptelef());
+		departamentoDTO.setEstado(departamento.getEstado());
+		return departamentoDTO;
+
+	}
 
 	@Override
 	public DepartamentoRespuesta obtenertodoslosDepartamento(int numeroDePagina, int medidaDePagina,String ordenarPor,String sortDir) {
@@ -55,26 +76,9 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 
 	}
 
-	private Departamento mapearEntidad(DepartamentoDTO departamentoDTO) {
+	
 
-		Departamento departamento = new Departamento();
-
-		departamento.setId(departamentoDTO.getId());
-		departamento.setDepnumero(departamentoDTO.getDepnumero());
-		departamento.setDeptelef(departamentoDTO.getDeptelef());
-		return departamento;
-
-	}
-
-	private DepartamentoDTO mapearDTO(Departamento departamento) {
-		DepartamentoDTO departamentoDTO = new DepartamentoDTO();
-
-		departamentoDTO.setId(departamento.getId());
-		departamentoDTO.setDepnumero(departamento.getDepnumero());
-		departamentoDTO.setDeptelef(departamento.getDeptelef());
-		return departamentoDTO;
-
-	}
+	
 
 	@Override
 	public DepartamentoDTO actualizarDepartamento(DepartamentoDTO departamentoDTO, long id) {
@@ -92,7 +96,9 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 	@Override
 	public DepartamentoDTO eliminarDepartamento(long id) {
 		Departamento departamento = departamentorepository.findById(id).orElseThrow();
-		departamentorepository.delete(departamento);
+		departamento.setEstado(false);
+		//departamentorepository.delete(departamento);
+		Departamento departamentoactualizado = departamentorepository.save(departamento);
 		return mapearDTO(departamento);
 
 	}

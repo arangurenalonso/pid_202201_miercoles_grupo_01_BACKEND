@@ -1,38 +1,23 @@
 package com.system.backend.manage.building.dto;
 
+import javax.persistence.Entity;
+
+import com.system.backend.manage.building.entity.Departamento;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DepartamentoDTO {
 	
-	private long id;
+	private Long id;
 	private String depnumero;
 	private String deptelef;
+	private Boolean estado;
 	
 	
 	
-	public DepartamentoDTO(long id, String depnumero, String deptelef) {
-		super();
-		this.id = id;
-		this.depnumero = depnumero;
-		this.deptelef = deptelef;
-	}
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public String getDepnumero() {
-		return depnumero;
-	}
-	public void setDepnumero(String depnumero) {
-		this.depnumero = depnumero;
-	}
-	public String getDeptelef() {
-		return deptelef;
-	}
-	public void setDeptelef(String deptelef) {
-		this.deptelef = deptelef;
-	}
-	public DepartamentoDTO() {
-		super();
-	}
 }

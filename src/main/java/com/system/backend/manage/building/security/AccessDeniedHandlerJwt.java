@@ -27,12 +27,12 @@ public class AccessDeniedHandlerJwt implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		response.setStatus(HttpStatus.FORBIDDEN.value());
 		
 		ResponseDetails httpResposneDetails=new ResponseDetails();
-		httpResposneDetails.setHttpStatusCode(HttpStatus.UNAUTHORIZED.value());
-		httpResposneDetails.setMensaje(HttpStatus.UNAUTHORIZED.getReasonPhrase());
-		httpResposneDetails.setData(HttpStatus.UNAUTHORIZED);
+		httpResposneDetails.setHttpStatusCode(HttpStatus.FORBIDDEN.value());
+		httpResposneDetails.setMensaje(HttpStatus.FORBIDDEN.getReasonPhrase());
+		httpResposneDetails.setData(HttpStatus.FORBIDDEN);
 		Response httpResponse=new Response();
 		httpResponse.setType("error");
 		httpResponse.setReason(SecurityConstant.ACCESS_DENIED_MESSAGE);

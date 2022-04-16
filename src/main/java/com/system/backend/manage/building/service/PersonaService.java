@@ -6,6 +6,6 @@ import com.system.backend.manage.building.entity.Persona;
 
 public interface PersonaService {
 
-	List<Persona> listPersona();
-	Persona savePersona(Persona per);
+	public List<Persona> listPersona();
+	public Persona savePersona(Persona per);
 }
