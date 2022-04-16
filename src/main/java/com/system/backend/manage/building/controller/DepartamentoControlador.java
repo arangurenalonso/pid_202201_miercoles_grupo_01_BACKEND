@@ -59,7 +59,7 @@ public class DepartamentoControlador {
 			response.setReason("Data no valida ");
 			return new ResponseEntity<>(departamentoRespuesta, HttpStatus.NO_CONTENT);
 		}
-		ResponseDetails errorDetalles = new ResponseDetails(200, "Se creo el departamento", "");
+		ResponseDetails errorDetalles = new ResponseDetails(200, "Se creo el departamento", departamentoRespuesta);
 		Response response = new Response();
 		response.setType("Success");
 		response.setDetalle(errorDetalles);
@@ -84,7 +84,7 @@ public class DepartamentoControlador {
 			response.setReason("Data no valida ");
 			return new ResponseEntity<>(departamentoRespuesta, HttpStatus.NO_CONTENT);
 		}
-		ResponseDetails errorDetalles = new ResponseDetails(200, "Se actualizó el departamento", "");
+		ResponseDetails errorDetalles = new ResponseDetails(200, "Se actualizó el departamento",departamentoRespuesta );
 		Response response = new Response();
 		response.setType("Success");
 		response.setDetalle(errorDetalles);
@@ -106,7 +106,7 @@ public class DepartamentoControlador {
 			response.setReason("Data no valida ");
 			return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
 		}
-		ResponseDetails errorDetalles = new ResponseDetails(200, "Se elimino el departamento", "");
+		ResponseDetails errorDetalles = new ResponseDetails(200, "Se elimino el departamento", eliminardepatamento);
 		Response response = new Response();
 		response.setType("Success");
 		response.setDetalle(errorDetalles);

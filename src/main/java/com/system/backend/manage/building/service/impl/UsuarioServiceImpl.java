@@ -19,8 +19,6 @@ import com.system.backend.manage.building.excepciones.CustomAppException;
 import com.system.backend.manage.building.repository.IRoleRepository;
 import com.system.backend.manage.building.repository.IUsuarioRepository;
 import com.system.backend.manage.building.service.UsuarioService;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-import org.apache.commons.lang3.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import java.util.Date;
 

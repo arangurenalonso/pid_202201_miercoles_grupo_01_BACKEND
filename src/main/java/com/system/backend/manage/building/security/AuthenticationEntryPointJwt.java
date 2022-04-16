@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -17,8 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.system.backend.manage.building.constant.SecurityConstant;
 import com.system.backend.manage.building.dto.Response;
 import com.system.backend.manage.building.dto.ResponseDetails;
-import com.system.backend.manage.building.entity.Usuario;
-import com.system.backend.manage.building.repository.IUsuarioRepository;
 
 @Component
 public class AuthenticationEntryPointJwt implements AuthenticationEntryPoint {
@@ -30,12 +27,12 @@ public class AuthenticationEntryPointJwt implements AuthenticationEntryPoint {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Entramos a AuthenticationEntryPoint: ");
 		System.out.println(">>>>>>>>>>>>>>>>> GAAAAAAAAAAAAAA::"+authException);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setStatus(HttpStatus.FORBIDDEN.value());
+		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		
 		ResponseDetails httpResposneDetails=new ResponseDetails();
-		httpResposneDetails.setHttpStatusCode(HttpStatus.FORBIDDEN.value());
-		httpResposneDetails.setMensaje(HttpStatus.FORBIDDEN.getReasonPhrase());
-		httpResposneDetails.setData(HttpStatus.FORBIDDEN);
+		httpResposneDetails.setHttpStatusCode(HttpStatus.UNAUTHORIZED.value());
+		httpResposneDetails.setMensaje(HttpStatus.UNAUTHORIZED.getReasonPhrase());
+		httpResposneDetails.setData(HttpStatus.UNAUTHORIZED);
 		Response httpResponse=new Response();
 		httpResponse.setType("error");
 		httpResponse.setReason(SecurityConstant.FORBIDDEN_MESSAGE);

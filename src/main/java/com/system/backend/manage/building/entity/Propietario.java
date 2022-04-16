@@ -1,6 +1,8 @@
 package com.system.backend.manage.building.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -50,5 +53,18 @@ public class Propietario {
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinColumn(name = "persona_id", referencedColumnName = "id")
 	private Persona persona;
+	
+	@OneToMany(mappedBy = "propietario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private List<Mascota> mascotas = new ArrayList<> ();
+
+	public Propietario(Long id, @NotNull(message = "No puede estar vacio") Date birthdayDate, String foto,
+			String numeroCelular, Persona persona) {
+		super();
+		this.id = id;
+		this.birthdayDate = birthdayDate;
+		this.foto = foto;
+		this.numeroCelular = numeroCelular;
+		this.persona = persona;
+	}
 	
 }

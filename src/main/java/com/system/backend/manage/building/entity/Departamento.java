@@ -8,15 +8,25 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "Departamentos", uniqueConstraints = { @UniqueConstraint(columnNames = { "id" }),
 		@UniqueConstraint(columnNames = { "depnumero" }) })
-
-
 public class Departamento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
 	@Column(name = "depnumero", nullable = false)
 	private String depnumero;
@@ -24,41 +34,6 @@ public class Departamento {
 	@Column(name = "deptelef", nullable = false)
 	private String deptelef;
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getDepnumero() {
-		return depnumero;
-	}
-
-	public void setDepnumero(String depnumero) {
-		this.depnumero = depnumero;
-	}
-
-	public String getDeptelef() {
-		return deptelef;
-	}
-
-	public void setDeptelef(String deptelef) {
-		this.deptelef = deptelef;
-	}
-
-	
-	public Departamento() {
-		super();
-	}
-
-	public Departamento(long id, String depnumero, String deptelef) {
-		super();
-		this.id = id;
-		this.depnumero = depnumero;
-		this.deptelef = deptelef;
-	
-	}
+	private Boolean estado;
 
 }

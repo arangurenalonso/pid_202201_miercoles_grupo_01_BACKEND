@@ -18,7 +18,8 @@ import com.system.backend.manage.building.constant.SecurityConstant;
 import com.system.backend.manage.building.security.AccessDeniedHandlerJwt;
 import com.system.backend.manage.building.security.AuthenticationEntryPointJwt;
 import com.system.backend.manage.building.security.AuthorizationFilterJwt;
-import com.system.backend.manage.building.security.filter.CustomAuthenticationFilter;
+import com.system.backend.manage.building.security.CustomAuthenticationFilter;
+import com.system.backend.manage.building.service.UsuarioService;
 import com.system.backend.manage.building.utils.GenerateToken;
 
 @Configuration
@@ -37,7 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
 	private GenerateToken generateToken;
-
+	@Autowired
+	private UsuarioService usuarioService;
 	
 
 	@Override
@@ -82,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	
 	public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
-		CustomAuthenticationFilter filter = new CustomAuthenticationFilter(authenticationManagerBean(), generateToken);
+		CustomAuthenticationFilter filter = new CustomAuthenticationFilter(authenticationManagerBean(), generateToken,usuarioService);
 		filter.setFilterProcessesUrl("/api/auth/login");
 		return filter;
 	}
