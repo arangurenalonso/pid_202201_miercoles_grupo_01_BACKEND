@@ -35,8 +35,6 @@ public class Propietario {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	
-	
 	@NotNull(message = "No puede estar vacio")
 	@Column(name="birthday_date")
 	@Temporal(TemporalType.DATE)
@@ -47,8 +45,13 @@ public class Propietario {
 	@Column(name="cellphone")
 	private String numeroCelular;
 	
+	@Column(name="estado")
+	private Boolean estado;
+	
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinColumn(name = "persona_id", referencedColumnName = "id")
 	private Persona persona;
+	
+	
 	
 }

@@ -1,12 +1,19 @@
 package com.system.backend.manage.building.service;
 
-import java.util.List;
 
-import com.system.backend.manage.building.entity.Propietario;
+import com.system.backend.manage.building.dto.PropietarioDTO;
+import com.system.backend.manage.building.dto.PropietarioRespuesta;
+
 
 public interface PropietarioService {
 
-	List<Propietario> listaPropietarios();
+	public PropietarioRespuesta listaPropietarios(int numeroDePagina, int medidaDePagina,String ordenarPor, String sortDir);
 	
-	Propietario savePropietario(Propietario pro);
+	public PropietarioDTO savePropietario(PropietarioDTO propietarioDTO);
+
+	public PropietarioDTO obtenerPropietarioPorId(long id);
+	
+	public PropietarioDTO actualizarPropietario(PropietarioDTO propietarioDTO, long id);
+	
+	public PropietarioDTO eliminarPropietario(long id);
 }

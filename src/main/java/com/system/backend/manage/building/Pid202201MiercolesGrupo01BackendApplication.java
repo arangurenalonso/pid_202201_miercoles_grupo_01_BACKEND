@@ -18,6 +18,7 @@ import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.PropietarioService;
 import com.system.backend.manage.building.dto.DepartamentoDTO;
+import com.system.backend.manage.building.dto.PropietarioDTO;
 import com.system.backend.manage.building.service.DepartamentoService;
 import com.system.backend.manage.building.service.UsuarioService;
 
@@ -95,13 +96,13 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			userService.addRoleToUsuario("arnold", "ROLE_ADMIN");
 			userService.addRoleToUsuario("arnold", "ROLE_USER");
 			
-			Propietario propietario1 = new Propietario(null,new Date(),"","989777585",per1);
+			PropietarioDTO propietario1 = new PropietarioDTO(null,new Date(),"","989777585",per1,true);
 			propietarioService.savePropietario(propietario1);
 			
 			Persona per5 = new Persona(null,"Kevin","Ledesma","78547878",true,new Date());
 			personaService.savePersona(per5);
 			
-			Propietario propietario2 = new Propietario(null,new Date(),"","969696969",per5);
+			PropietarioDTO propietario2 = new PropietarioDTO(null,new Date(),"","969696969",per5,true);
 			propietarioService.savePropietario(propietario2);
 			
 		   departService.crearDepartamento(new DepartamentoDTO(1,"100","902579922"));
