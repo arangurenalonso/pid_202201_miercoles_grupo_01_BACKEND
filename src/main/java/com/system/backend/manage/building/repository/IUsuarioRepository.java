@@ -6,6 +6,5 @@ import com.system.backend.manage.building.entity.Usuario;
 
 
 public interface IUsuarioRepository extends JpaRepository<Usuario, Long>{
-	Usuario findByUsername(String username);
 	Usuario findByEmail(String email);
 }

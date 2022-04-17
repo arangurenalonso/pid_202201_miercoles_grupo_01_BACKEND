@@ -21,17 +21,23 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+@Setter
 
-@Data
-@NoArgsConstructor
+@Getter
+
 @AllArgsConstructor
 
+@NoArgsConstructor
+@ToString
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
 @Table(name = "usuarios")     
@@ -40,9 +46,6 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@NotEmpty(message = "No puede estar vacio!!!!!")
-	@Column(nullable = false, unique = true)
-	private String username;	
 	
 	@NotEmpty(message = "No puede estar vacio!!!!!")
 	@Email(message = "Debe ingresar un correo válido")
@@ -54,6 +57,7 @@ public class Usuario {
 	
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "persona_id", referencedColumnName = "id")
+	//@JsonBackReference
 	private Persona  persona=new Persona();
 	
 	@Temporal(TemporalType.DATE)

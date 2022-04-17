@@ -54,13 +54,11 @@ public class UsuarioController {
 	 @PostMapping("/add")
 	    public ResponseEntity<?> addNewUser(@RequestParam("firstName") String firstName,
 	                                           @RequestParam("lastName") String lastName,
-	                                           @RequestParam("username") String username,
+	                                           @RequestParam("dni") String dni,
 	                                           @RequestParam("email") String email,
-	                                           @RequestParam("role") String role,
-	                                           @RequestParam("isActive") String isActive,
-	                                           @RequestParam("isNonLocked") String isNonLocked,
-	                                           @RequestParam(value = "profileImage", required = false) MultipartFile profileImage) {
-	        Usuario newUser = usuarioService.addNewUser(firstName, lastName, username,email, role, isNonLocked, Boolean.parseBoolean(isNonLocked), Boolean.parseBoolean(isActive), profileImage);
+	                                           @RequestParam("password") String password) {
+	        Usuario newUser = usuarioService.addNewUser(firstName, lastName,dni, email,password);
+	        //role, isNonLocked, Boolean.parseBoolean(isNonLocked), Boolean.parseBoolean(isActive)
 	        return new ResponseEntity<>(newUser, HttpStatus.OK);
 	    }
 	

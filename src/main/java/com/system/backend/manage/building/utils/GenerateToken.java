@@ -2,23 +2,16 @@ package com.system.backend.manage.building.utils;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -35,7 +28,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.system.backend.manage.building.dto.AuthTokenDTO;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.excepciones.CustomAppException;
@@ -70,19 +62,19 @@ public class GenerateToken {
 
 	public AuthTokenDTO generateTokens(Usuario usuario) {
 		Algorithm algorithm = Algorithm.HMAC256(AppConstantes.JWT_SECRET.getBytes());
-		String access_token = JWT.create().withSubject(usuario.getUsername())
+		String access_token = JWT.create().withSubject(usuario.getEmail())
 				.withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))// 10 minutos
-				.withIssuer(usuario.getUsername())
+				.withIssuer(usuario.getEmail())
 				.withClaim("roles", usuario.getPermiso().stream().map(permiso->{
 					return permiso.getRole().getName();
 				}).collect(Collectors.toList()))
 				.sign(algorithm);
 
-		String refresh_token = JWT.create().withSubject(usuario.getUsername())
+		String refresh_token = JWT.create().withSubject(usuario.getEmail())
 				.withExpiresAt(
 						new Date(System.currentTimeMillis() + AppConstantes.JWT_REFRESH_TOKEN_EXPIRATION_MILLISECONDS))// 10
 																														// minutos
-				.withIssuer(usuario.getUsername()).sign(algorithm);
+				.withIssuer(usuario.getEmail()).sign(algorithm);
 
 		AuthTokenDTO tokens = new AuthTokenDTO(access_token, refresh_token);
 		return tokens;

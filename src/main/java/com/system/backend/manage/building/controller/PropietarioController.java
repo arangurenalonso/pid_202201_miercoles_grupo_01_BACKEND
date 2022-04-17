@@ -1,8 +1,16 @@
 package com.system.backend.manage.building.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,13 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.system.backend.manage.building.dto.DepartamentoDTO;
-import com.system.backend.manage.building.dto.PropietarioDTO;
+import com.system.backend.manage.building.constant.PaginacionConstant;
+import com.system.backend.manage.building.dto.PropietarioCreate;
 import com.system.backend.manage.building.dto.PropietarioRespuesta;
+import com.system.backend.manage.building.dto.PropietarioUpdate;
 import com.system.backend.manage.building.dto.Response;
 import com.system.backend.manage.building.dto.ResponseDetails;
+import com.system.backend.manage.building.entity.Propietario;
 import com.system.backend.manage.building.service.PropietarioService;
-import com.system.backend.manage.building.utils.AppConstantes;
 
 @RestController
 @RequestMapping("/api/propietario")
@@ -29,10 +38,10 @@ public class PropietarioController {
 
 	@GetMapping()
     public ResponseEntity<?>listarPropietarios(
-			@RequestParam(value = "PageNo", defaultValue = AppConstantes.NUMERO_DE_PAGINA_POR_DEFECTO,required = false) int numeroDePagina,
-			@RequestParam(value = "pageSize",defaultValue = AppConstantes.MEDIDA_DE_PAGINA_POR_DEFECTO,required = false) int medidaDePagina,
-			@RequestParam(value = "sortBy", defaultValue = AppConstantes.ORDENAR_POR_DEFECTO, required = false) String ordenarPor,
-			@RequestParam(value = "sortDir", defaultValue = AppConstantes.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sorDir){
+			@RequestParam(value = "PageNo", defaultValue = PaginacionConstant.NUMERO_DE_PAGINA_POR_DEFECTO,required = false) int numeroDePagina,
+			@RequestParam(value = "pageSize",defaultValue = PaginacionConstant.MEDIDA_DE_PAGINA_POR_DEFECTO,required = false) int medidaDePagina,
+			@RequestParam(value = "sortBy", defaultValue = PaginacionConstant.ORDENAR_POR_DEFECTO, required = false) String ordenarPor,
+			@RequestParam(value = "sortDir", defaultValue = PaginacionConstant.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sorDir){
         PropietarioRespuesta propietariorespuesta = propietarioService.listaPropietarios(numeroDePagina, medidaDePagina, ordenarPor, sorDir);
 		
 		ResponseDetails detalleRespuesta = new ResponseDetails(200, "Se encontro el listado correctamente ", propietariorespuesta);
@@ -47,105 +56,38 @@ public class PropietarioController {
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<PropietarioDTO> obtenerPropietarioPorId(@PathVariable(name = "id") long id){
-		
-		
-		return ResponseEntity.ok(propietarioService.obtenerPropietarioPorId(id));
+	public ResponseEntity<?> obtenerPropietarioPorId(@PathVariable(name = "id") long id){
+		Propietario propietario=propietarioService.obtenerPropietarioPorId(id);
+		ResponseDetails detalle = new ResponseDetails(200, "Propietario Encontrado", propietario);
+		Response response = new Response("Success","Propietario encontrado",detalle);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 		//
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> savePropietario(@RequestBody PropietarioDTO propietarioDTO){
-			
-		PropietarioDTO propietarioRespuesta = propietarioService.savePropietario(propietarioDTO);
-		System.out.println(">>>>>>>>>>>>>>>>crear propietario: " + propietarioRespuesta);
-		if (propietarioRespuesta == null) {
-
-			ResponseDetails errorDetalles = new ResponseDetails(401, "No se pudo crear",
-					propietarioRespuesta);
-			Response response = new Response();
-			response.setType("Error");
-			response.setDetalle(errorDetalles);
-			response.setReason("Data no valida ");
-			return new ResponseEntity<>(propietarioRespuesta, HttpStatus.NO_CONTENT);
-		}
-		ResponseDetails errorDetalles = new ResponseDetails(200, "Se creo el propietario", "");
-		Response response = new Response();
-		response.setType("Success");
-		response.setDetalle(errorDetalles);
-		response.setReason("Se creo el propietario");
-		return new ResponseEntity<>(response, HttpStatus.OK);
+	public ResponseEntity<?> savePropietario(@Valid @RequestBody PropietarioCreate propietarioCreate){
+		
+		Propietario propietarioRespuesta = propietarioService.savePropietario(propietarioCreate);		
+		ResponseDetails errorDetalles = new ResponseDetails(200, "Se creo el propietario", propietarioService.obtenerPropietarioPorId(propietarioRespuesta.getId()));
+		Response response = new Response("Success","Se creo el propietario",errorDetalles);
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
-	//Devolver el propietario que se ha ingresado <?>
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> actualizarPropietario(@RequestBody PropietarioDTO propietarioDTO,@PathVariable(name = "id") long id){
-		PropietarioDTO propietarioRespuesta = propietarioService.actualizarPropietario(propietarioDTO, id);
-		System.out.println(">>>>>>>>>>>>>>>>eliminar departamento: " + propietarioRespuesta);
-		if (propietarioRespuesta == null) {
-
-			ResponseDetails errorDetalles = new ResponseDetails(401, "No se pudo actualizar",
-					propietarioRespuesta);
-			Response response = new Response();
-			response.setType("Error");
-			response.setDetalle(errorDetalles);
-			response.setReason("Data no valida ");
-			return new ResponseEntity<>(propietarioRespuesta, HttpStatus.NO_CONTENT);
-		}
-		ResponseDetails errorDetalles = new ResponseDetails(200, "Se actualizó el propietario", "");
-		Response response = new Response();
-		response.setType("Success");
-		response.setDetalle(errorDetalles);
-		response.setReason("Se actualizo el propietario");
+	public ResponseEntity<?> actualizarDatosPropietarios(@Valid @RequestBody PropietarioUpdate propietarioUpdate,@PathVariable(name = "id") long id){
+		Propietario propietarioActualizado = propietarioService.actualizarPropietario(propietarioUpdate, id);
+		ResponseDetails detalle = new ResponseDetails(200, "Propietario Actualizado", propietarioActualizado);
+		Response response = new Response("Success","Actualización correcta",detalle);
 		return new ResponseEntity<>(response, HttpStatus.OK);
-	}// Devolver el propietario actualizado
+	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> eliminarPropietario(@PathVariable(name = "id") long id){
-		PropietarioDTO eliminarpropietario = propietarioService.eliminarPropietario(id);
-		System.out.println(">>>>>>>>>>>>>>>>elininar departamento: " + eliminarpropietario);
-		if (eliminarpropietario == null) {
-
-			ResponseDetails errorDetalles = new ResponseDetails(401, "No se elimino correctamente",
-					eliminarpropietario);
-			Response response = new Response();
-			response.setType("Error");
-			response.setDetalle(errorDetalles);
-			response.setReason("Data no valida ");
-			return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
-		}
-		ResponseDetails errorDetalles = new ResponseDetails(200, "Se elimino el departamento", "");
-		Response response = new Response();
-		response.setType("Success");
-		response.setDetalle(errorDetalles);
-		response.setReason("Se encontro el departamento");
+		Propietario eliminarpropietario = propietarioService.eliminarPropietario(id);
+		ResponseDetails detalle = new ResponseDetails(200, "Se elimino el departamento", eliminarpropietario);
+		Response response = new Response("Success","Se encontro el departamento",detalle);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 		
-	}// Devolver el propietario cambiado de estado
-	
-	/*@GetMapping("/list")
-	public ResponseEntity<Response> getUsers() {
-		
-		
-		
-		List<Propietario> lstPropietarios= propietarioService.listaPropietarios();
-		if(lstPropietarios==null) {
-			return null;
-			
-		}
-		ResponseDetails resDetail=new ResponseDetails();
-		resDetail.setHttpStatusCode(200);
-		resDetail.setMensaje("Cantidad de Propietarios encontrado encontrados: "+lstPropietarios.size());
-		resDetail.setData(lstPropietarios);
-		
-		Response res=new Response();
-		res.setType("success");
-		res.setReason("Se encontro la lista de Propietarios");
-		res.setDetalle(resDetail);
-		
-		return new ResponseEntity<Response>(res,HttpStatus.OK);
 	}
-	
-*/
 	
 }

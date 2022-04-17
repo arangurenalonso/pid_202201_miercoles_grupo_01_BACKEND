@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.system.backend.manage.building.dto.DepartamentoDTO;
 import com.system.backend.manage.building.dto.DepartamentoRespuesta;
@@ -23,6 +24,7 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 	private IDepartamentoRepository departamentorepository;
 
 	@Override
+	@Transactional
 	public DepartamentoDTO crearDepartamento(DepartamentoDTO departamentoDTO) {
 
 		Departamento departamento = mapearEntidad(departamentoDTO);
@@ -99,7 +101,7 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 		departamento.setEstado(false);
 		//departamentorepository.delete(departamento);
 		Departamento departamentoactualizado = departamentorepository.save(departamento);
-		return mapearDTO(departamento);
+		return mapearDTO(departamentoactualizado);
 
 	}
 

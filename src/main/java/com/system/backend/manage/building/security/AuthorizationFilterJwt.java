@@ -1,7 +1,6 @@
 package com.system.backend.manage.building.security;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -9,29 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.core.exc.StreamWriteException;
-import com.fasterxml.jackson.databind.DatabindException;
-import com.google.common.net.HttpHeaders;
 import com.system.backend.manage.building.constant.SecurityConstant;
 import com.system.backend.manage.building.excepciones.CustomAppException;
-import com.system.backend.manage.building.excepciones.GlobalExceptionHandler;
 import com.system.backend.manage.building.service.impl.UserDetailsServiceImpl;
 import com.system.backend.manage.building.utils.GenerateToken;
-import com.system.backend.manage.building.utils.JWTTokenProvider;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 
 @Component
 public class AuthorizationFilterJwt extends OncePerRequestFilter {

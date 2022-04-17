@@ -19,7 +19,7 @@ import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.PropietarioService;
 import com.system.backend.manage.building.dto.DepartamentoDTO;
-import com.system.backend.manage.building.dto.PropietarioDTO;
+import com.system.backend.manage.building.dto.PropietarioCreate;
 import com.system.backend.manage.building.service.DepartamentoService;
 import com.system.backend.manage.building.service.MascotaService;
 import com.system.backend.manage.building.service.UsuarioService;
@@ -74,44 +74,44 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			userService.saveRole(new Role(null, "ROLE_MANAGER"));
 			userService.saveRole(new Role(null, "ROLE_ADMIN"));
 			userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
-
+			userService.saveRole(new Role(null, "ROLE_PROPIETARIO"));
+			
 			Persona per1 = new Persona(null, "Jhon", "Travolta", "99999999", true, new Date());
 			Persona per2 = new Persona(null, "will", "Smith", "88888888", true, new Date());
 			Persona per3 = new Persona(null, "jim", "Carry", "77777777", true, new Date());
 			Persona per4 = new Persona(null, "arnold", "Schwarzenegger", "66666666", true, new Date());
-
-			userService.saveUser(new Usuario(null, "john", "john@gmail.com", "1234", per1, new Date(), new Date(), true,
-					true, new ArrayList<>()));
-			userService.saveUser(new Usuario(null, "will", "will@gmail.com", "1234", per2, new Date(), new Date(), true,
-					true, new ArrayList<>()));
-			userService.saveUser(new Usuario(null, "jim", "jim@gmail.com", "1234", per3, new Date(), new Date(), true,
-					true, new ArrayList<>()));
-			userService.saveUser(new Usuario(null, "arnold", "arnold@gmail.com", "1234", per4, new Date(), new Date(),
-					true, true, new ArrayList<>()));
-
-			userService.addRoleToUsuario("John", "ROLE_USER");
-			userService.addRoleToUsuario("will", "ROLE_MANAGER");
-			userService.addRoleToUsuario("jim", "ROLE_ADMIN");
-			userService.addRoleToUsuario("arnold", "ROLE_SUPER_ADMIN");
-			userService.addRoleToUsuario("arnold", "ROLE_ADMIN");
-			userService.addRoleToUsuario("arnold", "ROLE_USER");
-			PropietarioDTO propietario1 = new PropietarioDTO(null,new Date(),"","989777585",per1,true);
-			
-			propietarioService.savePropietario(propietario1);
-
 			Persona per5 = new Persona(null, "Kevin", "Ledesma", "78547878", true, new Date());
 			personaService.savePersona(per5);
-			
-			PropietarioDTO propietario2 = new PropietarioDTO(null,new Date(),"","969696969",per5,true);
 
-			
+			userService.saveUser(new Usuario(null, "john@gmail.com", "1234", per1, new Date(), new Date(), true,
+					true, new ArrayList<>()));
+			userService.saveUser(new Usuario(null,  "will@gmail.com", "1234", per2, new Date(), new Date(), true,
+					true, new ArrayList<>()));
+			userService.saveUser(new Usuario(null, "jim@gmail.com", "1234", per3, new Date(), new Date(), true,
+					true, new ArrayList<>()));
+			userService.saveUser(new Usuario(null,  "arnold@gmail.com", "1234", per4, new Date(), new Date(),
+					true, true, new ArrayList<>()));
+
+			userService.addRoleToUsuario("john@gmail.com", "ROLE_USER");
+			userService.addRoleToUsuario("will@gmail.com", "ROLE_MANAGER");
+			userService.addRoleToUsuario("jim@gmail.com", "ROLE_ADMIN");
+			userService.addRoleToUsuario("arnold@gmail.com", "ROLE_SUPER_ADMIN");
+			userService.addRoleToUsuario("arnold@gmail.com", "ROLE_ADMIN");
+			userService.addRoleToUsuario("arnold@gmail.com", "ROLE_USER");
+
+				//"1992-07-17"
+			PropietarioCreate propietario1 = 
+					new PropietarioCreate(null,new Date(), "997055037", "Jose Alonso", "Aranguren Martinez", "70919821","aranguren.alonso@gmail.com","12345");
+			propietarioService.savePropietario(propietario1);
+			PropietarioCreate propietario2 = 
+					new PropietarioCreate(null, new Date(), "997061207", "Lisbeth", "Capcha Ramos", "73830389","capcha_lisbeth@gmail.com","12345");
 			propietarioService.savePropietario(propietario2);
 
-			//Mascota mascota1 = new Mascota(null, "lady", "dalmata", propietario1);
-			//Mascota mascota2 = new Mascota(null, "boby", "cruzado", propietario1);
-//			mascotaService.crearMascota(mascota1);
-//			mascotaService.crearMascota(mascota2);
-			
+			Mascota mascota1 = new Mascota(null,"perro", "lady", "dalmata", propietarioService.obtenerPropietarioPorId(1));
+			Mascota mascota2 = new Mascota(null, "perro","boby", "cruzado", propietarioService.obtenerPropietarioPorId(1));
+			mascotaService.crearMascota(mascota1);
+			mascotaService.crearMascota(mascota2);
+
 			departService.crearDepartamento(new DepartamentoDTO(null, "100", "902579922", true));
 			departService.crearDepartamento(new DepartamentoDTO(null, "101", "901547831", true));
 			departService.crearDepartamento(new DepartamentoDTO(null, "102", "903651875", true));

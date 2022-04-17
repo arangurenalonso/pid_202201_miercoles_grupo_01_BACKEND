@@ -23,13 +23,16 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data//getters, setter, toString, equals, hasmap
-@NoArgsConstructor
+@Setter
+@Getter
 @AllArgsConstructor
-
+@NoArgsConstructor
+@ToString
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
 @Table(name = "propietarios")
@@ -48,11 +51,9 @@ public class Propietario {
 	@Column(name="cellphone")
 	private String numeroCelular;
 	
-	@Column(name="estado")
-	private Boolean estado;
 	
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-    @JoinColumn(name = "persona_id", referencedColumnName = "id")
+	@JoinColumn(name = "persona_id", referencedColumnName = "id")
 	private Persona persona;
 	
 	@OneToMany(mappedBy = "propietario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
