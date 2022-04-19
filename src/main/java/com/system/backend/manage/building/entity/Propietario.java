@@ -46,7 +46,6 @@ public class Propietario {
 	@Temporal(TemporalType.DATE)
 	private Date birthdayDate;
 	
-	private String foto;
 	
 	@Column(name="cellphone")
 	private String numeroCelular;
@@ -59,12 +58,11 @@ public class Propietario {
 	@OneToMany(mappedBy = "propietario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<Mascota> mascotas = new ArrayList<> ();
 
-	public Propietario(Long id, @NotNull(message = "No puede estar vacio") Date birthdayDate, String foto,
+	public Propietario(Long id, @NotNull(message = "No puede estar vacio") Date birthdayDate, 
 			String numeroCelular, Persona persona) {
 		super();
 		this.id = id;
 		this.birthdayDate = birthdayDate;
-		this.foto = foto;
 		this.numeroCelular = numeroCelular;
 		this.persona = persona;
 	}

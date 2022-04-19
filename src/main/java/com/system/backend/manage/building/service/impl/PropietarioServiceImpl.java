@@ -43,7 +43,6 @@ public class PropietarioServiceImpl implements PropietarioService {
 		Propietario propietario = new Propietario();
 		propietario.setBirthdayDate(propietarioDTO.getBirthdayDate());
 		propietario.setNumeroCelular(propietarioDTO.getNumeroCelular());
-
 		propietario.setPersona(newUser.getPersona());
 		Propietario nuevoPropietario = propietarioRepositorio.save(propietario);	
 

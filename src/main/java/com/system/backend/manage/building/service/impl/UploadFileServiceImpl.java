@@ -16,12 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.system.backend.manage.building.service.IUploadFileService;
-import com.system.backend.manage.building.utils.AppConstantes;
 
 @Service
 public class UploadFileServiceImpl implements IUploadFileService{
 	private final Logger log=LoggerFactory.getLogger(UploadFileServiceImpl.class);
-	
+	private final static String  DIRECTORIO_UPLOAD= "uploads";
 	@Override
 	public Resource cargar(String nombreFoto) throws MalformedURLException {
 		Path rutaArchivo=getPath(nombreFoto);
@@ -62,7 +61,7 @@ public class UploadFileServiceImpl implements IUploadFileService{
 
 	@Override
 	public Path getPath(String nombreFoto) {
-		return Paths.get(AppConstantes.DIRECTORIO_UPLOAD).resolve(nombreFoto).toAbsolutePath();
+		return Paths.get(DIRECTORIO_UPLOAD).resolve(nombreFoto).toAbsolutePath();
 	}
 
 }
