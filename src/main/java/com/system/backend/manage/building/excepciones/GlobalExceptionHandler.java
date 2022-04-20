@@ -38,7 +38,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		response.setType("Error");
 		response.setDetalle(errorDetalles);
 		response.setReason(
-				">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>GlobalExceptionHandler Manejador de execpcion generalizada");
+				">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>GlobalExceptionHandler Manejador de execpcion generalizada---------"+exception);
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 
 	}

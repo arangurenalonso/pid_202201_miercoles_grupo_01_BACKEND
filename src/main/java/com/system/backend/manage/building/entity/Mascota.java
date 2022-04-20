@@ -53,7 +53,7 @@ public class Mascota {
 	
 	private boolean isActive;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createAt;
 	
 	@ManyToOne

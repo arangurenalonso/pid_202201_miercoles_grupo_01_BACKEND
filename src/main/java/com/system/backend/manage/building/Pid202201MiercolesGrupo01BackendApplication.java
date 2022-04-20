@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.system.backend.manage.building.entity.Mascota;
@@ -16,10 +17,13 @@ import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.PropietarioService;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.system.backend.manage.building.dto.DepartamentoDTO;
+import com.system.backend.manage.building.dto.FamiliarCreateDTO;
 import com.system.backend.manage.building.dto.MascotaCreateDTO;
 import com.system.backend.manage.building.dto.PropietarioCreate;
 import com.system.backend.manage.building.service.DepartamentoService;
+import com.system.backend.manage.building.service.FamiliarService;
 import com.system.backend.manage.building.service.MascotaService;
 import com.system.backend.manage.building.service.UsuarioService;
 
@@ -38,6 +42,12 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 	public static BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+//	@Bean
+//    public Jackson2ObjectMapperBuilder jacksonBuilder() {
+//        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+//        builder.featuresToEnable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//        return builder;
+//    }
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
@@ -66,7 +76,8 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 	 */
 	@Bean
 	CommandLineRunner run(UsuarioService userService, PropietarioService propietarioService,
-			PersonaService personaService, DepartamentoService departService, MascotaService mascotaService) {
+			PersonaService personaService, DepartamentoService departService, MascotaService mascotaService,
+			FamiliarService familiarService) {
 		// TODO Auto-generated method stub
 		return args -> {
 			userService.saveRole(new Role(null, "ROLE_USER"));
@@ -113,6 +124,15 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			mascotaService.crearMascota(mascota1,(long) 1);
 			mascotaService.crearMascota(mascota2,(long) 1);
 
+			 String sDate3="1959-02-11";  
+			 Date date3=new SimpleDateFormat("yyyy-MM-dd").parse(sDate3);
+			 
+			FamiliarCreateDTO familiarNuevo1=new FamiliarCreateDTO(null,date3,"Padre","José Bernardo", "Aranguren Carvajal","08022057");
+			FamiliarCreateDTO familiarNuevo2=new FamiliarCreateDTO(null,date3,"Madre","Vilma Gloria", "Martinez Dorival","08022056");
+			familiarService.crearFamiliar(familiarNuevo1, (long)1);
+			familiarService.crearFamiliar(familiarNuevo2, (long)1);
+			
+			
 			departService.crearDepartamento(new DepartamentoDTO(null, "100", "902579922", true));
 			departService.crearDepartamento(new DepartamentoDTO(null, "101", "901547831", true));
 			departService.crearDepartamento(new DepartamentoDTO(null, "102", "903651875", true));

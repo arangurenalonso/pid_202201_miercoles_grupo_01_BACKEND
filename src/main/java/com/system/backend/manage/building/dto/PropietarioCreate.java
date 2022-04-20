@@ -21,15 +21,25 @@ import lombok.ToString;
 public class PropietarioCreate {
 
 	private Long id;
-	@Temporal(TemporalType.DATE)
+	/******************************
+	 * Atributos de Propietario
+	 * ****************************/
+	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date birthdayDate;
 	private String numeroCelular;
-
+	
+	/******************************
+	 * Atributos de Persona
+	 * ****************************/
 	private String nombre;
 	private String apellido;
 	@Size(min=8,max=8,message = "El DNI debe tener un tamaño de 8 caracteres")
 	private String dni;	
+	
+	/******************************
+	 * Atributos de Usuario
+	 * ****************************/
 	@Email(message = "Debe ingresar un correo válido")
 	private String email;
 	private String password;

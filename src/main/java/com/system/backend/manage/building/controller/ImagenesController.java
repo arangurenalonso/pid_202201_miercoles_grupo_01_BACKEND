@@ -1,9 +1,6 @@
 package com.system.backend.manage.building.controller;
 
 import java.net.MalformedURLException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;

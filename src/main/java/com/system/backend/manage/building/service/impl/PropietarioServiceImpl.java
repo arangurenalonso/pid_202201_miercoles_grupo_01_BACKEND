@@ -32,7 +32,6 @@ public class PropietarioServiceImpl implements PropietarioService {
 
 	@Override
 	@Transactional
-
 	public Propietario savePropietario(PropietarioCreate propietarioDTO) {
 
 		Usuario newUser = usuarioService.addNewUser(propietarioDTO.getNombre(), propietarioDTO.getApellido(),
@@ -44,7 +43,7 @@ public class PropietarioServiceImpl implements PropietarioService {
 		propietario.setBirthdayDate(propietarioDTO.getBirthdayDate());
 		propietario.setNumeroCelular(propietarioDTO.getNumeroCelular());
 		propietario.setPersona(newUser.getPersona());
-		Propietario nuevoPropietario = propietarioRepositorio.save(propietario);	
+		Propietario nuevoPropietario = propietarioRepositorio.save(propietario);
 
 		return nuevoPropietario;
 	}
@@ -73,13 +72,11 @@ public class PropietarioServiceImpl implements PropietarioService {
 		return propietarioRespuesta;
 	}
 
-	
-
 	@Override
 	public Propietario obtenerPropietarioPorId(long id) {
-		Propietario propietario = propietarioRepositorio.findById(id)
-				.orElseThrow(() ->new CustomAppException("El propietario con id '"+id+"' no existe en la Base de datos", 400,
-						UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException",HttpStatus.BAD_REQUEST));
+		Propietario propietario = propietarioRepositorio.findById(id).orElseThrow(() -> new CustomAppException(
+				"El propietario con id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
 
 		return propietario;
 	}
@@ -87,11 +84,11 @@ public class PropietarioServiceImpl implements PropietarioService {
 	@Override
 	public Propietario actualizarPropietario(PropietarioUpdate propietariUpdate, long id) {
 		Propietario propietario = this.obtenerPropietarioPorId(id);
-		
+
 		propietario.getPersona().setNombre(propietariUpdate.getNombre());
 		propietario.getPersona().setApellido(propietariUpdate.getApellido());
 		propietario.getPersona().setDni(propietariUpdate.getDni());
-		
+
 		propietario.setBirthdayDate(propietariUpdate.getBirthdayDate());
 		propietario.setNumeroCelular(propietariUpdate.getNumeroCelular());
 

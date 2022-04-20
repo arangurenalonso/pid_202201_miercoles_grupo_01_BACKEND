@@ -1,7 +1,6 @@
 package com.system.backend.manage.building.dto;
 
 
-import com.system.backend.manage.building.entity.Propietario;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

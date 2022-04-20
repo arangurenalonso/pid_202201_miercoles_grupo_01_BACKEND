@@ -63,7 +63,7 @@ public class Persona implements Serializable{
 	
 	@NotNull(message = "No puede estar vacio")
 	@Column(name="create_at")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createAt;
 	
 	@OneToOne(mappedBy = "persona")

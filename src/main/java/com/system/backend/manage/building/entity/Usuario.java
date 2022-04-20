@@ -61,10 +61,10 @@ public class Usuario {
 	//@JsonBackReference
 	private Persona  persona=new Persona();
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLoginDateDisplay;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
     private Date lastLoginDate;
 	private boolean isActive;
     private boolean isNotLocked;
