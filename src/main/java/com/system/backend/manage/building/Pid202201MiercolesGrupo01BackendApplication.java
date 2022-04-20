@@ -8,24 +8,23 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.system.backend.manage.building.entity.Mascota;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.PropietarioService;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.system.backend.manage.building.dto.DepartamentoDTO;
 import com.system.backend.manage.building.dto.FamiliarCreateDTO;
 import com.system.backend.manage.building.dto.MascotaCreateDTO;
 import com.system.backend.manage.building.dto.PropietarioCreate;
+import com.system.backend.manage.building.dto.VisitanteDTO;
 import com.system.backend.manage.building.service.DepartamentoService;
 import com.system.backend.manage.building.service.FamiliarService;
 import com.system.backend.manage.building.service.MascotaService;
 import com.system.backend.manage.building.service.UsuarioService;
+import com.system.backend.manage.building.service.VisitanteService;
 
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -42,12 +41,6 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 	public static BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-//	@Bean
-//    public Jackson2ObjectMapperBuilder jacksonBuilder() {
-//        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-//        builder.featuresToEnable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-//        return builder;
-//    }
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
@@ -55,29 +48,14 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 				"DELETE", "PATCH", "OPTIONS");
 	}
 
-	/*
-	 * @Bean public CorsFilter corsFilter() { UrlBasedCorsConfigurationSource
-	 * urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-	 * CorsConfiguration corsConfiguration = new CorsConfiguration();
-	 * corsConfiguration.setAllowCredentials(true);
-	 * corsConfiguration.setAllowedOrigins(Collections.singletonList(
-	 * "http://localhost:4200"));
-	 * corsConfiguration.setAllowedHeaders(Arrays.asList("Origin",
-	 * "Access-Control-Allow-Origin", "Content-Type", "Accept", "Jwt-Token",
-	 * "Authorization", "Origin, Accept", "X-Requested-With",
-	 * "Access-Control-Request-Method", "Access-Control-Request-Headers"));
-	 * corsConfiguration.setExposedHeaders(Arrays.asList("Origin", "Content-Type",
-	 * "Accept", "Jwt-Token", "Authorization", "Access-Control-Allow-Origin",
-	 * "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"));
-	 * corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT",
-	 * "DELETE", "OPTIONS"));
-	 * urlBasedCorsConfigurationSource.registerCorsConfiguration("/**",
-	 * corsConfiguration); return new CorsFilter(urlBasedCorsConfigurationSource); }
-	 */
 	@Bean
-	CommandLineRunner run(UsuarioService userService, PropietarioService propietarioService,
-			PersonaService personaService, DepartamentoService departService, MascotaService mascotaService,
-			FamiliarService familiarService) {
+	CommandLineRunner run(UsuarioService userService, 
+			PropietarioService propietarioService,
+			PersonaService personaService,
+			DepartamentoService departService,
+			MascotaService mascotaService,
+			FamiliarService familiarService,
+			VisitanteService visitanteService ) {
 		// TODO Auto-generated method stub
 		return args -> {
 			userService.saveRole(new Role(null, "ROLE_USER"));
@@ -133,6 +111,9 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			familiarService.crearFamiliar(familiarNuevo2, (long)1);
 			
 			
+			VisitanteDTO visitanteDTO= new VisitanteDTO(null,"Armando", "Chancahuana Verdi","44875869");
+			visitanteService.crearVisitante(visitanteDTO);
+			
 			departService.crearDepartamento(new DepartamentoDTO(null, "100", "902579922", true));
 			departService.crearDepartamento(new DepartamentoDTO(null, "101", "901547831", true));
 			departService.crearDepartamento(new DepartamentoDTO(null, "102", "903651875", true));
@@ -176,4 +157,27 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 
 		};
 	}
+
+
+
+
+	/*
+	 * @Bean public CorsFilter corsFilter() { UrlBasedCorsConfigurationSource
+	 * urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+	 * CorsConfiguration corsConfiguration = new CorsConfiguration();
+	 * corsConfiguration.setAllowCredentials(true);
+	 * corsConfiguration.setAllowedOrigins(Collections.singletonList(
+	 * "http://localhost:4200"));
+	 * corsConfiguration.setAllowedHeaders(Arrays.asList("Origin",
+	 * "Access-Control-Allow-Origin", "Content-Type", "Accept", "Jwt-Token",
+	 * "Authorization", "Origin, Accept", "X-Requested-With",
+	 * "Access-Control-Request-Method", "Access-Control-Request-Headers"));
+	 * corsConfiguration.setExposedHeaders(Arrays.asList("Origin", "Content-Type",
+	 * "Accept", "Jwt-Token", "Authorization", "Access-Control-Allow-Origin",
+	 * "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"));
+	 * corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT",
+	 * "DELETE", "OPTIONS"));
+	 * urlBasedCorsConfigurationSource.registerCorsConfiguration("/**",
+	 * corsConfiguration); return new CorsFilter(urlBasedCorsConfigurationSource); }
+	 */
 }

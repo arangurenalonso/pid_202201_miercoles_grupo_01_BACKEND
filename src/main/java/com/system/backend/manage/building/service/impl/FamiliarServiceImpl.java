@@ -19,8 +19,6 @@ import com.system.backend.manage.building.repository.IFamiliarRepository;
 import com.system.backend.manage.building.repository.IPersonaRepository;
 import com.system.backend.manage.building.repository.IPropietarioRepository;
 import com.system.backend.manage.building.service.FamiliarService;
-import com.system.backend.manage.building.service.PersonaService;
-import com.system.backend.manage.building.service.PropietarioService;
 
 @Service
 public class FamiliarServiceImpl implements FamiliarService{
