@@ -39,4 +39,5 @@ public class FamiliarCreateDTO {
 	@Size(min=8,max=8,message = "El DNI debe tener un tamaño de 8 caracteres")
 	private String dni;	
 	
+	private Long idPersonaRegistro;
 }

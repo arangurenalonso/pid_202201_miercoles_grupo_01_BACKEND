@@ -16,6 +16,7 @@ import com.system.backend.manage.building.dto.PropietarioCreate;
 import com.system.backend.manage.building.dto.PropietarioRespuesta;
 import com.system.backend.manage.building.dto.PropietarioUpdate;
 import com.system.backend.manage.building.entity.Propietario;
+import com.system.backend.manage.building.entity.PropietarioDepartamento;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.excepciones.CustomAppException;
 import com.system.backend.manage.building.repository.IPropietarioRepository;
@@ -34,8 +35,14 @@ public class PropietarioServiceImpl implements PropietarioService {
 	@Transactional
 	public Propietario savePropietario(PropietarioCreate propietarioDTO) {
 
-		Usuario newUser = usuarioService.addNewUser(propietarioDTO.getNombre(), propietarioDTO.getApellido(),
-				propietarioDTO.getDni(), propietarioDTO.getEmail(), propietarioDTO.getPassword());
+		Usuario newUser = 
+				usuarioService.addNewUser(
+						propietarioDTO.getNombre(), 
+						propietarioDTO.getApellido(),
+						propietarioDTO.getDni(), 
+						propietarioDTO.getEmail(), 
+						propietarioDTO.getPassword(),
+						propietarioDTO.getIdPersonaRegistro());
 
 		usuarioService.addRoleToUsuario(newUser.getEmail(), "ROLE_PROPIETARIO");
 
@@ -45,6 +52,14 @@ public class PropietarioServiceImpl implements PropietarioService {
 		propietario.setPersona(newUser.getPersona());
 		Propietario nuevoPropietario = propietarioRepositorio.save(propietario);
 
+		propietarioDTO.getDepartamentos().stream().forEach(x->{
+			PropietarioDepartamento propietarioDepartamento=new PropietarioDepartamento();
+			propietarioDepartamento.setDepartamento(x);
+			propietarioDepartamento.setEstado(true);
+			propietarioDepartamento.setPropietario(nuevoPropietario);
+			nuevoPropietario.getPropietarioDepartamentos().add(propietarioDepartamento);
+		});
+		
 		return nuevoPropietario;
 	}
 
@@ -63,7 +78,7 @@ public class PropietarioServiceImpl implements PropietarioService {
 
 		PropietarioRespuesta propietarioRespuesta = new PropietarioRespuesta();
 		propietarioRespuesta.setContenido(listaDePropietarios);
-		propietarioRespuesta.setNumeroPagina(propietarios.getNumber());
+		propietarioRespuesta.setNumeroDePagina(propietarios.getNumber());
 		propietarioRespuesta.setMedidaPagina(propietarios.getSize());
 		propietarioRespuesta.setTotalElementos(propietarios.getTotalElements());
 		propietarioRespuesta.setTotalPaginas(propietarios.getTotalPages());

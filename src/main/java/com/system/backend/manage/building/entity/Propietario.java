@@ -19,6 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
@@ -61,6 +62,10 @@ public class Propietario {
 
 	@OneToMany(mappedBy = "propietario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set <Familiar> familiares = new HashSet<>();
+	
+	@OneToMany(mappedBy = "propietario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonIncludeProperties(value = {"id","departamento"})
+	private Set<PropietarioDepartamento> propietarioDepartamentos = new HashSet<>();
 	
 	public Propietario(Long id, @NotNull(message = "No puede estar vacio") Date birthdayDate, 
 			String numeroCelular, Persona persona) {

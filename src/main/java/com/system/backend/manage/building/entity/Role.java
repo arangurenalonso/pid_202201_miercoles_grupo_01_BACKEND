@@ -2,7 +2,9 @@ package com.system.backend.manage.building.entity;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -43,7 +45,7 @@ public class Role {
 	
 	@OneToMany(mappedBy = "role",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonIgnore
-	private List<Permiso> permiso = new ArrayList<>();
+	private Set<Permiso> permiso = new HashSet<>();
 
 	public Role(Long id, String name) {
 		super();

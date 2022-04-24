@@ -44,21 +44,25 @@ public class FamiliarServiceImpl implements FamiliarService{
 		Propietario propietario = propietarioRepositorio.findById(idPropietario).orElseThrow(() -> new CustomAppException(
 				"El propietario con id '" + idPropietario + "' no existe en la Base de datos", 400,
 				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
-		Persona per=new Persona(null, 
-				familiarCreate.getNombre(), 
-				familiarCreate.getApellido(), 
-				familiarCreate.getDni(), 
-				true, 
-				new Date());
+		Persona personaRegistro=personaRepo.findById(familiarCreate.getIdPersonaRegistro()).orElseThrow(() -> new CustomAppException(
+				"La persona con id '" + familiarCreate.getIdPersonaRegistro() + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		
+		Persona per = new Persona();
+		per.setNombre(familiarCreate.getNombre());
+		per.setApellido(familiarCreate.getApellido());
+		per.setDni(familiarCreate.getDni());
+		per.setEstado(true);
+		per.setCreateAt(new Date());
+		per.setPersonaRegistro(personaRegistro);		
 		Persona personaCreada=personaRepo.save(per);
 		
-		Familiar familiarNuevo=new Familiar();
 		
+		Familiar familiarNuevo=new Familiar();		
 		familiarNuevo.setParentesco(familiarCreate.getParentesco());
 		familiarNuevo.setBirthdayDate(familiarCreate.getBirthdayDate());
 		familiarNuevo.setPersona(personaCreada);
-		familiarNuevo.setPropietario(propietario);
-		
+		familiarNuevo.setPropietario(propietario);		
 		Familiar familiarCreado=familiarRepositorio.save(familiarNuevo);
 		
 		

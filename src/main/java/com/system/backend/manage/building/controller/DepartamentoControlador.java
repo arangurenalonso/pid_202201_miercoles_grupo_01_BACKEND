@@ -1,5 +1,8 @@
 package com.system.backend.manage.building.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,7 @@ import com.system.backend.manage.building.dto.DepartamentoRespuesta;
 
 import com.system.backend.manage.building.dto.Response;
 import com.system.backend.manage.building.dto.ResponseDetails;
+import com.system.backend.manage.building.entity.Departamento;
 import com.system.backend.manage.building.service.DepartamentoService;
 
 @RestController
@@ -34,11 +38,28 @@ public class DepartamentoControlador {
 			@RequestParam(value = "pageSize", defaultValue = PaginacionConstant.MEDIDA_DE_PAGINA_POR_DEFECTO, required = false) int medidaDePagina,
 			@RequestParam(value = "sortBy", defaultValue = PaginacionConstant.ORDENAR_POR_DEFECTO, required = false) String ordenarPor,
 			@RequestParam(value = "sortDir", defaultValue = PaginacionConstant.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sortDir) {
-		System.out.println("primer paso:" + ordenarPor);
+		
 		return departamentoservice.obtenertodoslosDepartamento(numeroDePagina, medidaDePagina, ordenarPor, sortDir);
 
 	}
+	@GetMapping("/disponible")
+	public List<Departamento> listaDepartamentoDisponibles(){
+		return departamentoservice.listaDepartamentoDisponibles();
 
+	}
+	@GetMapping("/all")
+	public List<Departamento> listaTodosDepartamnetos(){
+		List<Departamento> departamentos= departamentoservice.listaTodosDepartamnetos();
+		List<Departamento> departamentosSend= departamentos.stream().map(x->{
+			Departamento dep=new Departamento();
+			dep.setDepnumero(x.getDepnumero());
+			dep.setId(x.getId());
+			dep.setEstado(x.getEstado());
+			return dep;
+		}).collect(Collectors.toList());
+		return departamentosSend;
+
+	}
 	@GetMapping("/{id}")
 	public ResponseEntity<?> obtenerDepartametoPorId(@PathVariable(name = "id") long id) {
 		return ResponseEntity.ok(departamentoservice.obtenerDepartamentosPorId(id));

@@ -14,6 +14,7 @@ import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.excepciones.CustomAppException;
+import com.system.backend.manage.building.repository.IPersonaRepository;
 import com.system.backend.manage.building.repository.IRoleRepository;
 import com.system.backend.manage.building.repository.IUsuarioRepository;
 import com.system.backend.manage.building.service.UsuarioService;
@@ -28,6 +29,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Autowired
 	private IRoleRepository roleRepo;
 
+	@Autowired
+	private IPersonaRepository personaRepo;
+	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -72,7 +76,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public Usuario addNewUser(String firstName, String lastName,String dni, String email, String password) {
+	@Transactional
+	public Usuario addNewUser(String firstName, String lastName,String dni, String email, String password, long usuarioIdRegistra) {
+		
+		Persona personaRegistro=personaRepo.findById(usuarioIdRegistra).orElseThrow(() -> new CustomAppException(
+				"La persona con id '" + usuarioIdRegistra + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		
 		validateNewUsernameAndEmail(email);
 		Persona persona = new Persona();
 		persona.setNombre(firstName);
@@ -80,6 +90,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		persona.setDni(dni);
 		persona.setEstado(true);
 		persona.setCreateAt(new Date());
+		persona.setPersonaRegistro(personaRegistro);
 
 		Usuario user = new Usuario();
 		user.setEmail(email);

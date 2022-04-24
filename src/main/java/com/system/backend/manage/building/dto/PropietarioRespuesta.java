@@ -16,13 +16,12 @@ import lombok.ToString;
 @ToString
 public class PropietarioRespuesta {
 
-	
-	private int numeroPagina;
+	private List<Propietario> contenido;
+	private int numeroDePagina;
 	private int medidaPagina;
 	private long totalElementos;
 	private int totalPaginas;
 	private boolean ultima;
-	private List<Propietario> contenido;
 	
 	
 }

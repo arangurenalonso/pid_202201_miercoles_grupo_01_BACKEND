@@ -19,6 +19,8 @@ public interface UsuarioService {
 
 	Usuario findByEmail(String email);
 
-	Usuario addNewUser(String firstName, String lastName, String dni, String email, String password);
+
+	Usuario addNewUser(String firstName, String lastName, String dni, String email, String password,
+			long usuarioIdRegistra);
 	
 }

@@ -42,3 +42,11 @@ public class AccessDeniedHandlerJwt implements AccessDeniedHandler {
 		
 	}
 }
+/*
+ * ResponseDetails responseDetails = new ResponseDetails(401,
+				exception.getMessage() + "----" + exception.toString(), webRequest.getDescription(false));
+		Response response = new Response();
+		response.setType("Error");
+		response.setDetalle(responseDetails);
+		response.setReason("Acceso denegado; se requiere de los permisos necesario para acceder a este recurso");
+ * */

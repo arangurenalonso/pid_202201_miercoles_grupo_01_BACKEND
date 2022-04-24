@@ -8,13 +8,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.system.backend.manage.building.constant.UserImplConstant;
 import com.system.backend.manage.building.dto.DepartamentoDTO;
 import com.system.backend.manage.building.dto.DepartamentoRespuesta;
 import com.system.backend.manage.building.entity.Departamento;
+import com.system.backend.manage.building.entity.Persona;
+import com.system.backend.manage.building.excepciones.CustomAppException;
 import com.system.backend.manage.building.repository.IDepartamentoRepository;
+import com.system.backend.manage.building.repository.IPersonaRepository;
 import com.system.backend.manage.building.service.DepartamentoService;
 
 @Service
@@ -22,13 +27,19 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 
 	@Autowired
 	private IDepartamentoRepository departamentorepository;
-
+	@Autowired
+	private IPersonaRepository personaRepo;
+	
 	@Override
 	@Transactional
 	public DepartamentoDTO crearDepartamento(DepartamentoDTO departamentoDTO) {
-
+		Persona personaRegistro=personaRepo.findById(departamentoDTO.getIdPersonaRegistro()).orElseThrow(() -> new CustomAppException(
+				"La persona con id '" + departamentoDTO.getIdPersonaRegistro() + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		
+		
 		Departamento departamento = mapearEntidad(departamentoDTO);
-
+		departamento.setPersonaRegistro(personaRegistro);
 		Departamento nuevodeDepartamento = departamentorepository.save(departamento);
 
 		DepartamentoDTO departamentorespuesta = mapearDTO(nuevodeDepartamento);
@@ -37,7 +48,8 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 
 	}
 	private Departamento mapearEntidad(DepartamentoDTO departamentoDTO) {
-
+		
+		
 		Departamento departamento = new Departamento();
 		
 		departamento.setId(departamentoDTO.getId());
@@ -64,10 +76,9 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 		Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina,sort);
 		Page<Departamento> departamentos = departamentorepository.findAll(pageable);
 		List<Departamento> listaDeDepartamentos = departamentos.getContent();
-		List<DepartamentoDTO>contenido=listaDeDepartamentos.stream().map(departamento->mapearDTO(departamento)).collect(Collectors.toList());
 		
 		DepartamentoRespuesta departamentorespuesta= new DepartamentoRespuesta();
-		departamentorespuesta.setContenido(contenido);
+		departamentorespuesta.setContenido(listaDeDepartamentos);
 		departamentorespuesta.setNumeroDePagina(departamentos.getNumber());
 		departamentorespuesta.setMedidaPagina(departamentos.getSize());
 		departamentorespuesta.setTotalElementos(departamentos.getTotalElements());
@@ -108,9 +119,27 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 	@Override
 	public DepartamentoDTO obtenerDepartamentosPorId(long id) {
 		Departamento departamento = departamentorepository.findById(id).orElseThrow();
-
 		return mapearDTO(departamento);
 
 	}
-
+	@Override
+	public List<Departamento> listaDepartamentoDisponibles(){
+		List<Departamento> listaTodoDepartamento=departamentorepository.findAll();
+		
+		List<Departamento> departamentosDisponibles=listaTodoDepartamento
+											.stream()
+											.filter(x->(
+	x.getPropietarioDepartamentos().size()==0 ||
+	x.getPropietarioDepartamentos().stream().filter(y->y.getEstado() ==true).collect(Collectors.toList()).size()==0
+													))
+													.collect(Collectors.toList());
+		
+		return departamentosDisponibles;
+	}
+	@Override
+	public List<Departamento> listaTodosDepartamnetos() {
+		// TODO Auto-generated method stub
+		return departamentorepository.findAll();
+	}
+	
 }

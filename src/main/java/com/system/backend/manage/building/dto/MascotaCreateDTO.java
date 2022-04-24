@@ -20,4 +20,5 @@ public class MascotaCreateDTO {
 	
 	private String raza;
 	
+	private Long idPersonaRegistro;
 }

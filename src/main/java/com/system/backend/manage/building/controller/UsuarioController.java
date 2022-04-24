@@ -55,8 +55,9 @@ public class UsuarioController {
 	                                           @RequestParam("lastName") String lastName,
 	                                           @RequestParam("dni") String dni,
 	                                           @RequestParam("email") String email,
-	                                           @RequestParam("password") String password) {
-	        Usuario newUser = usuarioService.addNewUser(firstName, lastName,dni, email,password);
+	                                           @RequestParam("password") String password,
+	                                           @RequestParam("usuarioIdRegistra") long usuarioIdRegistra) {
+	        Usuario newUser = usuarioService.addNewUser(firstName, lastName,dni, email,password,usuarioIdRegistra);
 	        //role, isNonLocked, Boolean.parseBoolean(isNonLocked), Boolean.parseBoolean(isActive)
 	        return new ResponseEntity<>(newUser, HttpStatus.OK);
 	    }

@@ -20,5 +20,5 @@ public class DepartamentoDTO {
 	private Boolean estado;
 	
 	
-	
+	private Long idPersonaRegistro;
 }

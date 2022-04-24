@@ -1,8 +1,11 @@
 package com.system.backend.manage.building.service;
 
 
+import java.util.List;
+
 import com.system.backend.manage.building.dto.DepartamentoDTO;
 import com.system.backend.manage.building.dto.DepartamentoRespuesta;
+import com.system.backend.manage.building.entity.Departamento;
 
 
 public interface DepartamentoService {
@@ -17,6 +20,8 @@ public interface DepartamentoService {
 	
 	public DepartamentoDTO eliminarDepartamento(long id);
 
+	public List<Departamento> listaDepartamentoDisponibles();
 	
+	public List<Departamento> listaTodosDepartamnetos();
 
 }

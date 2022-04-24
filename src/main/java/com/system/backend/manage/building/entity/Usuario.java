@@ -3,7 +3,9 @@ package com.system.backend.manage.building.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,8 +22,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
@@ -39,10 +45,11 @@ import lombok.ToString;
 @ToString
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
+@JsonIgnoreProperties("password")
 @Table(name = "usuarios")     
 public class Usuario {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	
@@ -58,15 +65,18 @@ public class Usuario {
 	
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "persona_id", referencedColumnName = "id")
-	//@JsonBackReference
-	private Persona  persona=new Persona();
+	private Persona  persona;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLoginDateDisplay;
 	
 	@Temporal(TemporalType.TIMESTAMP)
     private Date lastLoginDate;
+	
+	 @JsonProperty
 	private boolean isActive;
+	
+	 @JsonProperty
     private boolean isNotLocked;
 	/********************************************
 	 * fetch = FetchType.EAGER When I fetch the user or when I load the user; at the
@@ -75,7 +85,9 @@ public class Usuario {
 	 * this to eager; Because I want lo load all of the roles whenever I load the
 	 * user
 	 ******************************************/
-	@OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private List<Permiso> permiso = new ArrayList<>();
+	@NotNull
+    @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonIncludeProperties(value = {"id","role"})
+	private Set<Permiso> permiso = new HashSet<>();
 
 }

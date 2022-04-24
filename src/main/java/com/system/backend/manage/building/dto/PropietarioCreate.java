@@ -1,12 +1,19 @@
 package com.system.backend.manage.building.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.system.backend.manage.building.entity.Departamento;
+import com.system.backend.manage.building.jsonignore.DepartamentoIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,4 +50,7 @@ public class PropietarioCreate {
 	@Email(message = "Debe ingresar un correo válido")
 	private String email;
 	private String password;
+	
+	private Long idPersonaRegistro;
+	private List<DepartamentoIgnoreProperties> departamentos=new ArrayList<>();
 }
