@@ -6,4 +6,6 @@ import com.system.backend.manage.building.entity.Departamento;
 
 public interface IDepartamentoRepository extends JpaRepository<Departamento, Long> {
 
+	Departamento findByDepnumero(String depnumero);
+
 }

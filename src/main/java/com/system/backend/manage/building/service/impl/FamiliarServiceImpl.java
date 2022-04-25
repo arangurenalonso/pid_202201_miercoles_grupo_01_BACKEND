@@ -11,14 +11,17 @@ import org.springframework.stereotype.Service;
 
 import com.system.backend.manage.building.constant.UserImplConstant;
 import com.system.backend.manage.building.dto.FamiliarCreateDTO;
+
 import com.system.backend.manage.building.entity.Familiar;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Propietario;
+
 import com.system.backend.manage.building.excepciones.CustomAppException;
 import com.system.backend.manage.building.repository.IFamiliarRepository;
 import com.system.backend.manage.building.repository.IPersonaRepository;
 import com.system.backend.manage.building.repository.IPropietarioRepository;
 import com.system.backend.manage.building.service.FamiliarService;
+import com.system.backend.manage.building.service.PersonaService;
 
 @Service
 public class FamiliarServiceImpl implements FamiliarService{
@@ -28,7 +31,8 @@ public class FamiliarServiceImpl implements FamiliarService{
 	private IPropietarioRepository propietarioRepositorio;
 	@Autowired
 	private IPersonaRepository personaRepo;
-	
+	@Autowired
+	private PersonaService PersonaServ;
 	
 	@Override
 	public Familiar BuscarPorID(long id) {
@@ -41,6 +45,8 @@ public class FamiliarServiceImpl implements FamiliarService{
 	@Override
 	@Transactional
 	public Familiar crearFamiliar(FamiliarCreateDTO familiarCreate,Long idPropietario) {
+		PersonaServ.validateNewdni(familiarCreate.getDni());
+		//validateNewdni(familiarCreate.getDni());
 		Propietario propietario = propietarioRepositorio.findById(idPropietario).orElseThrow(() -> new CustomAppException(
 				"El propietario con id '" + idPropietario + "' no existe en la Base de datos", 400,
 				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
@@ -91,6 +97,11 @@ public class FamiliarServiceImpl implements FamiliarService{
 	public Familiar eliminar(long id) {
 		// TODO Auto-generated method stub
 		return null;
+		
+		
 	}
+	
+	
+
 
 }

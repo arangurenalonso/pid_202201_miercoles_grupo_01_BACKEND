@@ -2,7 +2,7 @@ package com.system.backend.manage.building.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,7 +67,7 @@ public class DepartamentoControlador {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> guardarDepartamento(@RequestBody DepartamentoDTO departamentoDTO) {
+	public ResponseEntity<?> guardarDepartamento(@Valid @RequestBody DepartamentoDTO departamentoDTO) {
 		DepartamentoDTO departamentoRespuesta = departamentoservice.crearDepartamento(departamentoDTO);
 		System.out.println(">>>>>>>>>>>>>>>>crear departamento: " + departamentoRespuesta);
 		if (departamentoRespuesta == null) {

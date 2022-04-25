@@ -15,6 +15,7 @@ import com.system.backend.manage.building.constant.UserImplConstant;
 import com.system.backend.manage.building.dto.PropietarioCreate;
 import com.system.backend.manage.building.dto.PropietarioRespuesta;
 import com.system.backend.manage.building.dto.PropietarioUpdate;
+
 import com.system.backend.manage.building.entity.Propietario;
 import com.system.backend.manage.building.entity.PropietarioDepartamento;
 import com.system.backend.manage.building.entity.Usuario;
@@ -34,6 +35,7 @@ public class PropietarioServiceImpl implements PropietarioService {
 	@Override
 	@Transactional
 	public Propietario savePropietario(PropietarioCreate propietarioDTO) {
+		
 
 		Usuario newUser = 
 				usuarioService.addNewUser(
@@ -121,5 +123,6 @@ public class PropietarioServiceImpl implements PropietarioService {
 
 		return propietarioActualizado;
 	}
+
 
 }

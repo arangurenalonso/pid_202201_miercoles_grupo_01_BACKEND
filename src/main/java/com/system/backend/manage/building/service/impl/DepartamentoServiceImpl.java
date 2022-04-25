@@ -36,6 +36,9 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 		Persona personaRegistro=personaRepo.findById(departamentoDTO.getIdPersonaRegistro()).orElseThrow(() -> new CustomAppException(
 				"La persona con id '" + departamentoDTO.getIdPersonaRegistro() + "' no existe en la Base de datos", 400,
 				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+
+		
+		validateNewDepNumero(departamentoDTO.getDepnumero());
 		
 		
 		Departamento departamento = mapearEntidad(departamentoDTO);
@@ -55,6 +58,8 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 		departamento.setId(departamentoDTO.getId());
 		departamento.setDepnumero(departamentoDTO.getDepnumero());
 		departamento.setDeptelef(departamentoDTO.getDeptelef());
+		departamento.setPiso(departamentoDTO.getPiso());
+		departamento.setAforo(departamentoDTO.getAforo());
 		departamento.setEstado(departamentoDTO.getEstado());
 		return departamento;
 
@@ -65,6 +70,8 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 		departamentoDTO.setId(departamento.getId());
 		departamentoDTO.setDepnumero(departamento.getDepnumero());
 		departamentoDTO.setDeptelef(departamento.getDeptelef());
+		departamentoDTO.setPiso(departamento.getPiso());
+		departamentoDTO.setAforo(departamento.getAforo());
 		departamentoDTO.setEstado(departamento.getEstado());
 		return departamentoDTO;
 
@@ -88,17 +95,14 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 
 
 	}
-
-	
-
-	
-
 	@Override
 	public DepartamentoDTO actualizarDepartamento(DepartamentoDTO departamentoDTO, long id) {
 		Departamento departamento = departamentorepository.findById(id).orElseThrow();
-		departamento.setId(departamentoDTO.getId());
 		departamento.setDepnumero(departamentoDTO.getDepnumero());
 		departamento.setDeptelef(departamentoDTO.getDeptelef());
+		departamento.setPiso(departamentoDTO.getPiso());
+		departamento.setAforo(departamentoDTO.getAforo());
+		
 	
 
 		Departamento departamentoactualizado = departamentorepository.save(departamento);
@@ -115,12 +119,20 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 		return mapearDTO(departamentoactualizado);
 
 	}
+	
+	private Departamento findByDepnumero(String Depnumero) {
+		return departamentorepository.findByDepnumero(Depnumero);
+	}
+	
+
+
 
 	@Override
 	public DepartamentoDTO obtenerDepartamentosPorId(long id) {
 		Departamento departamento = departamentorepository.findById(id).orElseThrow();
 		return mapearDTO(departamento);
 
+		
 	}
 	@Override
 	public List<Departamento> listaDepartamentoDisponibles(){
@@ -136,10 +148,33 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 		
 		return departamentosDisponibles;
 	}
+	
 	@Override
 	public List<Departamento> listaTodosDepartamnetos() {
 		// TODO Auto-generated method stub
 		return departamentorepository.findAll();
 	}
+
+	private boolean validateNewDepNumero(String string) {
+		Departamento departamentoByNewDepnumemero = findByDepnumero(string);
+
+		if (departamentoByNewDepnumemero != null) {
+			throw new CustomAppException("El departamento ya existe en la Base de datos", 401,
+					UserImplConstant.DEPARTAMENTO_EXISTENTE + " - " + string, "departamentexistexception",
+					HttpStatus.CONFLICT);
+		}
+		return true;
+	}
+	
 	
 }
+
+
+	
+	
+
+	
+	
+
+
+

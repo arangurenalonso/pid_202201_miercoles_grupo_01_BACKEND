@@ -2,6 +2,8 @@ package com.system.backend.manage.building.controller;
 
 
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,7 @@ public class MascotaController {
 	private MascotaService mascotaService;
 	
 	@PostMapping("/{id}")
-	public ResponseEntity<?> agregarMascota( @RequestBody MascotaCreateDTO mascotaCreateDTO,@PathVariable(name = "id") long id){
+	public ResponseEntity<?> agregarMascota(@Valid@RequestBody MascotaCreateDTO mascotaCreateDTO,@PathVariable(name = "id") long id){
 		System.out.println("$$$$$$$$$$$$$$$$$$$$$$ Entro a salvar mascota");
 		Mascota mascotaNueva = mascotaService.crearMascota(mascotaCreateDTO,id);		
 		ResponseDetails detalles = new ResponseDetails(200, "Se creo la mascota correctamente",mascotaNueva );
