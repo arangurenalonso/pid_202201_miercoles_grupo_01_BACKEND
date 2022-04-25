@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,12 +29,20 @@ public class Departamento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
 	@Column(name = "depnumero", nullable = false)
+	
 	private String depnumero;
 
 	@Column(name = "deptelef", nullable = false)
+
 	private String deptelef;
+	
+	@Column(name = "piso", nullable = false)
+	private int piso;
+	@Column(name = "aforo", nullable = false)
+	private int aforo;
+
 
 	private Boolean estado;
 

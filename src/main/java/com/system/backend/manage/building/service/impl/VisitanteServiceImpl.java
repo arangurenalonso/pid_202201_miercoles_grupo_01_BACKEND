@@ -6,12 +6,16 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
+
+
 import com.system.backend.manage.building.dto.VisitanteDTO;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Visitante;
 import com.system.backend.manage.building.repository.IPersonaRepository;
 import com.system.backend.manage.building.repository.IVisitanteRepository;
+import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.VisitanteService;
 @Service
 public class VisitanteServiceImpl implements VisitanteService{
@@ -20,7 +24,8 @@ public class VisitanteServiceImpl implements VisitanteService{
 	private IVisitanteRepository visitanteRepositorio;
 	@Autowired
 	private IPersonaRepository personaRepo;
-	
+	@Autowired
+	private PersonaService PersonaServ;
 	
 	@Override
 	public Visitante BuscarPorID(long id) {
@@ -30,6 +35,7 @@ public class VisitanteServiceImpl implements VisitanteService{
 	@Override
 	@Transactional
 	public Visitante crearVisitante(VisitanteDTO visitanteCreate) {
+		PersonaServ.validateNewdni(visitanteCreate.getDni());
 		Persona per=new Persona(null, 
 				visitanteCreate.getNombre(), 
 				visitanteCreate.getApellido(), 
@@ -63,6 +69,7 @@ public class VisitanteServiceImpl implements VisitanteService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 	
 }

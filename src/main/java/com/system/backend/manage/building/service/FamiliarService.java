@@ -15,4 +15,6 @@ public interface FamiliarService {
 	public Familiar actualizar(FamiliarCreateDTO familiarUpdate, long id);
 	
 	public Familiar eliminar(long id);
+
+	
 }

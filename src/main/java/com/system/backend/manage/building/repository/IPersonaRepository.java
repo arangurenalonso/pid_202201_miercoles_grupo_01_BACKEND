@@ -12,5 +12,6 @@ public interface IPersonaRepository  extends JpaRepository<Persona, Long>{
 	@Query("SELECT p FROM Persona p"
 			+ " JOIN p.usuario u")
 	public abstract List<Persona> listPersonaUsuario();
+	Persona findBydni(String dni);
 
 }

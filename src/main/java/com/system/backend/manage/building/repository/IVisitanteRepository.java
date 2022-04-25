@@ -7,5 +7,8 @@ import com.system.backend.manage.building.entity.Visitante;
 
 
 public interface IVisitanteRepository  extends JpaRepository<Visitante, Long>{
+
+
+
 	
 }

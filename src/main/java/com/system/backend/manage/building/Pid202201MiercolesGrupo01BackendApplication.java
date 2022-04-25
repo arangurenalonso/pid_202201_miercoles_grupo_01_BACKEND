@@ -68,7 +68,7 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			Persona per2 = new Persona(null, "will", "Smith", "88888888", true, new Date());
 			Persona per3 = new Persona(null, "jim", "Carry", "77777777", true, new Date());
 			Persona per4 = new Persona(null, "arnold", "Schwarzenegger", "66666666", true, new Date());
-			Persona per5 = new Persona(null, "Kevin", "Ledesma", "78547878", true, new Date());
+			Persona per5 = new Persona(null, "Kevin", "Ledesma", "77547878", true, new Date());
 			personaService.savePersona(per5);
 
 			userService.saveUser(new Usuario(null, "john@gmail.com", "1234",null, per1, new Date(), new Date(), true,
@@ -114,46 +114,7 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			VisitanteDTO visitanteDTO= new VisitanteDTO(null,"Armando", "Chancahuana Verdi","44875869");
 			visitanteService.crearVisitante(visitanteDTO);
 			
-			departService.crearDepartamento(new DepartamentoDTO(null, "100", "902579922", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "101", "901547831", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "102", "903651875", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "103", "936427437", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "104", "9462131351", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "105", "9641318411", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "106", "9654112233", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "107", "9642311796", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "108", "9414111637", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "109", "9999999999", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "110", "9111111111", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "111", "9333244165", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "112", "9445556631", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "113", "9663332147", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "114", "9000345144", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "115", "9256314563", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "116", "9642136156", true));
-
-			departService.crearDepartamento(new DepartamentoDTO(null, "117", "9541321354", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "118", "9666666666", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "119", "9563216112", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "120", "9202366325", true));
-
-			departService.crearDepartamento(new DepartamentoDTO(null, "200", "902579922", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "201", "901547831", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "202", "903651875", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "203", "936427437", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "204", "9462131351", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "205", "9641318411", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "206", "9654112233", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "207", "9642311796", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "208", "9414111637", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "209", "9999999999", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "210", "9111111111", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "211", "9333244165", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "212", "9445556631", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "213", "9663332147", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "214", "9000345144", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "215", "9256314563", true));
-			departService.crearDepartamento(new DepartamentoDTO(null, "216", "9642136156", true));
+			departService.crearDepartamento(new DepartamentoDTO(null,"110","7851311",1,9,true));
 
 		};
 	}

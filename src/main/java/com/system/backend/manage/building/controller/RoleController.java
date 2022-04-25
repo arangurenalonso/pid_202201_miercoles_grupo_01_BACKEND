@@ -2,6 +2,8 @@ package com.system.backend.manage.building.controller;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +24,7 @@ public class RoleController {
 	
 	
 	@PostMapping("/save")
-	public ResponseEntity<Role> saveRole(@RequestBody Role role) {
+	public ResponseEntity<Role> saveRole(@Valid@RequestBody Role role) {
 		URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
 
 		return ResponseEntity.created(uri).body(usuarioService.saveRole(role));

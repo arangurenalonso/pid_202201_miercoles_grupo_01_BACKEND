@@ -6,5 +6,6 @@ import com.system.backend.manage.building.entity.Propietario;
 
 
 public interface IPropietarioRepository  extends JpaRepository<Propietario, Long>{
+
 	
 }

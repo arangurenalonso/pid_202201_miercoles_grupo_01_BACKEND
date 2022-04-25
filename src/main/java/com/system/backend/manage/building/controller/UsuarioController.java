@@ -3,6 +3,8 @@ package com.system.backend.manage.building.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +47,7 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/save")
-	public ResponseEntity<Usuario> saveUser(@RequestBody Usuario usuario) {
+	public ResponseEntity<Usuario> saveUser(@Valid@RequestBody Usuario usuario) {
 		URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
 		return ResponseEntity.created(uri).body(usuarioService.saveUser(usuario));
 	}
