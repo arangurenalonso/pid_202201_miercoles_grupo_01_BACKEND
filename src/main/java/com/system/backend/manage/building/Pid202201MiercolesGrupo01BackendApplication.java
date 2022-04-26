@@ -11,9 +11,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.system.backend.manage.building.entity.Departamento;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.entity.Usuario;
+import com.system.backend.manage.building.jsonignore.DepartamentoIgnoreProperties;
 import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.PropietarioService;
 import com.system.backend.manage.building.dto.DepartamentoDTO;
@@ -69,7 +71,7 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			Persona per2 = new Persona(null, "will", "Smith", "88888888", true, new Date());
 			Persona per3 = new Persona(null, "jim", "Carry", "77777777", true, new Date());
 			Persona per4 = new Persona(null, "arnold", "Schwarzenegger", "66666666", true, new Date());
-			Persona per5 = new Persona(null, "Kevin", "Ledesma", "77547878", true, new Date());
+			Persona per5 = new Persona(null, "admin", "master", "00000000", true, new Date());
 			personaService.savePersona(per5);
 			
 			userService.saveUser(new Usuario(null, "john@gmail.com", "1234",null, per1, new Date(), new Date(), true,
@@ -89,44 +91,53 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			userService.addRoleToUsuario("arnold@gmail.com", "ROLE_USER");
 			 String sDate1="1992-07-17";  
 			 Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);
-			 String sDate2="1993-06-19";  
-			 Date date2=new SimpleDateFormat("yyyy-MM-dd").parse(sDate2);
-			PropietarioCreate propietario1 = 
-					new PropietarioCreate(null,date1, "997055037", "Jose Alonso", "Aranguren Martinez", "70919821","aranguren.alonso@gmail.com","12345",(long)2,new ArrayList<>());
-			propietarioService.savePropietario(propietario1);
-			PropietarioCreate propietario2 = 
-					new PropietarioCreate(null, date2, "997061207", "Lisbeth", "Capcha Ramos", "73830389","capcha_lisbeth@gmail.com","12345",(long)2,new ArrayList<>());
-			propietarioService.savePropietario(propietario2);
+			
+			
 
-			PropietarioCreate propietario3 = 
-					new PropietarioCreate(null, date2, "997061207", "Prueba A", "Capcha Ramos", "77788899","b@gmail.com","12345",(long)2,new ArrayList<>());
-			propietarioService.savePropietario(propietario3);
-			PropietarioCreate propietario4 = 
-					new PropietarioCreate(null, date2, "997061207", "Prueba B", "Capcha Ramos", "55555555","a@gmail.com","12345",(long)2,new ArrayList<>());
-			propietarioService.savePropietario(propietario4);
-			MascotaCreateDTO mascota1 = new MascotaCreateDTO("perro", "lady", "dalmata",(long)1);
-			MascotaCreateDTO mascota2 = new MascotaCreateDTO( "perro","boby", "cruzado",(long)1);
-			mascotaService.crearMascota(mascota1,(long) 1);
-			mascotaService.crearMascota(mascota2,(long) 1);
-
-			mascotaService.crearMascota(mascota1,(long) 2);
-			mascotaService.crearMascota(mascota2,(long) 2);
 			
 			 String sDate3="1959-02-11";  
 			 Date date3=new SimpleDateFormat("yyyy-MM-dd").parse(sDate3);
 			 
-			FamiliarCreateDTO familiarNuevo1=new FamiliarCreateDTO(null,date3,"Padre","José Bernardo", "Aranguren Carvajal","08022057",(long)4);
-			FamiliarCreateDTO familiarNuevo2=new FamiliarCreateDTO(null,date3,"Madre","Vilma Gloria", "Martinez Dorival","08022056",(long)4);
-			familiarService.crearFamiliar(familiarNuevo1, (long)1);
-			familiarService.crearFamiliar(familiarNuevo2, (long)1);
 			
 			
 			VisitanteDTO visitanteDTO= new VisitanteDTO(null,"Armando", "Chancahuana Verdi","44875869",(long)3);
 			visitanteService.crearVisitante(visitanteDTO);
 			
 
-			departService.crearDepartamento(new DepartamentoDTO(null,"110","7851311",1,9,true,(long)1));
+			departService.crearDepartamento(new DepartamentoDTO(null,"110","7851311",1,2,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"111","7333311",1,3,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"112","7869311",1,3,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"115","7777771",1,5,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"301","7001564",3,1,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"302","7331564",3,2,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"303","7201564",3,2,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"304","7101564",3,7,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"520","7851011",5,4,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"521","7853211",5,5,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"523","7856911",5,2,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"515","7821316",5,3,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"715","7693213",7,2,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"716","7456631",7,3,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"717","7315567",7,1,true,(long)1));
+            departService.crearDepartamento(new DepartamentoDTO(null,"718","7013463",7,3,true,(long)1));
 
+           ArrayList<DepartamentoIgnoreProperties> departamento=   new ArrayList<>();
+           DepartamentoIgnoreProperties depIg=new DepartamentoIgnoreProperties();
+           depIg.setId((long)1);
+           departamento.add(depIg);
+            PropietarioCreate propietario1 = 
+					new PropietarioCreate(null,date1, "997055037", "Jose Alonso", "Aranguren Martinez", "70919821","aranguren.alonso@gmail.com","12345",(long)2,departamento);
+			propietarioService.savePropietario(propietario1);
+
+			FamiliarCreateDTO familiarNuevo1=new FamiliarCreateDTO(null,date3,"Padre","José Bernardo", "Aranguren Carvajal","08022057",(long)4);
+			FamiliarCreateDTO familiarNuevo2=new FamiliarCreateDTO(null,date3,"Madre","Vilma Gloria", "Martinez Dorival","08022056",(long)4);
+			familiarService.crearFamiliar(familiarNuevo1, (long)1);
+			familiarService.crearFamiliar(familiarNuevo2, (long)1);
+			
+			MascotaCreateDTO mascota1 = new MascotaCreateDTO("perro", "lady", "dalmata",(long)1);
+			MascotaCreateDTO mascota2 = new MascotaCreateDTO( "perro","boby", "cruzado",(long)1);
+			mascotaService.crearMascota(mascota1,(long) 1);
+			mascotaService.crearMascota(mascota2,(long) 1);
 		};
 	}
 

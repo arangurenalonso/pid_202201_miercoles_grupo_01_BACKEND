@@ -35,7 +35,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ResponseDetails responseDetaile = new ResponseDetails();
 		responseDetaile.setHttpStatusCode(e.getStatusCode());
 		responseDetaile.setMensaje(e.getExceptionMessage());
-		responseDetaile.setData(e.getSpecificExceptions());
+		Map<String, String> errores = new HashMap<>();
+		errores.put( e.getSpecificExceptions(),e.getPrincipalMessage()+" - "+e.getExceptionMessage());
+		responseDetaile.setData(errores);
 
 		Response response = new Response();
 		response.setType("Error");

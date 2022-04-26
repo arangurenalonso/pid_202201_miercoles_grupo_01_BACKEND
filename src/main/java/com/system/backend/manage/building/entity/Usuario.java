@@ -1,10 +1,8 @@
 package com.system.backend.manage.building.entity;
 
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -20,9 +18,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -36,11 +31,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 @Setter
-
 @Getter
-
 @AllArgsConstructor
-
 @NoArgsConstructor
 @ToString
 @Entity
@@ -53,8 +45,6 @@ public class Usuario {
 	private Long id;
 	
 	
-	@NotEmpty(message = "No puede estar vacio!!!!!")
-	@Email(message = "Debe ingresar un correo válido")
 	@Column(nullable = false, unique = true)
 	private String email;
 	
@@ -82,10 +72,9 @@ public class Usuario {
 	 * fetch = FetchType.EAGER When I fetch the user or when I load the user; at the
 	 * same time I load all of their roles in the database So there's no time that
 	 * I'm going to load a user and I'm not going to load the role that's why I set
-	 * this to eager; Because I want lo load all of the roles whenever I load the
+	 * this to eager; Because I want load all of the roles whenever I load the
 	 * user
 	 ******************************************/
-	@NotNull
     @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonIncludeProperties(value = {"id","role"})
 	private Set<Permiso> permiso = new HashSet<>();

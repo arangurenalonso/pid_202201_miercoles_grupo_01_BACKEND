@@ -18,15 +18,17 @@ import lombok.ToString;
 @ToString
 public class MascotaCreateDTO {
     
-	@NotBlank
+	@NotBlank(message = "Campo 'Tipo Mascota' es obligatorio")
 	@Size(min=1,max=40,message="ingresar mascota")
 	@Pattern(regexp = "[A-Za-záéíóúñ ]*",message="Debe contener letras no numeros ni simbolos")
 	private String tipoMascota;	
-	@NotBlank
+	
+	@NotBlank(message = "Campo 'Nombre Mascota' es obligatorio")
 	@Size(min=1,max=40,message="Ingresar nombre")
 	@Pattern(regexp = "[A-Za-záéíóúñ ]*",message="Debe contener letras no numeros ni simbolos")
 	private String nombre;	
-	@NotBlank
+	
+	@NotBlank(message = "Campo 'Raza Mascota' es obligatorio")
 	@Size(min=1,max=40,message="Raza de mascota")
 	@Pattern(regexp = "[A-Za-záéíóúñ ]*",message="Debe contener letras no numeros ni simbolos")
 	private String raza;

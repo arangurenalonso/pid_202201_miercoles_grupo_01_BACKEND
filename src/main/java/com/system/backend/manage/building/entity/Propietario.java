@@ -17,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -41,15 +40,27 @@ public class Propietario {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull(message = "No puede estar vacio")
 	@Column(name="birthday_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date birthdayDate;
 	
 	
-	@Column(name="cellphone")
+	@Column(name="cellphone", nullable = false)
 	private String numeroCelular;
 	
+	
+	public Propietario(Long id, Date birthdayDate, 
+			String numeroCelular, Persona persona) {
+		super();
+		this.id = id;
+		this.birthdayDate = birthdayDate;
+		this.numeroCelular = numeroCelular;
+		this.persona = persona;
+	}
+	
+	/*******************************************************
+	 * Relaciones con otras tablas
+	 ****************************************************/
 	
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
 	@JoinColumn(name = "persona_id", referencedColumnName = "id")
@@ -67,13 +78,6 @@ public class Propietario {
 	@JsonIncludeProperties(value = {"id","departamento"})
 	private Set<PropietarioDepartamento> propietarioDepartamentos = new HashSet<>();
 	
-	public Propietario(Long id, @NotNull(message = "No puede estar vacio") Date birthdayDate, 
-			String numeroCelular, Persona persona) {
-		super();
-		this.id = id;
-		this.birthdayDate = birthdayDate;
-		this.numeroCelular = numeroCelular;
-		this.persona = persona;
-	}
+	
 	
 }

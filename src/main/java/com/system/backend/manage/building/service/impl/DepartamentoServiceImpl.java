@@ -155,12 +155,12 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 		return departamentorepository.findAll();
 	}
 
-	private boolean validateNewDepNumero(String string) {
-		Departamento departamentoByNewDepnumemero = findByDepnumero(string);
+	private boolean validateNewDepNumero(String numDepartamento) {
+		Departamento departamentoByNewDepnumemero = findByDepnumero(numDepartamento);
 
 		if (departamentoByNewDepnumemero != null) {
-			throw new CustomAppException("El departamento ya existe en la Base de datos", 401,
-					UserImplConstant.DEPARTAMENTO_EXISTENTE + " - " + string, "departamentexistexception",
+			throw new CustomAppException("El departamento ya existe en la Base de datos", 409,
+					UserImplConstant.DEPARTAMENTO_EXISTENTE(numDepartamento) , "departamentexistexception",
 					HttpStatus.CONFLICT);
 		}
 		return true;

@@ -1,5 +1,6 @@
 package com.system.backend.manage.building.entity;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -40,7 +43,7 @@ public class Departamento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "depnumero", nullable = false)	
+	@Column(name = "depnumero", nullable = false, unique = true)	
 	private String depnumero;
 
 	@Column(name = "deptelef", nullable = false)
@@ -51,7 +54,10 @@ public class Departamento {
 	
 	@Column(name = "aforo", nullable = false)
 	private int aforo;
-
+	
+	@Column(name = "create_at", updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createAt;
 
 	private Boolean estado;
 

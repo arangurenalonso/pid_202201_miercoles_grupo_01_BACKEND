@@ -30,7 +30,8 @@ public class RegistroDTO {
 	private String username;
 	@Email
 	private String email;
-	@Size(min=4)
+	
+	@Size(min=4, message = "La clave debe tener minimo 4 caracteres")
 	private String password;
 
 

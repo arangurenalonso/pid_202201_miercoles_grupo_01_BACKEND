@@ -24,20 +24,24 @@ public class DepartamentoDTO {
 	
 	private Long id;
 	
-	@NotBlank(message = "Numero Departamento Requerido")
-    @Pattern(regexp = "^-?[0-9]{3}+$",message="Debe contener 3 cifras y deben ser numeros enteros")
+	@NotBlank(message = "Campo 'Número de Departamento' es obligatorio")
+    @Pattern(regexp = "^-?[1-7][0-9]{2}+$",message="Debe contener 3 cifras y deben ser numeros enteros")
 	private String depnumero;
-    @NotBlank(message = "Numero de Telefono Requerido")
+	
+	@NotBlank(message = "Campo 'Número de Teléfono' es obligatorio")
     @Pattern(regexp = "^-?[0-9]{7}+$",message="Debe contener 7 cifras y deben ser numeros enteros")
 	private String deptelef;
-    @NotNull(message = "Numero Piso no puede estar vacio")
+    
+    @NotNull(message = "Campo 'Piso' es obligatorio")
     @Min(1)
     @Max(9)
     private int piso;
-    @NotNull(message = "No puede estar vacio")
+    
+    @NotNull(message = "Campo 'Aforo' es obligatorio")
     @Min(1)
     @Max(7)
     private int aforo;
+    
 	private Boolean estado;
 	
 	

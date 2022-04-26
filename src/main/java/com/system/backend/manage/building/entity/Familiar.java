@@ -38,6 +38,7 @@ public class Familiar {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(name="parentesco")
 	private String parentesco;
 	
 	@Column(name="birthday_date")

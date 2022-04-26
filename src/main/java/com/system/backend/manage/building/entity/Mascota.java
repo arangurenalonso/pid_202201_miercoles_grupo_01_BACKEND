@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
@@ -41,21 +40,19 @@ public class Mascota {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotEmpty(message = "Definir el tipo de Mascota!!!!!")
 	@Column(nullable = false,name = "tipo_mascota")
 	private String tipoMascota;	
 	
-	@NotEmpty(message = "No puede estar vacio!!!!!")
 	@Column(nullable = false)
 	private String nombre;	
 	
-	@NotEmpty(message = "Raza es un campo obligatorio !!!!!")
 	@Column(nullable = false)
 	private String raza;
 	
 	private boolean isActive;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_at",updatable = false)
 	private Date createAt;
 	
 	@ManyToOne

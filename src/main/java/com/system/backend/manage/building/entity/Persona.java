@@ -40,58 +40,44 @@ import lombok.ToString;
 @Entity
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
 @Table(name = "personas")
-@JsonIgnoreProperties({"children","departamentosRegistrados","mascotasRegistrados"})
-public class Persona implements Serializable{
+@JsonIgnoreProperties({ "children", "departamentosRegistrados", "mascotasRegistrados" })
+public class Persona implements Serializable {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@NotEmpty(message = "No puede estar vacio!!!!!")
-	@Size(min=2,max=20,message = "El tamaño debe estar entre 4 y 12 caracteres")
-	@Column(nullable = false)
-	private String nombre;
-	
-	@NotEmpty(message = "No puede estar vacio!!!!!")
-	@Size(min=2,max=20,message = "El tamaño debe estar entre 4 y 12 caracteres")
-	private String apellido;
-	
-	@NotEmpty(message = "No puede estar vacio!!!!!")
-	@Column(nullable = false, unique=true)
-	private String dni;
-	
-	@Column(name="estado")
-	private Boolean estado;
-	
 
+	@Column(name = "nombre", nullable = false)
+	private String nombre;
+
+	@Column(name = "apellido", nullable = false)
+	private String apellido;
+
+	@Column(nullable = false, unique = true)
+	private String dni;
+
+	@Column(name = "estado")
+	private Boolean estado;
 
 	/**********************************************************************************************
-	 * TemporalType: Indico cual va a ser la transformacion o el tipo equivalente en la Base de dato
-	 * *******************************************************************************************/
-	
-	@NotNull(message = "No puede estar vacio")
-	@Column(name="create_at")
+	 * TemporalType: Indico cual va a ser la transformacion o el tipo equivalente en
+	 * la Base de dato
+	 *******************************************************************************************/
+
+	@Column(name = "create_at", updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createAt;
-	
+
 	@OneToOne(mappedBy = "persona")
 	@JsonManagedReference
-	@JsonIncludeProperties(value = {"id","email","foto","lastLoginDateDisplay","lastLoginDate","isNotLocked","isActive","permiso"})
+	@JsonIncludeProperties(value = { "id", "email", "foto", "lastLoginDateDisplay", "lastLoginDate", "isNotLocked",
+			"isActive", "permiso" })
 	private Usuario usuario;
 
-	
-
 	@ManyToOne(targetEntity = Persona.class, fetch = FetchType.EAGER)
-	@JsonIncludeProperties(value = {"id","nombre","apellido"})
-    private Persona personaRegistro;
+	@JsonIncludeProperties(value = { "id", "nombre", "apellido" })
+	private Persona personaRegistro;
 
-
-	
-	
-	public Persona(Long id,
-			@NotEmpty(message = "No puede estar vacio!!!!!") @Size(min = 2, max = 20, message = "El tamaño debe estar entre 4 y 12 caracteres") String nombre,
-			@NotEmpty(message = "No puede estar vacio!!!!!") @Size(min = 2, max = 20, message = "El tamaño debe estar entre 4 y 12 caracteres") String apellido,
-			@NotEmpty(message = "No puede estar vacio!!!!!") String dni, Boolean estado,
-			@NotNull(message = "No puede estar vacio") Date createAt) {
+	public Persona(Long id, String nombre, String apellido, String dni, Boolean estado, Date createAt) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -102,23 +88,21 @@ public class Persona implements Serializable{
 	}
 
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	/*************************************************************************
-	 * 		REGISTRO DE PERSONA QUE REGISTRA EN LAS DIFERENTES TABLAS	
+	 * REGISTRO DE PERSONA QUE REGISTRA EN LAS DIFERENTES TABLAS
 	 ***************************************************************************/
-	
-	@OneToMany(mappedBy="personaRegistro",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	@JsonIncludeProperties(value = {"id"})
-	private Set <Persona> children = new HashSet<>();
-	
-	@OneToMany(mappedBy="personaRegistro",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	@JsonIncludeProperties(value = {"id"})
-	private Set <Departamento> departamentosRegistrados = new HashSet<>();
-	
-	@OneToMany(mappedBy="personaRegistro",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	@JsonIncludeProperties(value = {"id"})
-	private Set <Departamento> mascotasRegistrados = new HashSet<>();
-	
-	
+
+	@OneToMany(mappedBy = "personaRegistro", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonIncludeProperties(value = { "id" })
+	private Set<Persona> children = new HashSet<>();
+
+	@OneToMany(mappedBy = "personaRegistro", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonIncludeProperties(value = { "id" })
+	private Set<Departamento> departamentosRegistrados = new HashSet<>();
+
+	@OneToMany(mappedBy = "personaRegistro", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonIncludeProperties(value = { "id" })
+	private Set<Departamento> mascotasRegistrados = new HashSet<>();
+
 }

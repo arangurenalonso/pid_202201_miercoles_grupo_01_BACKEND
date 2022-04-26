@@ -21,6 +21,7 @@ import com.system.backend.manage.building.entity.PropietarioDepartamento;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.excepciones.CustomAppException;
 import com.system.backend.manage.building.repository.IPropietarioRepository;
+import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.PropietarioService;
 import com.system.backend.manage.building.service.UsuarioService;
 
@@ -32,11 +33,13 @@ public class PropietarioServiceImpl implements PropietarioService {
 	@Autowired
 	private UsuarioService usuarioService;
 
+	@Autowired
+	private PersonaService PersonaServ;
 	@Override
 	@Transactional
 	public Propietario savePropietario(PropietarioCreate propietarioDTO) {
 		
-
+		PersonaServ.validateNewdni(propietarioDTO.getDni());
 		Usuario newUser = 
 				usuarioService.addNewUser(
 						propietarioDTO.getNombre(), 
