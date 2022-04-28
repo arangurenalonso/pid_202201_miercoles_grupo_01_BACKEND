@@ -1,6 +1,7 @@
 package com.system.backend.manage.building.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import com.system.backend.manage.building.entity.Propietario;
 import com.system.backend.manage.building.entity.PropietarioDepartamento;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.excepciones.CustomAppException;
+import com.system.backend.manage.building.jsonignore.PropietarioIgnoreProperties;
 import com.system.backend.manage.building.repository.IPropietarioRepository;
 import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.PropietarioService;
@@ -84,11 +86,18 @@ public class PropietarioServiceImpl implements PropietarioService {
 		Page<Propietario> propietarios = propietarioRepositorio.findAll(pageable);
 
 		List<Propietario> listaDePropietarios = propietarios.getContent();
-		// List<PropietarioDTO> contenido = listaDePropietarios.stream().map(propietario
-		// -> mapearDTO(propietario)).collect(Collectors.toList());
+		List<PropietarioIgnoreProperties> contenido = listaDePropietarios
+				.stream().map(p->{
+					PropietarioIgnoreProperties obj=new PropietarioIgnoreProperties();
+					obj.setId(p.getId());
+					obj.setBirthdayDate(p.getBirthdayDate());
+					obj.setNumeroCelular(p.getNumeroCelular());
+					obj.setPersona(p.getPersona());
+					return obj;
+				}).collect(Collectors.toList());
 
 		PropietarioRespuesta propietarioRespuesta = new PropietarioRespuesta();
-		propietarioRespuesta.setContenido(listaDePropietarios);
+		propietarioRespuesta.setContenido(contenido);
 		propietarioRespuesta.setNumeroDePagina(propietarios.getNumber());
 		propietarioRespuesta.setMedidaPagina(propietarios.getSize());
 		propietarioRespuesta.setTotalElementos(propietarios.getTotalElements());

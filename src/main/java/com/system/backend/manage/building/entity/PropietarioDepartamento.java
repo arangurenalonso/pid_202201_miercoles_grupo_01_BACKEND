@@ -45,7 +45,7 @@ public class PropietarioDepartamento {
 	
 	@ManyToOne (cascade = CascadeType.MERGE)
 	@JoinColumn(name="departamento_id")
-	//@JsonIgnore
+	@JsonIncludeProperties(value = {"id","depnumero"})
 	private Departamento departamento;
 	
 	@Column(name="estado")

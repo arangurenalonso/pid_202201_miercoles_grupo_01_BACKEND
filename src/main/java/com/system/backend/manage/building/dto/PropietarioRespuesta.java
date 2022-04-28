@@ -3,6 +3,7 @@ package com.system.backend.manage.building.dto;
 import java.util.List;
 
 import com.system.backend.manage.building.entity.Propietario;
+import com.system.backend.manage.building.jsonignore.PropietarioIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class PropietarioRespuesta {
 
-	private List<Propietario> contenido;
+	private List<PropietarioIgnoreProperties> contenido;
 	private int numeroDePagina;
 	private int medidaPagina;
 	private long totalElementos;
