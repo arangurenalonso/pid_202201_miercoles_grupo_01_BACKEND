@@ -54,7 +54,9 @@ public class Persona implements Serializable {
 
 	@Column(nullable = false, unique = true)
 	private String dni;
+	
 
+	
 	@Column(name = "estado")
 	private Boolean estado;
 

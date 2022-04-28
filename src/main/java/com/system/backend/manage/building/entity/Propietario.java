@@ -75,7 +75,7 @@ public class Propietario {
 	private Set <Familiar> familiares = new HashSet<>();
 	
 	@OneToMany(mappedBy = "propietario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	@JsonIncludeProperties(value = {"id","departamento"})
+	@JsonIncludeProperties(value = {"id","departamento","estado"})
 	private Set<PropietarioDepartamento> propietarioDepartamentos = new HashSet<>();
 	
 	

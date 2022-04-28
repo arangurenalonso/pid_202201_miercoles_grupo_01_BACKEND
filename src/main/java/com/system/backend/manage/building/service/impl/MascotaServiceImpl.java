@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.system.backend.manage.building.constant.UserImplConstant;
-import com.system.backend.manage.building.dto.MascotaCreateDTO;
+import com.system.backend.manage.building.dto.MascotaDTO;
 import com.system.backend.manage.building.entity.Mascota;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Propietario;
@@ -27,14 +27,14 @@ public class MascotaServiceImpl implements MascotaService{
 	@Autowired
 	private IPersonaRepository personaRepo;
 	@Override
-	public Mascota crearMascota(MascotaCreateDTO mascota, Long idPropietario) {
+	public Mascota crearMascota(MascotaDTO mascota, Long idPropietario) {
 		Persona personaRegistro=personaRepo.findById(mascota.getIdPersonaRegistro()).orElseThrow(() -> new CustomAppException(
 				"La persona con id '" + mascota.getIdPersonaRegistro() + "' no existe en la Base de datos", 400,
 				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
 		
 		Propietario propietario=propietarioService.obtenerPropietarioPorId(idPropietario);
 		Mascota mascotaNueva=new Mascota();
-		mascotaNueva.setActive(true);		
+		mascotaNueva.setIsActive(true);		
 		mascotaNueva.setCreateAt(new Date());
 		mascotaNueva.setNombre(mascota.getNombre());
 		mascotaNueva.setPropietario(propietario);
@@ -59,16 +59,32 @@ public class MascotaServiceImpl implements MascotaService{
 		return null;
 	}
 
-	@Override
-	public Mascota actualizarMascota(Mascota mascota, long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+
+
 
 	@Override
-	public Mascota eliminarMascota(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Mascota actualizar(MascotaDTO mascotaUpdate) {
+		Mascota mascota=mascotaRepo.findById(mascotaUpdate.getId()).orElseThrow(() -> new CustomAppException(
+				"La Mascota con id '" + mascotaUpdate.getId() + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		mascota.setNombre(mascotaUpdate.getNombre());
+		mascota.setTipoMascota(mascotaUpdate.getTipoMascota());
+		mascota.setRaza(mascotaUpdate.getRaza());
+		
+		return mascotaRepo.save(mascota);
+	}
+
+
+
+	@Override
+	public Mascota changeActive(long id) {
+		Mascota mascota=mascotaRepo.findById(id).orElseThrow(() -> new CustomAppException(
+				"La Mascota con id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		mascota.setIsActive(!mascota.getIsActive());
+		
+		return mascotaRepo.save(mascota);
 	}
 
 }

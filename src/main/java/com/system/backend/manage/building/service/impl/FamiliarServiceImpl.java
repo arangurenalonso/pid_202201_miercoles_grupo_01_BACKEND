@@ -13,6 +13,7 @@ import com.system.backend.manage.building.constant.UserImplConstant;
 import com.system.backend.manage.building.dto.FamiliarCreateDTO;
 
 import com.system.backend.manage.building.entity.Familiar;
+import com.system.backend.manage.building.entity.Mascota;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Propietario;
 
@@ -76,30 +77,37 @@ public class FamiliarServiceImpl implements FamiliarService{
 	}
 
 
+	@Override
+	public Familiar editarFamiliar(FamiliarCreateDTO familiarUpdate) {
+		Familiar familiar=familiarRepositorio.findById(familiarUpdate.getId()).orElseThrow(() -> new CustomAppException(
+				"La familiar con id '" + familiarUpdate.getId() + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		
+		familiar.setBirthdayDate(familiarUpdate.getBirthdayDate());
+		familiar.setParentesco(familiarUpdate.getParentesco());
+		familiar.getPersona().setNombre(familiarUpdate.getNombre());
+		familiar.getPersona().setApellido(familiarUpdate.getApellido());
+		familiar.getPersona().setDni(familiarUpdate.getDni());
+		return familiarRepositorio.save(familiar);
+	}
 
 	@Override
 	public List<Familiar> listarTodos() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-
 	@Override
-	public Familiar actualizar(FamiliarCreateDTO familiarUpdate, long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Familiar changeActive(long id) {
+		Familiar familiar=familiarRepositorio.findById(id).orElseThrow(() -> new CustomAppException(
+				"Familiar con id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		familiar.getPersona().setEstado(!familiar.getPersona().getEstado());
+		
+		return familiarRepositorio.save(familiar);
 	}
 
 
 
-	@Override
-	public Familiar eliminar(long id) {
-		// TODO Auto-generated method stub
-		return null;
-		
-		
-	}
 	
 	
 

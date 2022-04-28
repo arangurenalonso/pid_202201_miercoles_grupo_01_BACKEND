@@ -15,7 +15,7 @@ import com.system.backend.manage.building.constant.UserImplConstant;
 import com.system.backend.manage.building.dto.PropietarioCreate;
 import com.system.backend.manage.building.dto.PropietarioRespuesta;
 import com.system.backend.manage.building.dto.PropietarioUpdate;
-
+import com.system.backend.manage.building.entity.Familiar;
 import com.system.backend.manage.building.entity.Propietario;
 import com.system.backend.manage.building.entity.PropietarioDepartamento;
 import com.system.backend.manage.building.entity.Usuario;
@@ -35,6 +35,12 @@ public class PropietarioServiceImpl implements PropietarioService {
 
 	@Autowired
 	private PersonaService PersonaServ;
+	@Override
+	@Transactional
+	public Propietario savePropietario(Propietario propietario) {
+		return propietarioRepositorio.save(propietario);
+	}
+	
 	@Override
 	@Transactional
 	public Propietario savePropietario(PropietarioCreate propietarioDTO) {
@@ -125,6 +131,16 @@ public class PropietarioServiceImpl implements PropietarioService {
 		Propietario propietarioActualizado = propietarioRepositorio.save(propietario);
 
 		return propietarioActualizado;
+	}
+
+	@Override
+	public Propietario changeActive(long id) {
+		Propietario propietario=propietarioRepositorio.findById(id).orElseThrow(() -> new CustomAppException(
+				"Propietario con id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		propietario.getPersona().setEstado(!propietario.getPersona().getEstado());
+		
+		return propietarioRepositorio.save(propietario);
 	}
 
 

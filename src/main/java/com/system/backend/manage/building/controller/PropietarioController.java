@@ -17,17 +17,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.system.backend.manage.building.constant.PaginacionConstant;
+import com.system.backend.manage.building.dto.FamiliarCreateDTO;
 import com.system.backend.manage.building.dto.PropietarioCreate;
 import com.system.backend.manage.building.dto.PropietarioRespuesta;
 import com.system.backend.manage.building.dto.PropietarioUpdate;
 import com.system.backend.manage.building.dto.Response;
 import com.system.backend.manage.building.dto.ResponseDetails;
+import com.system.backend.manage.building.dto.UpdatePropietarioDepartamentosDTO;
+import com.system.backend.manage.building.entity.Familiar;
 import com.system.backend.manage.building.entity.Propietario;
+import com.system.backend.manage.building.service.FamiliarService;
+import com.system.backend.manage.building.service.PropietarioDepartamentoService;
 import com.system.backend.manage.building.service.PropietarioService;
 
 @RestController
 @RequestMapping("/api/propietario")
 public class PropietarioController {
+
+
 	@Autowired
 	private PropietarioService propietarioService;
 
@@ -84,5 +91,15 @@ public class PropietarioController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 		
 	}
+	
+	@DeleteMapping("/changeActive/{id}")
+	public ResponseEntity<?> actualizar(@PathVariable(name = "id") long id){
+		Propietario propietario = propietarioService.changeActive(id);
+		
+		ResponseDetails detalles = new ResponseDetails(200,propietario.getPersona().getEstado()?"Cambio Exitoso-> Propietario Activo":"Cambio Exitoso -> Propietario Inactiva",propietario );
+		Response response = new Response("Success","Actualización exitosa",detalles);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
 	
 }

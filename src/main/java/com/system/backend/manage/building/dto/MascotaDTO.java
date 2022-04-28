@@ -16,8 +16,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class MascotaCreateDTO {
+public class MascotaDTO {
     
+	private Long id;
+	
 	@NotBlank(message = "Campo 'Tipo Mascota' es obligatorio")
 	@Size(min=1,max=40,message="ingresar mascota")
 	@Pattern(regexp = "[A-Za-záéíóúñ ]*",message="Debe contener letras no numeros ni simbolos")

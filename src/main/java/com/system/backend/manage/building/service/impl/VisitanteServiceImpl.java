@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.system.backend.manage.building.constant.UserImplConstant;
 import com.system.backend.manage.building.dto.VisitanteDTO;
+import com.system.backend.manage.building.entity.Familiar;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Visitante;
 import com.system.backend.manage.building.excepciones.CustomAppException;
@@ -75,6 +76,16 @@ public class VisitanteServiceImpl implements VisitanteService{
 	public Visitante eliminar(long id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public Visitante changeActive(long id) {
+		Visitante visitante=visitanteRepositorio.findById(id).orElseThrow(() -> new CustomAppException(
+				"Visitante con id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		visitante.getPersona().setEstado(!visitante.getPersona().getEstado());
+		
+		return visitanteRepositorio.save(visitante);
 	}
 
 	

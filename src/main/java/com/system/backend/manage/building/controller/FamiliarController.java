@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import com.system.backend.manage.building.dto.FamiliarCreateDTO;
 import com.system.backend.manage.building.dto.Response;
 import com.system.backend.manage.building.dto.ResponseDetails;
 import com.system.backend.manage.building.entity.Familiar;
+import com.system.backend.manage.building.entity.Mascota;
 import com.system.backend.manage.building.service.FamiliarService;
 
 @RestController
@@ -28,7 +30,7 @@ public class FamiliarController {
 	private FamiliarService familiarService;
 	
 	@PostMapping("/{id}")
-	public ResponseEntity<?> agregar(@Valid@RequestBody FamiliarCreateDTO familiarCreateDTO,@PathVariable(name = "id") long id){
+	public ResponseEntity<?> registrar(@Valid@RequestBody FamiliarCreateDTO familiarCreateDTO,@PathVariable(name = "id") long id){
 		System.out.println(">>>>>>>>>>>++++++>>>>>>>>>>>>>>>>>>>>>> Entro a Familiar Crear");
 		Familiar familiarNuevo = familiarService.crearFamiliar(familiarCreateDTO,id);		
 		ResponseDetails detalles = new ResponseDetails(200, "Se creo al familiar correctamente",familiarNuevo );
@@ -36,7 +38,21 @@ public class FamiliarController {
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 	
-	
+	@PostMapping("/actualizar")
+	public ResponseEntity<?> actualizar(@Valid@RequestBody FamiliarCreateDTO familiarCreateDTO){
+		Familiar familiarEditado = familiarService.editarFamiliar(familiarCreateDTO);		
+		ResponseDetails detalles = new ResponseDetails(201, "El familiar con id " +familiarEditado.getId()+ " fue editado satisfactoriamente",familiarEditado );
+		Response response = new Response("Success","Actualización exitosa",detalles);
+		return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+	}
+	@DeleteMapping("/changeActive/{id}")
+	public ResponseEntity<?> actualizar(@PathVariable(name = "id") long id){
+		Familiar familiar = familiarService.changeActive(id);
+		
+		ResponseDetails detalles = new ResponseDetails(200,familiar.getPersona().getEstado()?"Cambio Exitoso-> Familiar Activo":"Cambio Exitoso -> Familiar Inactiva",familiar );
+		Response response = new Response("Success","Actualización exitosa",detalles);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 	
 	
 }

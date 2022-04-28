@@ -96,7 +96,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 * *********************************************************************************************/
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> manejarGlobalException(Exception exception, WebRequest webRequest) {
-		ResponseDetails errorDetalles = new ResponseDetails(600, exception.getMessage() + "----" + exception.toString(),
+		ResponseDetails errorDetalles = new ResponseDetails(600, exception+ "----" + exception.toString(),
 				webRequest.getDescription(false));
 		Response response = new Response();
 		response.setType("Error");

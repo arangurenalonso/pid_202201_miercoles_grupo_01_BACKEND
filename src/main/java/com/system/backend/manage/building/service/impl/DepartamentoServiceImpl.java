@@ -16,6 +16,7 @@ import com.system.backend.manage.building.constant.UserImplConstant;
 import com.system.backend.manage.building.dto.DepartamentoDTO;
 import com.system.backend.manage.building.dto.DepartamentoRespuesta;
 import com.system.backend.manage.building.entity.Departamento;
+import com.system.backend.manage.building.entity.Familiar;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.excepciones.CustomAppException;
 import com.system.backend.manage.building.repository.IDepartamentoRepository;
@@ -114,6 +115,7 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 	public DepartamentoDTO eliminarDepartamento(long id) {
 		Departamento departamento = departamentorepository.findById(id).orElseThrow();
 		departamento.setEstado(false);
+		
 		//departamentorepository.delete(departamento);
 		Departamento departamentoactualizado = departamentorepository.save(departamento);
 		return mapearDTO(departamentoactualizado);
@@ -164,6 +166,15 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 					HttpStatus.CONFLICT);
 		}
 		return true;
+	}
+	@Override
+	public Departamento changeActive(long id) {
+		Departamento departamento=departamentorepository.findById(id).orElseThrow(() -> new CustomAppException(
+				"Departamento con id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		departamento.setEstado(!departamento.getEstado());
+		
+		return departamentorepository.save(departamento);
 	}
 	
 	

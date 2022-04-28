@@ -53,7 +53,7 @@ public class FamiliarCreateDTO {
 	private String apellido;
 	
 	@NotBlank(message="Campo 'DNI' es obligatorio")
-	@Pattern(regexp = "^-?[0-9]{9}+$",message="Debe contener 9 numeros enteros")
+	@Pattern(regexp = "^-?[0-9]{8}+$",message="Debe contener 9 numeros enteros")
 	private String dni;	
 	
 	private Long idPersonaRegistro;

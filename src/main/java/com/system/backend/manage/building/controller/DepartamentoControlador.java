@@ -23,6 +23,7 @@ import com.system.backend.manage.building.dto.DepartamentoRespuesta;
 import com.system.backend.manage.building.dto.Response;
 import com.system.backend.manage.building.dto.ResponseDetails;
 import com.system.backend.manage.building.entity.Departamento;
+import com.system.backend.manage.building.entity.Familiar;
 import com.system.backend.manage.building.service.DepartamentoService;
 
 @RestController
@@ -134,6 +135,15 @@ public class DepartamentoControlador {
 		response.setReason("Se encontro el departamento");
 		return new ResponseEntity<>(response, HttpStatus.OK);
 
+	}
+	
+	@DeleteMapping("/changeActive/{id}")
+	public ResponseEntity<?> actualizar(@PathVariable(name = "id") long id){
+		Departamento departamento = departamentoservice.changeActive(id);
+		
+		ResponseDetails detalles = new ResponseDetails(200,departamento.getEstado()?"Cambio Exitoso-> Departamento Activo":"Cambio Exitoso -> Departamento Inactiva",departamento );
+		Response response = new Response("Success","Actualización exitosa",detalles);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 }

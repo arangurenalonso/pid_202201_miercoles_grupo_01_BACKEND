@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.system.backend.manage.building.dto.FamiliarCreateDTO;
 import com.system.backend.manage.building.entity.Familiar;
+import com.system.backend.manage.building.entity.Mascota;
 
 public interface FamiliarService {
 	public Familiar BuscarPorID(long id) ;
@@ -12,9 +13,8 @@ public interface FamiliarService {
 	
 	public List<Familiar> listarTodos() ;	
 
-	public Familiar actualizar(FamiliarCreateDTO familiarUpdate, long id);
+	public Familiar editarFamiliar(FamiliarCreateDTO familiarUpdate);
 	
-	public Familiar eliminar(long id);
-
+	public Familiar changeActive(long id);
 	
 }

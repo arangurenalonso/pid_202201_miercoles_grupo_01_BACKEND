@@ -15,4 +15,5 @@ public interface VisitanteService {
 	public Visitante actualizar(VisitanteDTO visitanteUpdate, long id);
 	
 	public Visitante eliminar(long id);
+	public Visitante changeActive(long id);
 }

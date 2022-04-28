@@ -1,7 +1,9 @@
 package com.system.backend.manage.building.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,13 +37,13 @@ public class PropietarioDepartamento {
 	private Long id;
 	
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="propietario_id")
 	//@JsonIgnore
 	@JsonIncludeProperties(value = {"id","persona"})
 	private Propietario propietario;
 	
-	@ManyToOne 
+	@ManyToOne (cascade = CascadeType.MERGE)
 	@JoinColumn(name="departamento_id")
 	//@JsonIgnore
 	private Departamento departamento;

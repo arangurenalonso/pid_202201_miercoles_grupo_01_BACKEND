@@ -6,6 +6,7 @@ import java.util.List;
 import com.system.backend.manage.building.dto.DepartamentoDTO;
 import com.system.backend.manage.building.dto.DepartamentoRespuesta;
 import com.system.backend.manage.building.entity.Departamento;
+import com.system.backend.manage.building.entity.Familiar;
 
 
 public interface DepartamentoService {
@@ -24,4 +25,5 @@ public interface DepartamentoService {
 	
 	public List<Departamento> listaTodosDepartamnetos();
 
+	public Departamento changeActive(long id);
 }

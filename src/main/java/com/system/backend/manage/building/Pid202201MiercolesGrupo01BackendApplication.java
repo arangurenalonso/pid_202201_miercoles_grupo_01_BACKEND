@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.system.backend.manage.building.entity.Departamento;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.entity.Usuario;
@@ -20,7 +19,7 @@ import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.PropietarioService;
 import com.system.backend.manage.building.dto.DepartamentoDTO;
 import com.system.backend.manage.building.dto.FamiliarCreateDTO;
-import com.system.backend.manage.building.dto.MascotaCreateDTO;
+import com.system.backend.manage.building.dto.MascotaDTO;
 import com.system.backend.manage.building.dto.PropietarioCreate;
 import com.system.backend.manage.building.dto.VisitanteDTO;
 import com.system.backend.manage.building.service.DepartamentoService;
@@ -74,7 +73,7 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			Persona per5 = new Persona(null, "admin", "master", "00000000", true, new Date());
 			personaService.savePersona(per5);
 			
-			userService.saveUser(new Usuario(null, "john@gmail.com", "1234",null, per1, new Date(), new Date(), true,
+			userService.saveUser(new Usuario(null, "john@gmail.com", "1234", null, per1, new Date(), new Date(), true,
 					true, new HashSet<>()));
 			userService.saveUser(new Usuario(null,  "will@gmail.com", "1234",null, per2, new Date(), new Date(), true,
 					true,new HashSet<>()));
@@ -134,8 +133,8 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			familiarService.crearFamiliar(familiarNuevo1, (long)1);
 			familiarService.crearFamiliar(familiarNuevo2, (long)1);
 			
-			MascotaCreateDTO mascota1 = new MascotaCreateDTO("perro", "lady", "dalmata",(long)1);
-			MascotaCreateDTO mascota2 = new MascotaCreateDTO( "perro","boby", "cruzado",(long)1);
+			MascotaDTO mascota1 = new MascotaDTO(null,"perro", "lady", "dalmata",(long)1);
+			MascotaDTO mascota2 = new MascotaDTO( null,"perro","boby", "cruzado",(long)1);
 			mascotaService.crearMascota(mascota1,(long) 1);
 			mascotaService.crearMascota(mascota2,(long) 1);
 		};

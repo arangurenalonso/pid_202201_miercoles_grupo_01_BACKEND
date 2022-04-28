@@ -22,7 +22,7 @@ public class DepartamentoRespuesta {
 	private int medidaPagina;
 	private long totalElementos;
 	private int totalPaginas;
-	private boolean ultima;
+	private Boolean ultima;
 
 	
 

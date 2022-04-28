@@ -1,6 +1,10 @@
 package com.system.backend.manage.building.controller;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -14,14 +18,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.system.backend.manage.building.constant.UserImplConstant;
+import com.system.backend.manage.building.dto.Response;
+import com.system.backend.manage.building.dto.ResponseDetails;
+import com.system.backend.manage.building.entity.Propietario;
+import com.system.backend.manage.building.excepciones.CustomAppException;
 import com.system.backend.manage.building.service.IUploadFileService;
+import com.system.backend.manage.building.service.PropietarioService;
 
 @RestController
 @RequestMapping("/api/uploads")
 public class ImagenesController {
 	@Autowired
 	private IUploadFileService uploadService;
-	
+	@Autowired
+	private PropietarioService propietarioService;
 	@GetMapping("/img/{nombreFoto:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>> nombre foto "+ nombreFoto);
@@ -38,31 +49,32 @@ public class ImagenesController {
 	
 	@PostMapping("/foto/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id){
-//		Map<String, Object> response = new HashMap<String, Object>();
-//		
-//		Cliente cliente=clienteService.findById(id);
-//		if (cliente == null) {
-//			response.put("mensaje","Cliente con id: " + id + "; no existe en la base de datos!");
-//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
-//		}
-//		if(!archivo.isEmpty()) {
-//			String nombreArchivo=null;
-//			try {
-//				nombreArchivo=uploadService.copiar(archivo);
-//			} catch (Exception e) {
-//				response.put("mensaje", "Error al subir la imagen del cliente!");
-//				response.put("error", e.getMessage() + ":" + e.getCause().getMessage());
-//				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-//			}
-//			String nombreFotoAnterior=cliente.getFoto();
-//			uploadService.eliminar(nombreFotoAnterior);
-//			
-//			cliente.setFoto(nombreArchivo);
-//			clienteService.save(cliente);
-//			response.put("cliente", cliente);
-//			response.put("mensaje","Has subido correctamente la imagen: "+nombreArchivo);
-//		}
-		return new ResponseEntity<>("", HttpStatus.CREATED);
+		Propietario propietario=propietarioService.obtenerPropietarioPorId(id);
+		Response response;
+		ResponseDetails detalle;
+		if(!archivo.isEmpty()) {
+			String nombreArchivo=null;
+			try {
+				nombreArchivo=uploadService.copiar(archivo);
+			} catch (IOException e) {
+				throw new CustomAppException(
+						"Error al subir la imagen del cliente", 400,
+						e.getMessage() + ":" + e.getCause().getMessage(), "IOException", HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			String nombreFotoAnterior=propietario.getPersona().getUsuario().getFoto();
+			uploadService.eliminar(nombreFotoAnterior);
+			
+			propietario.getPersona().getUsuario().setFoto(nombreArchivo);
+			propietarioService.savePropietario(propietario);
+			
+			
+			detalle = new ResponseDetails(200, "Propietario Actualizado", propietario);
+			response = new Response("Success","Has subido correctamente la imagen",detalle);
+		}else {
+			detalle = new ResponseDetails(400, "No se ha subido ingresado ningún archivo", propietario);
+			response = new Response("error","ingrese un archivo válido para continuar",detalle);
+		}
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 		
 	}
 	

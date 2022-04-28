@@ -49,7 +49,8 @@ public class Mascota {
 	@Column(nullable = false)
 	private String raza;
 	
-	private boolean isActive;
+	@Column(name = "is_active")
+	private Boolean isActive;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_at",updatable = false)
