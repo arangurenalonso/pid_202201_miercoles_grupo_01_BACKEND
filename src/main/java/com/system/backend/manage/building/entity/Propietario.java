@@ -48,7 +48,6 @@ public class Propietario {
 	@Column(name="cellphone", nullable = false)
 	private String numeroCelular;
 	
-	
 	public Propietario(Long id, Date birthdayDate, 
 			String numeroCelular, Persona persona) {
 		super();
@@ -61,15 +60,8 @@ public class Propietario {
 	/*******************************************************
 	 * Relaciones con otras tablas
 	 ****************************************************/
-	
-	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-	@JoinColumn(name = "persona_id", referencedColumnName = "id")
-	private Persona persona;
-	
-
 	@OneToMany(mappedBy = "propietario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set <Mascota> mascotas = new HashSet<>();//new ArrayList<> ();
-
 
 	@OneToMany(mappedBy = "propietario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set <Familiar> familiares = new HashSet<>();
@@ -78,6 +70,15 @@ public class Propietario {
 	@JsonIncludeProperties(value = {"id","departamento","estado"})
 	private Set<PropietarioDepartamento> propietarioDepartamentos = new HashSet<>();
 	
+	@OneToMany(mappedBy = "propietario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonIncludeProperties(value = {"id","fechaHoraLlegada","fechaHoraSalida","motivoVisita"})
+	private Set<Visita> visitas = new HashSet<>();
+	
+	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+	@JoinColumn(name = "persona_id", referencedColumnName = "id")
+	private Persona persona;
+	
+
 	
 	
 }

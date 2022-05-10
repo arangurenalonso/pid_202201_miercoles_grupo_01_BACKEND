@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.system.backend.manage.building.dto.RoleUserDTO;
+import com.system.backend.manage.building.dto.entrada.RoleUserDTO;
 import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.service.UsuarioService;
 

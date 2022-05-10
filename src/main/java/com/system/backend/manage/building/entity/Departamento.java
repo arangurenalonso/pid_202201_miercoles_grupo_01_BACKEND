@@ -60,14 +60,22 @@ public class Departamento {
 	private Date createAt;
 
 	private Boolean estado;
+	/*******************************************************
+	 * Relaciones con otras tablas
+	 ****************************************************/
 
 	@OneToMany(mappedBy = "departamento",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonIncludeProperties(value = {"id","propietario","estado"})
 	private Set<PropietarioDepartamento> propietarioDepartamentos = new HashSet<>();
 	
+	@OneToMany(mappedBy = "departamento",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonIncludeProperties(value = {"id","fechaHoraLlegada","fechaHoraSalida","motivoVisita"})
+	private Set<Visita> visitas = new HashSet<>();
+	
 	@ManyToOne(targetEntity = Persona.class, fetch = FetchType.EAGER)
 	@JsonIncludeProperties(value = {"id","nombre","apellido"})
     private Persona personaRegistro;
 	
+
 	
 }

@@ -1,4 +1,5 @@
-package com.system.backend.manage.building.dto;
+package com.system.backend.manage.building.dto.salida;
+
 
 
 import lombok.AllArgsConstructor;
@@ -17,9 +18,11 @@ import lombok.ToString;
 
 @ToString
 
-public class Response {
-	private String type;
-	private String reason;
-	private Object detalle;
-	
+public class ResponseDetails {
+
+	private int httpStatusCode;
+	private String mensaje;
+	private Object data;
+
+
 }

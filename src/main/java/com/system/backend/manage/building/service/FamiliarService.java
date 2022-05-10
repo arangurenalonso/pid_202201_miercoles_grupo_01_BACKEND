@@ -2,7 +2,7 @@ package com.system.backend.manage.building.service;
 
 import java.util.List;
 
-import com.system.backend.manage.building.dto.FamiliarCreateDTO;
+import com.system.backend.manage.building.dto.entrada.FamiliarCreateDTO;
 import com.system.backend.manage.building.entity.Familiar;
 import com.system.backend.manage.building.entity.Mascota;
 

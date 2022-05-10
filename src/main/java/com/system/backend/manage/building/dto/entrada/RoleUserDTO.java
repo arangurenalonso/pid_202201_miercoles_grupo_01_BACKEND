@@ -1,4 +1,4 @@
-package com.system.backend.manage.building.dto;
+package com.system.backend.manage.building.dto.entrada;
 
 
 
@@ -18,11 +18,7 @@ import lombok.ToString;
 
 @ToString
 
-public class ResponseDetails {
-
-	private int httpStatusCode;
-	private String mensaje;
-	private Object data;
-
-
+public class RoleUserDTO {
+	private String userName;
+	private String roleName;
 }

@@ -19,12 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.system.backend.manage.building.constant.PaginacionConstant;
-import com.system.backend.manage.building.dto.PropietarioCreate;
-import com.system.backend.manage.building.dto.PropietarioRespuesta;
-import com.system.backend.manage.building.dto.PropietarioUpdate;
-import com.system.backend.manage.building.dto.Response;
-import com.system.backend.manage.building.dto.ResponseDetails;
-import com.system.backend.manage.building.dto.UpdatePropietarioDepartamentosDTO;
+import com.system.backend.manage.building.dto.entrada.PropietarioDTO;
+import com.system.backend.manage.building.dto.entrada.PropietarioUpdate;
+import com.system.backend.manage.building.dto.entrada.UpdatePropietarioDepartamentosDTO;
+import com.system.backend.manage.building.dto.salida.Response;
+import com.system.backend.manage.building.dto.salida.ResponseDetails;
 import com.system.backend.manage.building.entity.Familiar;
 import com.system.backend.manage.building.entity.Propietario;
 import com.system.backend.manage.building.entity.PropietarioDepartamento;

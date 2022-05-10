@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
@@ -55,6 +56,7 @@ public class Usuario {
 	
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "persona_id", referencedColumnName = "id")
+	@JsonIncludeProperties(value = { "id" ,"nombre","apellido","dni","estado"})
 	private Persona  persona;
 	
 	@Temporal(TemporalType.TIMESTAMP)

@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.system.backend.manage.building.constant.UserImplConstant;
-import com.system.backend.manage.building.dto.Response;
-import com.system.backend.manage.building.dto.ResponseDetails;
+import com.system.backend.manage.building.dto.salida.Response;
+import com.system.backend.manage.building.dto.salida.ResponseDetails;
 import com.system.backend.manage.building.entity.Propietario;
 import com.system.backend.manage.building.excepciones.CustomAppException;
 import com.system.backend.manage.building.service.IUploadFileService;
@@ -68,7 +68,7 @@ public class ImagenesController {
 			propietarioService.savePropietario(propietario);
 			
 			
-			detalle = new ResponseDetails(200, "Propietario Actualizado", propietario);
+			detalle = new ResponseDetails(200, "Propietario Actualizado", propietario.getPersona());
 			response = new Response("Success","Has subido correctamente la imagen",detalle);
 		}else {
 			detalle = new ResponseDetails(400, "No se ha subido ingresado ningún archivo", propietario);

@@ -13,10 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.system.backend.manage.building.constant.UserImplConstant;
-import com.system.backend.manage.building.dto.DepartamentoDTO;
-import com.system.backend.manage.building.dto.DepartamentoRespuesta;
+import com.system.backend.manage.building.dto.entrada.DepartamentoDTO;
+import com.system.backend.manage.building.dto.salida.PaginacionRespuesta;
 import com.system.backend.manage.building.entity.Departamento;
-import com.system.backend.manage.building.entity.Familiar;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.excepciones.CustomAppException;
 import com.system.backend.manage.building.repository.IDepartamentoRepository;
@@ -79,26 +78,28 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 	}
 
 	@Override
-	public DepartamentoRespuesta obtenertodoslosDepartamento(int numeroDePagina, int medidaDePagina,String ordenarPor,String sortDir) {
+	public PaginacionRespuesta obtenertodoslosDepartamento(int numeroDePagina, int medidaDePagina,String ordenarPor,String sortDir) {
 		Sort sort=sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
 		Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina,sort);
 		Page<Departamento> departamentos = departamentorepository.findAll(pageable);
 		List<Departamento> listaDeDepartamentos = departamentos.getContent();
 		
-		DepartamentoRespuesta departamentorespuesta= new DepartamentoRespuesta();
-		departamentorespuesta.setContenido(listaDeDepartamentos);
-		departamentorespuesta.setNumeroDePagina(departamentos.getNumber());
-		departamentorespuesta.setMedidaPagina(departamentos.getSize());
-		departamentorespuesta.setTotalElementos(departamentos.getTotalElements());
-		departamentorespuesta.setTotalPaginas(departamentos.getTotalPages());
-		departamentorespuesta.setUltima(departamentos.isLast());
-		return departamentorespuesta;
+		PaginacionRespuesta paginacion= new PaginacionRespuesta();
+		paginacion.setContenido(listaDeDepartamentos);
+		paginacion.setNumeroDePagina(departamentos.getNumber());
+		paginacion.setMedidaPagina(departamentos.getSize());
+		paginacion.setTotalElementos(departamentos.getTotalElements());
+		paginacion.setTotalPaginas(departamentos.getTotalPages());
+		paginacion.setUltima(departamentos.isLast());
+		return paginacion;
 
 
 	}
 	@Override
 	public DepartamentoDTO actualizarDepartamento(DepartamentoDTO departamentoDTO, long id) {
-		Departamento departamento = departamentorepository.findById(id).orElseThrow();
+		Departamento departamento = departamentorepository.findById(id).orElseThrow(() -> new CustomAppException(
+				"El Departamento con id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
 		departamento.setDepnumero(departamentoDTO.getDepnumero());
 		departamento.setDeptelef(departamentoDTO.getDeptelef());
 		departamento.setPiso(departamentoDTO.getPiso());
@@ -113,7 +114,9 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 
 	@Override
 	public DepartamentoDTO eliminarDepartamento(long id) {
-		Departamento departamento = departamentorepository.findById(id).orElseThrow();
+		Departamento departamento = departamentorepository.findById(id).orElseThrow(() -> new CustomAppException(
+				"El Departamento con id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
 		departamento.setEstado(false);
 		
 		//departamentorepository.delete(departamento);
@@ -130,9 +133,11 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 
 
 	@Override
-	public DepartamentoDTO obtenerDepartamentosPorId(long id) {
-		Departamento departamento = departamentorepository.findById(id).orElseThrow();
-		return mapearDTO(departamento);
+	public Departamento obtenerDepartamentosPorId(long id) {
+		Departamento departamento = departamentorepository.findById(id).orElseThrow(() -> new CustomAppException(
+				"El Departamento con id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		return departamento;
 
 		
 	}

@@ -17,13 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.system.backend.manage.building.constant.PaginacionConstant;
-import com.system.backend.manage.building.dto.DepartamentoDTO;
-import com.system.backend.manage.building.dto.DepartamentoRespuesta;
-
-import com.system.backend.manage.building.dto.Response;
-import com.system.backend.manage.building.dto.ResponseDetails;
+import com.system.backend.manage.building.dto.entrada.DepartamentoDTO;
+import com.system.backend.manage.building.dto.salida.PaginacionRespuesta;
+import com.system.backend.manage.building.dto.salida.Response;
+import com.system.backend.manage.building.dto.salida.ResponseDetails;
 import com.system.backend.manage.building.entity.Departamento;
-import com.system.backend.manage.building.entity.Familiar;
 import com.system.backend.manage.building.service.DepartamentoService;
 
 @RestController
@@ -34,7 +32,7 @@ public class DepartamentoControlador {
 	private DepartamentoService departamentoservice;
 
 	@GetMapping
-	public DepartamentoRespuesta listarDepartamentos(
+	public PaginacionRespuesta listarDepartamentos(
 			@RequestParam(value = "numeroDePagina", defaultValue = PaginacionConstant.NUMERO_DE_PAGINA_POR_DEFECTO, required = false) int numeroDePagina,
 			@RequestParam(value = "pageSize", defaultValue = PaginacionConstant.MEDIDA_DE_PAGINA_POR_DEFECTO, required = false) int medidaDePagina,
 			@RequestParam(value = "sortBy", defaultValue = PaginacionConstant.ORDENAR_POR_DEFECTO, required = false) String ordenarPor,
@@ -63,7 +61,10 @@ public class DepartamentoControlador {
 	}
 	@GetMapping("/{id}")
 	public ResponseEntity<?> obtenerDepartametoPorId(@PathVariable(name = "id") long id) {
-		return ResponseEntity.ok(departamentoservice.obtenerDepartamentosPorId(id));
+		Departamento departamento= departamentoservice.obtenerDepartamentosPorId(id);
+		ResponseDetails detalles = new ResponseDetails(200, "Departamento con id "+id+" encontrado",departamento );
+		Response response = new Response("Success","Busqueda Exitosa",detalles);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 
 	}
 
@@ -95,44 +96,19 @@ public class DepartamentoControlador {
 			@PathVariable(name = "id") long id) {
 
 		DepartamentoDTO departamentoRespuesta = departamentoservice.actualizarDepartamento(departamentoDTO, id);
-		System.out.println(">>>>>>>>>>>>>>>>elininar departamento: " + departamentoRespuesta);
-		if (departamentoRespuesta == null) {
 
-			ResponseDetails errorDetalles = new ResponseDetails(401, "No se pudo actualizar",
-					departamentoRespuesta);
-			Response response = new Response();
-			response.setType("Error");
-			response.setDetalle(errorDetalles);
-			response.setReason("Data no valida ");
-			return new ResponseEntity<>(departamentoRespuesta, HttpStatus.NO_CONTENT);
-		}
-		ResponseDetails errorDetalles = new ResponseDetails(200, "Se actualizó el departamento",departamentoRespuesta );
-		Response response = new Response();
-		response.setType("Success");
-		response.setDetalle(errorDetalles);
-		response.setReason("Se actualizo el departamento");
+		ResponseDetails responseDetalle = new ResponseDetails(200, "Se actualizó el departamento",departamentoRespuesta );
+		Response response = new Response("Success","Se actualizo el departamento",responseDetalle);
+		
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> eliminarDepartamento(@PathVariable(name = "id") long id) {
 		DepartamentoDTO eliminardepatamento = departamentoservice.eliminarDepartamento(id);
-		System.out.println(">>>>>>>>>>>>>>>>elininar departamento: " + eliminardepatamento);
-		if (eliminardepatamento == null) {
-
-			ResponseDetails errorDetalles = new ResponseDetails(401, "No se elimino correctamente",
-					eliminardepatamento);
-			Response response = new Response();
-			response.setType("Error");
-			response.setDetalle(errorDetalles);
-			response.setReason("Data no valida ");
-			return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
-		}
-		ResponseDetails errorDetalles = new ResponseDetails(200, "Se elimino el departamento", eliminardepatamento);
-		Response response = new Response();
-		response.setType("Success");
-		response.setDetalle(errorDetalles);
-		response.setReason("Se encontro el departamento");
+		
+		ResponseDetails responseDetalle = new ResponseDetails(200, "Se elimino el departamento", eliminardepatamento);
+		Response response = new Response("Success","Se encontro el departamento",responseDetalle);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 
 	}

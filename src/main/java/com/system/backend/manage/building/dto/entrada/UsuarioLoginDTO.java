@@ -1,5 +1,4 @@
-package com.system.backend.manage.building.dto;
-
+package com.system.backend.manage.building.dto.entrada;
 
 
 import lombok.AllArgsConstructor;
@@ -18,7 +17,10 @@ import lombok.ToString;
 
 @ToString
 
-public class RoleUserDTO {
-	private String userName;
-	private String roleName;
+public class UsuarioLoginDTO {
+
+	private String username;
+	private String password;
+
+
 }

@@ -1,4 +1,4 @@
-package com.system.backend.manage.building.dto;
+package com.system.backend.manage.building.dto.entrada;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

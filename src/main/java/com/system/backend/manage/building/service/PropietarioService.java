@@ -1,18 +1,21 @@
 package com.system.backend.manage.building.service;
 
 
-import com.system.backend.manage.building.dto.PropietarioCreate;
-import com.system.backend.manage.building.dto.PropietarioRespuesta;
-import com.system.backend.manage.building.dto.PropietarioUpdate;
-import com.system.backend.manage.building.entity.Familiar;
+import java.util.List;
+
+import com.system.backend.manage.building.dto.entrada.PropietarioDTO;
+import com.system.backend.manage.building.dto.entrada.PropietarioUpdate;
+import com.system.backend.manage.building.dto.salida.PaginacionRespuesta;
+import com.system.backend.manage.building.entity.Departamento;
 import com.system.backend.manage.building.entity.Propietario;
+import com.system.backend.manage.building.jsonignore.PropietarioIgnoreProperties;
 
 
 public interface PropietarioService {
 
-	public PropietarioRespuesta listaPropietarios(int numeroDePagina, int medidaDePagina,String ordenarPor, String sortDir);
+	public PaginacionRespuesta listaPropietarios(int numeroDePagina, int medidaDePagina,String ordenarPor, String sortDir);
 	
-	public Propietario savePropietario(PropietarioCreate propietarioDTO);
+	public Propietario savePropietario(PropietarioDTO propietarioDTO);
 	public Propietario savePropietario(Propietario propietario);
 	public Propietario obtenerPropietarioPorId(long id);
 	
@@ -22,4 +25,8 @@ public interface PropietarioService {
 	public Propietario actualizarPropietario(PropietarioUpdate propietariUpdate, long id);
 	
 	public Propietario changeActive(long id);
+
+	public List<PropietarioIgnoreProperties> getAll();
+
+	public  List<Departamento> buscarDepartamentoXPropietario(long id);
 }

@@ -14,8 +14,8 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.system.backend.manage.building.constant.SecurityConstant;
-import com.system.backend.manage.building.dto.Response;
-import com.system.backend.manage.building.dto.ResponseDetails;
+import com.system.backend.manage.building.dto.salida.Response;
+import com.system.backend.manage.building.dto.salida.ResponseDetails;
 
 @Component
 public class AuthenticationEntryPointJwt implements AuthenticationEntryPoint {

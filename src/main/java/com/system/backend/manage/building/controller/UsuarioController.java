@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.system.backend.manage.building.dto.Response;
-import com.system.backend.manage.building.dto.ResponseDetails;
+import com.system.backend.manage.building.dto.salida.Response;
+import com.system.backend.manage.building.dto.salida.ResponseDetails;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.service.UsuarioService;
 

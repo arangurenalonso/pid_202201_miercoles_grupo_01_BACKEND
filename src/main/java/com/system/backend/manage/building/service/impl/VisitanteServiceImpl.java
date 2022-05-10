@@ -4,11 +4,15 @@ import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.system.backend.manage.building.constant.UserImplConstant;
-import com.system.backend.manage.building.dto.VisitanteDTO;
-import com.system.backend.manage.building.entity.Familiar;
+import com.system.backend.manage.building.dto.entrada.VisitanteDTO;
+import com.system.backend.manage.building.dto.salida.PaginacionRespuesta;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Visitante;
 import com.system.backend.manage.building.excepciones.CustomAppException;
@@ -28,9 +32,40 @@ public class VisitanteServiceImpl implements VisitanteService{
 	private PersonaService PersonaServ;
 	
 	@Override
-	public Visitante BuscarPorID(long id) {
+	public VisitanteDTO BuscarPorID(long id) {
+		Visitante visitante=visitanteRepositorio.findById(id).orElseThrow(() -> new CustomAppException(
+				"El visitante con id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		VisitanteDTO vis=new VisitanteDTO();
+		vis.setId(visitante.getId());
+		vis.setDni(visitante.getPersona().getDni());
+		vis.setApellido(visitante.getPersona().getApellido());
+		vis.setNombre(visitante.getPersona().getNombre());
+		return vis;
+	}
+	
+	@Override
+	public Visitante BuscarVisitante(long id) {
+		Visitante visitante=visitanteRepositorio.findById(id).orElseThrow(() -> new CustomAppException(
+				"El visitante con id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		return visitante;
+	}
+	
+	@Override
+	public Visitante actualizar(VisitanteDTO visitanteUpdate, long id) {
 		// TODO Auto-generated method stub
-		return null;
+	
+		Visitante visitante=visitanteRepositorio.findById(id).orElseThrow(() -> new CustomAppException(
+				"El visitante con id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+
+		visitante.getPersona().setNombre(visitanteUpdate.getNombre());
+		visitante.getPersona().setApellido(visitanteUpdate.getApellido());
+		visitante.getPersona().setDni(visitanteUpdate.getDni());
+		Visitante obj=visitanteRepositorio.save(visitante);
+		return obj;
+
 	}
 	@Override
 	@Transactional
@@ -67,11 +102,7 @@ public class VisitanteServiceImpl implements VisitanteService{
 	
 	
 	
-	@Override
-	public Visitante actualizar(VisitanteDTO visitanteUpdate, long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	@Override
 	public Visitante eliminar(long id) {
 		// TODO Auto-generated method stub
@@ -86,6 +117,33 @@ public class VisitanteServiceImpl implements VisitanteService{
 		visitante.getPersona().setEstado(!visitante.getPersona().getEstado());
 		
 		return visitanteRepositorio.save(visitante);
+	}
+	@Override
+	public PaginacionRespuesta paginacion(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir,
+			String filtro, String filtroBy) {
+		Sort sort=sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
+		Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina,sort);
+		
+		Page<Visitante> visitante;
+		switch (filtroBy) {
+		  case "nombreyapellido":
+			  visitante = visitanteRepositorio.buscarVisitanteByNombe(filtro,pageable);
+		    break;
+		  case "dni":
+			  visitante = visitanteRepositorio.buscarVisitanteByDNI(filtro,pageable);
+		    break;
+		  default:
+			  visitante = visitanteRepositorio.buscarVisitanteByNombe("",pageable);
+		} 
+
+		PaginacionRespuesta paginacion= new PaginacionRespuesta();
+		paginacion.setContenido(visitante.getContent());
+		paginacion.setNumeroDePagina(visitante.getNumber());
+		paginacion.setMedidaPagina(visitante.getSize());
+		paginacion.setTotalElementos(visitante.getTotalElements());
+		paginacion.setTotalPaginas(visitante.getTotalPages());
+		paginacion.setUltima(visitante.isLast());
+		return paginacion;
 	}
 
 	

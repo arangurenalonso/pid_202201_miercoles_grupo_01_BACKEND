@@ -10,8 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.system.backend.manage.building.constant.UserImplConstant;
-import com.system.backend.manage.building.dto.FamiliarCreateDTO;
-
+import com.system.backend.manage.building.dto.entrada.FamiliarCreateDTO;
 import com.system.backend.manage.building.entity.Familiar;
 import com.system.backend.manage.building.entity.Mascota;
 import com.system.backend.manage.building.entity.Persona;

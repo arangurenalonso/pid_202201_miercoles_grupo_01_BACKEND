@@ -9,4 +9,5 @@ public interface PersonaService {
 	public List<Persona> listPersona();
 	public Persona savePersona(Persona per);
 	public boolean validateNewdni(String dni);
+	public Persona BuscarPersonaId(long id);
 }

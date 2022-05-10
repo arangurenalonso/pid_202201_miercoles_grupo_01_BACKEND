@@ -19,9 +19,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.system.backend.manage.building.dto.AuthTokenDTO;
-import com.system.backend.manage.building.dto.Response;
-import com.system.backend.manage.building.dto.ResponseDetails;
+import com.system.backend.manage.building.dto.entrada.AuthTokenDTO;
+import com.system.backend.manage.building.dto.salida.Response;
+import com.system.backend.manage.building.dto.salida.ResponseDetails;
 import com.system.backend.manage.building.service.UsuarioService;
 import com.system.backend.manage.building.utils.GenerateToken;
 

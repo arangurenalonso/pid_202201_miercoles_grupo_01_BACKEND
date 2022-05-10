@@ -13,10 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.system.backend.manage.building.constant.UserImplConstant;
-import com.system.backend.manage.building.dto.PropietarioCreate;
-import com.system.backend.manage.building.dto.PropietarioRespuesta;
-import com.system.backend.manage.building.dto.PropietarioUpdate;
-import com.system.backend.manage.building.dto.UpdatePropietarioDepartamentosDTO;
+import com.system.backend.manage.building.dto.entrada.PropietarioDTO;
+import com.system.backend.manage.building.dto.entrada.PropietarioUpdate;
+import com.system.backend.manage.building.dto.entrada.UpdatePropietarioDepartamentosDTO;
 import com.system.backend.manage.building.entity.Departamento;
 import com.system.backend.manage.building.entity.Familiar;
 import com.system.backend.manage.building.entity.Propietario;

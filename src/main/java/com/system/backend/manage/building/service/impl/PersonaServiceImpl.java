@@ -49,6 +49,13 @@ public class PersonaServiceImpl  implements PersonaService {
 	}
 
 
+	@Override
+	public Persona BuscarPersonaId(long id) {
+		Persona persona=personaRepo.findById(id).orElseThrow(() -> new CustomAppException(
+				"La persona con id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		return persona;
+	}
 	
 	
 	

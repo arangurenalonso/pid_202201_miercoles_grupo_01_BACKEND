@@ -1,4 +1,4 @@
-package com.system.backend.manage.building.dto;
+package com.system.backend.manage.building.dto.entrada;
 
 
 

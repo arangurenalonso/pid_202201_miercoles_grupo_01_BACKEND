@@ -11,17 +11,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.system.backend.manage.building.dto.entrada.DepartamentoDTO;
+import com.system.backend.manage.building.dto.entrada.FamiliarCreateDTO;
+import com.system.backend.manage.building.dto.entrada.MascotaDTO;
+import com.system.backend.manage.building.dto.entrada.PropietarioDTO;
+import com.system.backend.manage.building.dto.entrada.VisitanteDTO;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.jsonignore.DepartamentoIgnoreProperties;
 import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.PropietarioService;
-import com.system.backend.manage.building.dto.DepartamentoDTO;
-import com.system.backend.manage.building.dto.FamiliarCreateDTO;
-import com.system.backend.manage.building.dto.MascotaDTO;
-import com.system.backend.manage.building.dto.PropietarioCreate;
-import com.system.backend.manage.building.dto.VisitanteDTO;
 import com.system.backend.manage.building.service.DepartamentoService;
 import com.system.backend.manage.building.service.FamiliarService;
 import com.system.backend.manage.building.service.MascotaService;
@@ -70,8 +70,6 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			Persona per2 = new Persona(null, "will", "Smith", "88888888", true, new Date());
 			Persona per3 = new Persona(null, "jim", "Carry", "77777777", true, new Date());
 			Persona per4 = new Persona(null, "arnold", "Schwarzenegger", "66666666", true, new Date());
-			Persona per5 = new Persona(null, "admin", "master", "00000000", true, new Date());
-			personaService.savePersona(per5);
 			
 			userService.saveUser(new Usuario(null, "john@gmail.com", "1234", null, per1, new Date(), new Date(), true,
 					true, new HashSet<>()));
@@ -100,7 +98,19 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			
 			
 			VisitanteDTO visitanteDTO= new VisitanteDTO(null,"Armando", "Chancahuana Verdi","44875869",(long)3);
+			VisitanteDTO visitanteDTO1= new VisitanteDTO(null,"Teresa ", "Crosby","75487857",(long)3);
+			VisitanteDTO visitanteDTO2= new VisitanteDTO(null,"James", "Berry","85744744",(long)3);
+			VisitanteDTO visitanteDTO3= new VisitanteDTO(null,"Stephen ", "Velez","45788897",(long)3);
+			VisitanteDTO visitanteDTO4= new VisitanteDTO(null,"Denise ", "Garza","74877874",(long)3);
+			VisitanteDTO visitanteDTO5= new VisitanteDTO(null,"Jeremy ", "Rodriguez","74258612",(long)3);
+			VisitanteDTO visitanteDTO6= new VisitanteDTO(null,"Scott ", "Morgan","74578455",(long)3);
 			visitanteService.crearVisitante(visitanteDTO);
+			visitanteService.crearVisitante(visitanteDTO1);
+			visitanteService.crearVisitante(visitanteDTO2);
+			visitanteService.crearVisitante(visitanteDTO3);
+			visitanteService.crearVisitante(visitanteDTO4);
+			visitanteService.crearVisitante(visitanteDTO5);
+			visitanteService.crearVisitante(visitanteDTO6);
 			
 
 			departService.crearDepartamento(new DepartamentoDTO(null,"110","7851311",1,2,true,(long)1));
@@ -120,14 +130,28 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
             departService.crearDepartamento(new DepartamentoDTO(null,"717","7315567",7,1,true,(long)1));
             departService.crearDepartamento(new DepartamentoDTO(null,"718","7013463",7,3,true,(long)1));
 
-           ArrayList<DepartamentoIgnoreProperties> departamento=   new ArrayList<>();
-           DepartamentoIgnoreProperties depIg=new DepartamentoIgnoreProperties();
-           depIg.setId((long)1);
-           departamento.add(depIg);
-            PropietarioCreate propietario1 = 
-					new PropietarioCreate(null,date1, "997055037", "Jose Alonso", "Aranguren Martinez", "70919821","aranguren.alonso@gmail.com","12345",(long)2,departamento);
+           ArrayList<DepartamentoIgnoreProperties> departamentos1=   new ArrayList<>();
+           DepartamentoIgnoreProperties depIg1=new DepartamentoIgnoreProperties();
+           depIg1.setId((long)1);
+           DepartamentoIgnoreProperties depIg2=new DepartamentoIgnoreProperties();
+           depIg2.setId((long)2);
+           departamentos1.add(depIg1);
+           departamentos1.add(depIg2);
+           
+           ArrayList<DepartamentoIgnoreProperties> departamentos2=   new ArrayList<>();
+           DepartamentoIgnoreProperties depIg3=new DepartamentoIgnoreProperties();
+           depIg3.setId((long)3);
+           departamentos2.add(depIg3);
+           
+           
+            PropietarioDTO propietario1 = 
+					new PropietarioDTO(null,date1, "997055037", "Jose Alonso", "Aranguren Martinez", "70919821","aranguren.alonso@gmail.com","12345",(long)2,departamentos1);
 			propietarioService.savePropietario(propietario1);
 
+			PropietarioDTO propietario2 = 
+					new PropietarioDTO(null,date1, "997755154", "Marco", "Aurelio Gacia", "44565251","marco.aurelio@gmail.com","12345",(long)2,departamentos2);
+			propietarioService.savePropietario(propietario2);
+			
 			FamiliarCreateDTO familiarNuevo1=new FamiliarCreateDTO(null,date3,"Padre","José Bernardo", "Aranguren Carvajal","08022057",(long)4);
 			FamiliarCreateDTO familiarNuevo2=new FamiliarCreateDTO(null,date3,"Madre","Vilma Gloria", "Martinez Dorival","08022056",(long)4);
 			familiarService.crearFamiliar(familiarNuevo1, (long)1);

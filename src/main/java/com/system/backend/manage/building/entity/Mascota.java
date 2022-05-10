@@ -15,6 +15,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
@@ -58,7 +59,7 @@ public class Mascota {
 	
 	@ManyToOne
 	@JoinColumn(name="propietario_id")
-	//@JsonIgnore
+	@JsonIgnore
 	private Propietario propietario;
 	
 	@ManyToOne(targetEntity = Persona.class, fetch = FetchType.EAGER)

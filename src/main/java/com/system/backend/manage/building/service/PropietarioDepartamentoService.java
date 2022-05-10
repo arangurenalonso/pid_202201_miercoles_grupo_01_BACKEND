@@ -1,10 +1,9 @@
 package com.system.backend.manage.building.service;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.system.backend.manage.building.dto.UpdatePropietarioDepartamentosDTO;
+import com.system.backend.manage.building.dto.entrada.UpdatePropietarioDepartamentosDTO;
 import com.system.backend.manage.building.entity.PropietarioDepartamento;
 
 

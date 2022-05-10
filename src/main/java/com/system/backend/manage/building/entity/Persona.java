@@ -18,9 +18,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
@@ -40,7 +37,7 @@ import lombok.ToString;
 @Entity
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
 @Table(name = "personas")
-@JsonIgnoreProperties({ "children", "departamentosRegistrados", "mascotasRegistrados" })
+@JsonIgnoreProperties({ "children", "departamentosRegistrados", "mascotasRegistrados","servicioRegistro" ,"visitaRegistro"})
 public class Persona implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,12 +66,14 @@ public class Persona implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createAt;
 
+	//@JsonManagedReference
 	@OneToOne(mappedBy = "persona")
-	@JsonManagedReference
 	@JsonIncludeProperties(value = { "id", "email", "foto", "lastLoginDateDisplay", "lastLoginDate", "isNotLocked",
 			"isActive", "permiso" })
 	private Usuario usuario;
 
+	
+	//@JsonManagedReference
 	@ManyToOne(targetEntity = Persona.class, fetch = FetchType.EAGER)
 	@JsonIncludeProperties(value = { "id", "nombre", "apellido" })
 	private Persona personaRegistro;
@@ -106,5 +105,13 @@ public class Persona implements Serializable {
 	@OneToMany(mappedBy = "personaRegistro", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonIncludeProperties(value = { "id" })
 	private Set<Departamento> mascotasRegistrados = new HashSet<>();
+	
+	@OneToMany(mappedBy = "personaRegistro", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonIncludeProperties(value = { "id" })
+	private Set<Departamento> servicioRegistro = new HashSet<>();
+	
+	@OneToMany(mappedBy = "personaRegistro", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonIncludeProperties(value = { "id" })
+	private Set<Visita> visitaRegistro = new HashSet<>();
 
 }

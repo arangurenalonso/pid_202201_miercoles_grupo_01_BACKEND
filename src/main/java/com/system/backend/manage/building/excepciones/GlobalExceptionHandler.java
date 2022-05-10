@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.system.backend.manage.building.dto.ResponseDetails;
-import com.system.backend.manage.building.dto.Response;
+import com.system.backend.manage.building.dto.salida.Response;
+import com.system.backend.manage.building.dto.salida.ResponseDetails;
 
 /******************************************************************
  * Maneja todas las captura de excepción de toda nuestra aplicacion
@@ -54,13 +54,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	protected ResponseEntity<?> handleConflict(DataIntegrityViolationException ex, WebRequest webRequest) {
 
-		String errorMessage =ex.getMessage() + ":" + ex.getMostSpecificCause().getMessage();
-		ResponseDetails errorDetalles = new ResponseDetails(500, errorMessage, webRequest.getDescription(false));
+		
+		ResponseDetails responseDetaile = new ResponseDetails();
+		responseDetaile.setHttpStatusCode(500);//HttpStatus.INTERNAL_SERVER_ERROR
+		responseDetaile.setMensaje("Conflicto con las restriccciones");
+		Map<String, String> errores = new HashMap<>();
+		errores.put( ex.getMessage(), ex.getMostSpecificCause().getMessage());
+		responseDetaile.setData(errores);		
+		
 		Response response = new Response();
 		response.setType("Error");
-		response.setDetalle(errorDetalles);
+		response.setDetalle(responseDetaile);
 		response.setReason(
-				"Conflicto con las restriccciones; la información no cumple las reglas establecidas en la tabla de la BD");
+				"la información no cumple las reglas establecidas en la tabla de la BD");
 		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
