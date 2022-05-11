@@ -2,8 +2,6 @@ package com.system.backend.manage.building.controller;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.system.backend.manage.building.constant.UserImplConstant;
 import com.system.backend.manage.building.dto.salida.Response;
 import com.system.backend.manage.building.dto.salida.ResponseDetails;
 import com.system.backend.manage.building.entity.Propietario;

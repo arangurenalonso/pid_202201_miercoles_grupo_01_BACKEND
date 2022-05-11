@@ -4,41 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.system.backend.manage.building.constant.UserImplConstant;
-import com.system.backend.manage.building.dto.entrada.PropietarioDTO;
-import com.system.backend.manage.building.dto.entrada.PropietarioUpdate;
 import com.system.backend.manage.building.dto.entrada.UpdatePropietarioDepartamentosDTO;
-import com.system.backend.manage.building.entity.Departamento;
-import com.system.backend.manage.building.entity.Familiar;
 import com.system.backend.manage.building.entity.Propietario;
 import com.system.backend.manage.building.entity.PropietarioDepartamento;
-import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.excepciones.CustomAppException;
+import com.system.backend.manage.building.jsonignore.DepartamentoIgnoreProperties;
 import com.system.backend.manage.building.repository.IPropietarioDepartamentoRepository;
 import com.system.backend.manage.building.repository.IPropietarioRepository;
-import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.PropietarioDepartamentoService;
-import com.system.backend.manage.building.service.PropietarioService;
-import com.system.backend.manage.building.service.UsuarioService;
-
 @Service
 public class PropietarioDepartamentoServiceImpl implements PropietarioDepartamentoService {
 
 	@Autowired
 	private IPropietarioRepository propietarioRepositorio;
-	@Autowired
-	private UsuarioService usuarioService;
-
-	@Autowired
-	private PersonaService PersonaServ;
 	@Autowired
 	private IPropietarioDepartamentoRepository propietarioDepartamentoRepository;
 
@@ -62,7 +45,7 @@ public class PropietarioDepartamentoServiceImpl implements PropietarioDepartamen
 		
 		boolean aux = true;
 		
-		for (Departamento depCrear : updatePropietarioDepartamentosDTO.getDepartamentosCrear()) {
+		for (DepartamentoIgnoreProperties depCrear : updatePropietarioDepartamentosDTO.getDepartamentosCrear()) {
 			aux=true;
 			PropietarioDepartamento propDep = null;
 			for (PropietarioDepartamento y : propietarioDepartamentosEncontrado) {

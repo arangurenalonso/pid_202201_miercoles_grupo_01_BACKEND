@@ -75,6 +75,8 @@ public class Departamento {
 	@ManyToOne(targetEntity = Persona.class, fetch = FetchType.EAGER)
 	@JsonIncludeProperties(value = {"id","nombre","apellido"})
     private Persona personaRegistro;
+
+
 	
 
 	

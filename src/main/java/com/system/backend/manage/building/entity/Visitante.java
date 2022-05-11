@@ -32,6 +32,7 @@ import lombok.ToString;
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
 @Table(name = "visitantes")
+
 public class Visitante {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

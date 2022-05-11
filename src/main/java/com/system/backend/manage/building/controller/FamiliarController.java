@@ -18,7 +18,6 @@ import com.system.backend.manage.building.dto.entrada.FamiliarCreateDTO;
 import com.system.backend.manage.building.dto.salida.Response;
 import com.system.backend.manage.building.dto.salida.ResponseDetails;
 import com.system.backend.manage.building.entity.Familiar;
-import com.system.backend.manage.building.entity.Mascota;
 import com.system.backend.manage.building.service.FamiliarService;
 
 @RestController
