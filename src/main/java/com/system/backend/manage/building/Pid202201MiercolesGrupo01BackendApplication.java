@@ -15,6 +15,7 @@ import com.system.backend.manage.building.dto.entrada.DepartamentoDTO;
 import com.system.backend.manage.building.dto.entrada.FamiliarCreateDTO;
 import com.system.backend.manage.building.dto.entrada.MascotaDTO;
 import com.system.backend.manage.building.dto.entrada.PropietarioDTO;
+import com.system.backend.manage.building.dto.entrada.VisitaDTO;
 import com.system.backend.manage.building.dto.entrada.VisitanteDTO;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Role;
@@ -26,6 +27,7 @@ import com.system.backend.manage.building.service.DepartamentoService;
 import com.system.backend.manage.building.service.FamiliarService;
 import com.system.backend.manage.building.service.MascotaService;
 import com.system.backend.manage.building.service.UsuarioService;
+import com.system.backend.manage.building.service.VisitaService;
 import com.system.backend.manage.building.service.VisitanteService;
 
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -57,7 +59,8 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			DepartamentoService departService,
 			MascotaService mascotaService,
 			FamiliarService familiarService,
-			VisitanteService visitanteService ) {
+			VisitanteService visitanteService,
+			VisitaService visitaService) {
 		// TODO Auto-generated method stub
 		return args -> {
 			userService.saveRole(new Role(null, "ROLE_USER"));
@@ -143,6 +146,15 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
            depIg3.setId((long)3);
            departamentos2.add(depIg3);
            
+           ArrayList<DepartamentoIgnoreProperties> departamentos3=   new ArrayList<>();
+           DepartamentoIgnoreProperties depIg4=new DepartamentoIgnoreProperties();
+           depIg4.setId((long)4);
+           departamentos3.add(depIg4);
+           
+           ArrayList<DepartamentoIgnoreProperties> departamentos4=   new ArrayList<>();
+           DepartamentoIgnoreProperties depIg5=new DepartamentoIgnoreProperties();
+           depIg5.setId((long)5);
+           departamentos4.add(depIg5);
            
             PropietarioDTO propietario1 = 
 					new PropietarioDTO(null,date1, "997055037", "Jose Alonso", "Aranguren Martinez", "70919821","aranguren.alonso@gmail.com","12345",(long)2,departamentos1);
@@ -151,6 +163,14 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			PropietarioDTO propietario2 = 
 					new PropietarioDTO(null,date1, "997755154", "Marco", "Aurelio Gacia", "44565251","marco.aurelio@gmail.com","12345",(long)2,departamentos2);
 			propietarioService.savePropietario(propietario2);
+			
+			PropietarioDTO propietario3 = 
+					new PropietarioDTO(null,date1, "998653259", "Juan Carlos", "Jhamideh", "45655644","juan.jhamideth@gmail.com","12345",(long)2,departamentos3);
+			propietarioService.savePropietario(propietario3);
+			
+			PropietarioDTO propietario4 = 
+					new PropietarioDTO(null,date1, "999888757", "Jose Luis", "Martinez", "78754777","jose.luis@gmail.com","12345",(long)2,departamentos4);
+			propietarioService.savePropietario(propietario4);
 			
 			FamiliarCreateDTO familiarNuevo1=new FamiliarCreateDTO(null,date3,"Padre","José Bernardo", "Aranguren Carvajal","08022057",(long)4);
 			FamiliarCreateDTO familiarNuevo2=new FamiliarCreateDTO(null,date3,"Madre","Vilma Gloria", "Martinez Dorival","08022056",(long)4);
@@ -161,6 +181,20 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			MascotaDTO mascota2 = new MascotaDTO( null,"perro","boby", "cruzado",(long)1);
 			mascotaService.crearMascota(mascota1,(long) 1);
 			mascotaService.crearMascota(mascota2,(long) 1);
+			
+			VisitaDTO visita1=new VisitaDTO(null,new Date(),null,"Visita a amigos",null,(long)1,(long)1,(long)1,(long)1);
+			visitaService.registrarVisita(visita1);
+		
+			VisitaDTO visita2=new VisitaDTO(null,new Date(),null,"Analizar inventario",null,(long)2,(long)3,(long)2,(long)1);
+			visitaService.registrarVisita(visita2);
+
+			VisitaDTO visita3=new VisitaDTO(null,new Date(),null,"Reunion de trabajo",null,(long)3,(long)4,(long)2,(long)1);
+			visitaService.registrarVisita(visita3);
+
+			VisitaDTO visita4=new VisitaDTO(null,new Date(),null,"Reunion de estudio",null,(long)4,(long)5,(long)3,(long)1);
+			visitaService.registrarVisita(visita4);
+			VisitaDTO visita5=new VisitaDTO(null,new Date(),null,"Reunion de Canto",null,(long)4,(long)5,(long)5,(long)1);
+			visitaService.registrarVisita(visita5);
 		};
 	}
 

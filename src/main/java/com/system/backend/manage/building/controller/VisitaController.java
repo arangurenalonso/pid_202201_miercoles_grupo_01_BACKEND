@@ -37,10 +37,10 @@ public class VisitaController {
 			@RequestParam(value = "sortBy", defaultValue = PaginacionConstant.ORDENAR_POR_DEFECTO, required = false) String ordenarPor,
 			@RequestParam(value = "sortDir", defaultValue = PaginacionConstant.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sorDir,
 			@RequestParam(value = "filtroNombre", defaultValue = PaginacionConstant.FILTRO_POR_DEFECTO, required = false) String filtroNombre,
-			@RequestParam(value = "filtroDNI", defaultValue = PaginacionConstant.ESTADO_POR_DEFECTO, required = false) String filtroDNI,
-			@RequestParam(value = "estado", defaultValue = "1", required = false) int estado
+			@RequestParam(value = "filtroDNI", defaultValue = PaginacionConstant.FILTRO_POR_DEFECTO, required = false) String filtroDNI,
+			@RequestParam(value = "estado", defaultValue = PaginacionConstant.ESTADO_VISITA_POR_DEFECTO, required = false) int estado
     		){
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		
 		PaginacionRespuesta paginacion = visitaService.listadoFiltroPaginacion(numeroDePagina, medidaDePagina, ordenarPor, sorDir,filtroNombre,filtroDNI,estado);
 		
 		ResponseDetails detalleRespuesta = new ResponseDetails(200, "Se encontro el listado correctamente ", paginacion);

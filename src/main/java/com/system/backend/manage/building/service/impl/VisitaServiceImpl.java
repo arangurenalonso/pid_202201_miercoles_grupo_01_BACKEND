@@ -1,6 +1,9 @@
 package com.system.backend.manage.building.service.impl;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.system.backend.manage.building.dto.entrada.VisitaDTO;
 import com.system.backend.manage.building.dto.salida.PaginacionRespuesta;
+import com.system.backend.manage.building.dto.salida.VisitaDTOSalida;
 import com.system.backend.manage.building.entity.Departamento;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Propietario;
@@ -49,7 +53,7 @@ public class VisitaServiceImpl implements VisitaService {
 		vis.setDepartamento(departamento);
 		vis.setPersonaRegistro(persona);
 		vis.setCreateAt(new Date());
-		vis.setEstado(1);
+		vis.setEstado(2);
 		vis.setMotivoVisita(visita.getMotivoVisita());
 		vis.setFechaHoraLlegada(visita.getFechaHoraLlegada());
 
@@ -61,16 +65,20 @@ public class VisitaServiceImpl implements VisitaService {
 	@Override
 	public PaginacionRespuesta listadoFiltroPaginacion(int numeroDePagina, int medidaDePagina, String ordenarPor,
 			String sortDir, String filtroNombre, String filtroDNI, int estado) {
-		
 		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(ordenarPor).ascending()
 				: Sort.by(ordenarPor).descending();
 		Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina, sort);
 
-		Page<Visita> visitaPage=visitaRepo.listarVisitasByNombreDniEstado( estado, pageable);
-		//Page<Visita> visitaPage=visitaRepo.listarVisitasByNombreDniEstado(filtroNombre, filtroDNI, estado, pageable);
+		Page<Visita> visitaPage=visitaRepo.listarVisitasByNombreDniEstado( filtroNombre,filtroDNI,estado, pageable);
+		
+		List<VisitaDTOSalida> listaVisita=visitaPage.getContent()
+				.stream().map(v->{ 
+					return new VisitaDTOSalida(v);
+				}).collect(Collectors.toList());
+		
 		
 		PaginacionRespuesta paginacion = new PaginacionRespuesta();
-		paginacion.setContenido(visitaPage.getContent());
+		paginacion.setContenido(listaVisita);
 		paginacion.setNumeroDePagina(visitaPage.getNumber());
 		paginacion.setMedidaPagina(visitaPage.getSize());
 		paginacion.setTotalElementos(visitaPage.getTotalElements());

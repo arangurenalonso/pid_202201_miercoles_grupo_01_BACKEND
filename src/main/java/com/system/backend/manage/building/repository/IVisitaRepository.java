@@ -20,10 +20,9 @@ public interface IVisitaRepository extends JpaRepository<Visita, Long> {
 			+ " JOIN v.propietario prop "
 			+ " JOIN vis.persona visPer "
 			+ " where "
-//			+ " CONCAT(visPer.nombre,' ',visPer.apellido) LIKE CONCAT('%',:nombre,'%') AND "
-//			+ " visPer.dni LIKE CONCAT('%',:dni,'%') and"
+			+ " CONCAT(visPer.nombre,' ',visPer.apellido) LIKE CONCAT('%',:nombre,'%') and "
+			+ " visPer.dni LIKE CONCAT('%',:dni,'%') and"
 			+ " v.estado= :estado")
-	public abstract Page<Visita> listarVisitasByNombreDniEstado( int estado,Pageable pageable);
-	//public abstract Page<Visita> listarVisitasByNombreDniEstado( String nombre,String dni,int estado,Pageable pageable);
+	public abstract Page<Visita> listarVisitasByNombreDniEstado( String nombre,String dni,int estado,Pageable pageable);
 
 }
