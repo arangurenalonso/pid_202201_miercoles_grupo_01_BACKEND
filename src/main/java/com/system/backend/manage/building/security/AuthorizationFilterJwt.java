@@ -23,51 +23,13 @@ import com.system.backend.manage.building.utils.GenerateToken;
 
 @Component
 public class AuthorizationFilterJwt extends OncePerRequestFilter {
-//	@Autowired
-//	private JWTTokenProvider jwtTokenProvider;
-//
-////	@Override
-//	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-//			throws ServletException, IOException {
-//		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> AuthorizationFilterJwt");
-//		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Necesita ser authenticada "+isPathNeedsToBeAuthorized(request));
-//		if (!isPathNeedsToBeAuthorized(request)) {
-//			filterChain.doFilter(request, response);
-//			return;
-//		}
-//		if (request.getMethod().equalsIgnoreCase(SecurityConstant.OPTIONS_HTTP_METHOD)) {
-//			response.setStatus(HttpStatus.OK.value());
-//		} else {
-//			String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-//			if (authorizationHeader == null || !authorizationHeader.startsWith(SecurityConstant.TOKEN_PREFIX)) {
-//				filterChain.doFilter(request, response);
-//				return;
-//			}
-//			String token = authorizationHeader.substring(SecurityConstant.TOKEN_PREFIX.length());
-//			String username = jwtTokenProvider.getSubject(token);
-//			if (jwtTokenProvider.isTokenValid(username, token)&& SecurityContextHolder.getContext().getAuthentication() == null) {
-//				List<GrantedAuthority> authorities = jwtTokenProvider.getAuthorities(token);
-//				Authentication authentication = jwtTokenProvider.getAuthentication(username, authorities, request);
-//				SecurityContextHolder.getContext().setAuthentication(authentication);
-//			} else {
-//				SecurityContextHolder.clearContext();
-//			}
-//		}
-//		filterChain.doFilter(request, response);
-//	}
-
+	
 	private boolean isPathNeedsToBeAuthorized(HttpServletRequest request) {
 		for (String path : SecurityConstant.PUBLIC_URLS) {
 			if (request.getServletPath().startsWith(path)) {
 				return false;
 			}
-		} /**
-			 * if (request.getServletPath().equals("/api/auth/") ||
-			 * request.getServletPath().equals("/api/auth/token/refresh") ||
-			 * request.getServletPath().equals("/api/persona/list") ||
-			 * request.getServletPath().startsWith("/api/propietario") ||
-			 * request.getServletPath().startsWith("/api/visitante")) { return false; }
-			 */
+		}
 
 		return true;
 	}
@@ -77,25 +39,18 @@ public class AuthorizationFilterJwt extends OncePerRequestFilter {
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
-
-//	 @Autowired
-//	    @Qualifier("customExceptionResolver")
-//	    private HandlerExceptionResolver resolver;
-
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws CustomAppException,ServletException, IOException {
-//		try {
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Entramos a AuthorizationFilterJwt: ");
 
 			if (!isPathNeedsToBeAuthorized(request)) {
 				filterChain.doFilter(request, response);
 				return;
 			} 
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Continuamos con la obtencion del token: ");
 			// obtenemos el token de la solicitud HTTP
 			String token = generateToken.getBearerTokend(request,response);
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Continuamos con Validar el token yeah: ");
 
 
 //			 Validamos el token haciendo la Decodificamos el token

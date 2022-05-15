@@ -2,6 +2,8 @@ package com.system.backend.manage.building.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 import com.system.backend.manage.building.constant.UserImplConstant;
 import com.system.backend.manage.building.dto.entrada.VisitanteDTO;
 import com.system.backend.manage.building.dto.salida.PaginacionRespuesta;
+import com.system.backend.manage.building.dto.salida.VisitaDTOSalida;
+import com.system.backend.manage.building.dto.salida.VisitanteDTOSalida;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Visitante;
 import com.system.backend.manage.building.excepciones.CustomAppException;
@@ -124,25 +128,30 @@ public class VisitanteServiceImpl implements VisitanteService{
 		Sort sort=sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
 		Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina,sort);
 		
-		Page<Visitante> visitante;
+		Page<Visitante> visitantePage;
 		switch (filtroBy) {
 		  case "nombreyapellido":
-			  visitante = visitanteRepositorio.buscarVisitanteByNombe(filtro,pageable);
+			  visitantePage = visitanteRepositorio.buscarVisitanteByNombe(filtro,pageable);
 		    break;
 		  case "dni":
-			  visitante = visitanteRepositorio.buscarVisitanteByDNI(filtro,pageable);
+			  visitantePage = visitanteRepositorio.buscarVisitanteByDNI(filtro,pageable);
 		    break;
 		  default:
-			  visitante = visitanteRepositorio.buscarVisitanteByNombe("",pageable);
+			  visitantePage = visitanteRepositorio.buscarVisitanteByNombe("",pageable);
 		} 
-
+		List<VisitanteDTOSalida> listaVisita=visitantePage.getContent()
+				.stream().map(v->{ 
+					return new VisitanteDTOSalida(v);
+				}).collect(Collectors.toList());
+		
+		
 		PaginacionRespuesta paginacion= new PaginacionRespuesta();
-		paginacion.setContenido(visitante.getContent());
-		paginacion.setNumeroDePagina(visitante.getNumber());
-		paginacion.setMedidaPagina(visitante.getSize());
-		paginacion.setTotalElementos(visitante.getTotalElements());
-		paginacion.setTotalPaginas(visitante.getTotalPages());
-		paginacion.setUltima(visitante.isLast());
+		paginacion.setContenido(listaVisita);
+		paginacion.setNumeroDePagina(visitantePage.getNumber());
+		paginacion.setMedidaPagina(visitantePage.getSize());
+		paginacion.setTotalElementos(visitantePage.getTotalElements());
+		paginacion.setTotalPaginas(visitantePage.getTotalPages());
+		paginacion.setUltima(visitantePage.isLast());
 		return paginacion;
 	}
 
