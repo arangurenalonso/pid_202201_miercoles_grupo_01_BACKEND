@@ -9,8 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.system.backend.manage.building.constant.UserImplConstant;
 import com.system.backend.manage.building.dto.entrada.VisitaDTO;
 import com.system.backend.manage.building.dto.salida.PaginacionRespuesta;
 import com.system.backend.manage.building.dto.salida.VisitaDTOSalida;
@@ -19,6 +21,7 @@ import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Propietario;
 import com.system.backend.manage.building.entity.Visita;
 import com.system.backend.manage.building.entity.Visitante;
+import com.system.backend.manage.building.excepciones.CustomAppException;
 import com.system.backend.manage.building.repository.IVisitaRepository;
 import com.system.backend.manage.building.service.DepartamentoService;
 import com.system.backend.manage.building.service.PersonaService;
@@ -87,4 +90,29 @@ public class VisitaServiceImpl implements VisitaService {
 		return paginacion;
 	}
 
+	@Override
+	public Visita finalizarVisita(VisitaDTO visitaDTO) {
+		Visita visita=BuscarPorID(visitaDTO.getId());
+		visita.setEstado(3);
+		visita.setFechaHoraSalida(visitaDTO.getFechaHoraSalida());
+		//visita.setFechaHoraSalida(new Date());
+		visita.setObservacionSalida(visitaDTO.getObservacionSalida());
+		Visita visActualizada=visitaRepo.save(visita);
+		return visActualizada;
+	}
+
+	@Override
+	public Visita BuscarPorID(long id) {
+		Visita visita=visitaRepo.findById(id).orElseThrow(() -> new CustomAppException(
+				"El id '" + id + "' no existe en la Base de datos", 400,
+				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
+		return visita;
+	}
+	
+	@Override
+	public VisitaDTOSalida BuscarVisita(long id) {
+		Visita visita=BuscarPorID(id);
+		VisitaDTOSalida vs=new VisitaDTOSalida(visita);		
+		return vs;
+	}
 }

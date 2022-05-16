@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import com.system.backend.manage.building.constant.UserImplConstant;
 import com.system.backend.manage.building.dto.entrada.VisitanteDTO;
 import com.system.backend.manage.building.dto.salida.PaginacionRespuesta;
-import com.system.backend.manage.building.dto.salida.VisitaDTOSalida;
 import com.system.backend.manage.building.dto.salida.VisitanteDTOSalida;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.Visitante;
@@ -58,7 +57,6 @@ public class VisitanteServiceImpl implements VisitanteService{
 	
 	@Override
 	public Visitante actualizar(VisitanteDTO visitanteUpdate, long id) {
-		// TODO Auto-generated method stub
 	
 		Visitante visitante=visitanteRepositorio.findById(id).orElseThrow(() -> new CustomAppException(
 				"El visitante con id '" + id + "' no existe en la Base de datos", 400,
@@ -109,7 +107,6 @@ public class VisitanteServiceImpl implements VisitanteService{
 	
 	@Override
 	public Visitante eliminar(long id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

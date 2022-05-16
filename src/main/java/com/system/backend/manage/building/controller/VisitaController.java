@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import com.system.backend.manage.building.dto.entrada.VisitaDTO;
 import com.system.backend.manage.building.dto.salida.PaginacionRespuesta;
 import com.system.backend.manage.building.dto.salida.Response;
 import com.system.backend.manage.building.dto.salida.ResponseDetails;
+import com.system.backend.manage.building.dto.salida.VisitaDTOSalida;
 import com.system.backend.manage.building.entity.Visita;
 import com.system.backend.manage.building.service.VisitaService;
 
@@ -51,12 +53,29 @@ public class VisitaController {
 	
 	
 	@PostMapping("/registrar")
-	public ResponseEntity<?> registrar( @Valid@RequestBody VisitaDTO visita){
+	public ResponseEntity<?> registrar( @RequestBody VisitaDTO visita){
 		
 		Visita vis = visitaService.registrarVisita(visita);		
 		ResponseDetails detalles = new ResponseDetails(200, "Se Registro la visita correctamente",vis );
 		Response response = new Response("Success","Registro Exitoso",detalles);
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/finalizarVisita")
+	public ResponseEntity<?> finalizarVisita( @Valid@RequestBody VisitaDTO visita){
+		
+		Visita vis = visitaService.finalizarVisita(visita);		
+		ResponseDetails detalles = new ResponseDetails(200, "Visita actualizada correctamente",vis );
+		Response response = new Response("Success","Visita Finalizada con exitoso",detalles);
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> buscarVisita(@PathVariable(name = "id") long id){
+		VisitaDTOSalida vis = visitaService.BuscarVisita(id);		
+		ResponseDetails detalles = new ResponseDetails(200, "Visita encontrada",vis );
+		Response response = new Response("Success","Busqueda Exitosa",detalles);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 }
