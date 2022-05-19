@@ -2,7 +2,6 @@ package com.system.backend.manage.building.dto.salida;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
-import com.system.backend.manage.building.entity.Propietario;
 import com.system.backend.manage.building.entity.Visita;
 
 import lombok.AllArgsConstructor;

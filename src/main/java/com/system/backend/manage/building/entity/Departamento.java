@@ -72,6 +72,10 @@ public class Departamento {
 	@JsonIncludeProperties(value = {"id","fechaHoraLlegada","fechaHoraSalida","motivoVisita"})
 	private Set<Visita> visitas = new HashSet<>();
 	
+	@OneToMany(mappedBy = "departamento",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonIncludeProperties(value = {"id","month","year"})
+	private Set<ProgramacionPagos> programacionPagos = new HashSet<>();
+	
 	@ManyToOne(targetEntity = Persona.class, fetch = FetchType.EAGER)
 	@JsonIncludeProperties(value = {"id","nombre","apellido"})
     private Persona personaRegistro;

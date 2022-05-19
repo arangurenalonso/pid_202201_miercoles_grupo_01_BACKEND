@@ -2,6 +2,7 @@ package com.system.backend.manage.building.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,10 @@ import com.system.backend.manage.building.jsonignore.DepartamentoIgnorePropertie
 import com.system.backend.manage.building.repository.IPropietarioDepartamentoRepository;
 import com.system.backend.manage.building.repository.IPropietarioRepository;
 import com.system.backend.manage.building.service.PropietarioDepartamentoService;
+
+import lombok.extern.slf4j.Slf4j;
 @Service
+@Slf4j
 public class PropietarioDepartamentoServiceImpl implements PropietarioDepartamentoService {
 
 	@Autowired
@@ -44,6 +48,9 @@ public class PropietarioDepartamentoServiceImpl implements PropietarioDepartamen
 		
 		
 		boolean aux = true;
+		
+
+				
 		
 		for (DepartamentoIgnoreProperties depCrear : updatePropietarioDepartamentosDTO.getDepartamentosCrear()) {
 			aux=true;
@@ -81,6 +88,23 @@ public class PropietarioDepartamentoServiceImpl implements PropietarioDepartamen
 				.buscarDepartamentosDelPropietario(id_propietario);
 		return propDep;
 
+		
+//		Filtrar con dos arrays
+//		List<DepartamentoIgnoreProperties> listDepCrear=updatePropietarioDepartamentosDTO.getDepartamentosCrear()
+//			    .stream()
+//			    .filter(x -> {
+//			    	return !propietarioDepartamentosEncontrado.contains(x);
+//			    	})
+//			    .collect(Collectors.toList());
+//		log.info(listDepCrear.toString());
+		
+//		 Iterator<Customer> iterator = customers.iterator();
+//		    while (iterator.hasNext()) {
+//		        Customer customer = iterator.next();
+//		        if (customer.getName().equals(name)) {
+//		            return customer;
+//		        }
+//		    }
 	}
 
 }

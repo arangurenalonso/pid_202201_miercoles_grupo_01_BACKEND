@@ -12,4 +12,7 @@ public class UserImplConstant {
     public static String DEPARTAMENTO_EXISTENTE(String numDepartamento) {
     	return "Departamento N°"+numDepartamento+ " ya creado";
     }
+    public static String NOMBRE_EXISTENTE(String nombre) {
+    	return "El Nombre '"+nombre+ "' ya fue creado";
+    }
 }

@@ -71,22 +71,8 @@ public class DepartamentoControlador {
 	@PostMapping
 	public ResponseEntity<?> guardarDepartamento(@Valid @RequestBody DepartamentoDTO departamentoDTO) {
 		DepartamentoDTO departamentoRespuesta = departamentoservice.crearDepartamento(departamentoDTO);
-		System.out.println(">>>>>>>>>>>>>>>>crear departamento: " + departamentoRespuesta);
-		if (departamentoRespuesta == null) {
-
-			ResponseDetails errorDetalles = new ResponseDetails(401, "No se pudo crear",
-					departamentoRespuesta);
-			Response response = new Response();
-			response.setType("Error");
-			response.setDetalle(errorDetalles);
-			response.setReason("Data no valida ");
-			return new ResponseEntity<>(departamentoRespuesta, HttpStatus.NO_CONTENT);
-		}
-		ResponseDetails errorDetalles = new ResponseDetails(200, "Se creo el departamento", departamentoRespuesta);
-		Response response = new Response();
-		response.setType("Success");
-		response.setDetalle(errorDetalles);
-		response.setReason("Se creo el departamento");
+		ResponseDetails detalles = new ResponseDetails(200, "Se creo el departamento", departamentoRespuesta);
+		Response response = new Response("Success","Se creo el departamento",detalles);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 
 	}
@@ -115,8 +101,7 @@ public class DepartamentoControlador {
 	
 	@DeleteMapping("/changeActive/{id}")
 	public ResponseEntity<?> actualizar(@PathVariable(name = "id") long id){
-		Departamento departamento = departamentoservice.changeActive(id);
-		
+		Departamento departamento = departamentoservice.changeActive(id);		
 		ResponseDetails detalles = new ResponseDetails(200,departamento.getEstado()?"Cambio Exitoso-> Departamento Activo":"Cambio Exitoso -> Departamento Inactiva",departamento );
 		Response response = new Response("Success","Actualización exitosa",detalles);
 		return new ResponseEntity<>(response, HttpStatus.OK);

@@ -13,8 +13,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.system.backend.manage.building.dto.entrada.DepartamentoDTO;
 import com.system.backend.manage.building.dto.entrada.FamiliarCreateDTO;
+import com.system.backend.manage.building.dto.entrada.IncidenteDTO;
 import com.system.backend.manage.building.dto.entrada.MascotaDTO;
 import com.system.backend.manage.building.dto.entrada.PropietarioDTO;
+import com.system.backend.manage.building.dto.entrada.ServicioDTO;
 import com.system.backend.manage.building.dto.entrada.VisitaDTO;
 import com.system.backend.manage.building.dto.entrada.VisitanteDTO;
 import com.system.backend.manage.building.entity.Persona;
@@ -23,8 +25,10 @@ import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.jsonignore.DepartamentoIgnoreProperties;
 import com.system.backend.manage.building.service.PersonaService;
 import com.system.backend.manage.building.service.PropietarioService;
+import com.system.backend.manage.building.service.ServicioService;
 import com.system.backend.manage.building.service.DepartamentoService;
 import com.system.backend.manage.building.service.FamiliarService;
+import com.system.backend.manage.building.service.IncidenteService;
 import com.system.backend.manage.building.service.MascotaService;
 import com.system.backend.manage.building.service.UsuarioService;
 import com.system.backend.manage.building.service.VisitaService;
@@ -60,7 +64,9 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			MascotaService mascotaService,
 			FamiliarService familiarService,
 			VisitanteService visitanteService,
-			VisitaService visitaService) {
+			VisitaService visitaService,
+			ServicioService servicioService,
+			IncidenteService incidenteService) {
 		// TODO Auto-generated method stub
 		return args -> {
 			userService.saveRole(new Role(null, "ROLE_USER"));
@@ -195,6 +201,35 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			visitaService.registrarVisita(visita4);
 			VisitaDTO visita5=new VisitaDTO(null,new Date(),null,"Reunion de Canto",null,(long)4,(long)5,(long)5,(long)1);
 			visitaService.registrarVisita(visita5);
+			
+			
+			ServicioDTO servicio1=new ServicioDTO(null,"Luz","Servicio de Luz que se consume en las áreas comunes",10.50,(long)1);
+			ServicioDTO servicio2=new ServicioDTO(null,"Agua","Servicio de Agua que se consume en las áreas comunes",12.50,(long)1);
+			ServicioDTO servicio3=new ServicioDTO(null,"Trio Movistar","Servicio de movistar Internet/Cable/Telefono",35.70,(long)1);
+			ServicioDTO servicio4=new ServicioDTO(null,"Ascensor","Cuota mensual para el mantenimiento al Ascensor",35.70,(long)1);
+			ServicioDTO servicio5=new ServicioDTO(null,"Vigilancia","Servicio de Vigilancia y control de entrada",50.00,(long)1);
+			ServicioDTO servicio6=new ServicioDTO(null,"Limpieza","Servicio de limpieza de los ambientes comunes",40.00,(long)1);
+			
+			servicioService.registrar(servicio1);
+			servicioService.registrar(servicio2);
+			servicioService.registrar(servicio3);
+			servicioService.registrar(servicio4);
+			servicioService.registrar(servicio5);
+			servicioService.registrar(servicio6);
+			
+			IncidenteDTO incidente1= new IncidenteDTO(null,"Ruidos en la madrugada","Ruido entre 11.00 pm a 06:00 am",(long)1);
+			IncidenteDTO incidente2= new IncidenteDTO(null,"Fiesta sin Autorización","Realizó una fiesta sin autorización de la junta de propietarios",(long)1);
+			IncidenteDTO incidente3= new IncidenteDTO(null,"Suiedad de Mascotas","La mascota ensucio las áreas comunes y no se limpio",(long)1);
+			IncidenteDTO incidente4= new IncidenteDTO(null,"Daños a las áreas comunes","Destrucción o deterioro de áreas comunes",(long)1);
+			IncidenteDTO incidente5= new IncidenteDTO(null,"Pelea","Pelea ocurrida al interior del edificio",(long)1);
+			
+			incidenteService.registrar(incidente1);
+			incidenteService.registrar(incidente2);
+			incidenteService.registrar(incidente3);
+			incidenteService.registrar(incidente4);
+			incidenteService.registrar(incidente5);
+			
+			
 		};
 	}
 
