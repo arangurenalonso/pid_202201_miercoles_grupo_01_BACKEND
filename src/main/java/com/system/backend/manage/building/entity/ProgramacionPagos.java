@@ -1,7 +1,6 @@
 package com.system.backend.manage.building.entity;
 
 import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,21 +47,18 @@ public class ProgramacionPagos {
 	private Servicio servicio;
 	
 	
-	@Column(name = "month")
-	private int month;
+	@ManyToOne
+	@JoinColumn(name="month_year_id")
+	@JsonIncludeProperties(value = {"id","month","year"})
+	private MonthYear monthYear;
 	
-	@Column(name = "year")
-	private int year;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_at",updatable = false)
 	private Date createAt;
 
-	@Column(name = "is_active")
-	private Boolean isActive;
+	@Column(name = "estado")
+	private int estado;//1: pendiente, 2: cancelado
 	
-	@ManyToOne(targetEntity = Persona.class, fetch = FetchType.EAGER)
-	@JsonIncludeProperties(value = {"id","nombre","apellido"})
-    private Persona personaRegistro;
 	
 }

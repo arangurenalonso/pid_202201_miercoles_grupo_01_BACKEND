@@ -29,7 +29,10 @@ import com.system.backend.manage.building.service.PropietarioService;
 import com.system.backend.manage.building.service.VisitaService;
 import com.system.backend.manage.building.service.VisitanteService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class VisitaServiceImpl implements VisitaService {
 
 	@Autowired
@@ -45,6 +48,8 @@ public class VisitaServiceImpl implements VisitaService {
 
 	@Override
 	public Visita registrarVisita(VisitaDTO visita) {
+		isVisitaInProgress(visita.getVisitante_id());
+		
 		Visitante visitante = visitanteService.BuscarVisitante(visita.getVisitante_id());
 		Propietario propietario = propietarioService.obtenerPropietarioPorId(visita.getPropietario_id());
 		Departamento departamento = departamentoService.obtenerDepartamentosPorId(visita.getDepartamento_id());
@@ -114,5 +119,17 @@ public class VisitaServiceImpl implements VisitaService {
 		Visita visita=BuscarPorID(id);
 		VisitaDTOSalida vs=new VisitaDTOSalida(visita);		
 		return vs;
+	}
+	
+	private boolean isVisitaInProgress(long visitanteId) {
+		List<Visita> visitasEnProgreso = visitaRepo.isVisitaInProgress(visitanteId);
+		log.info("-------------AAA------------");
+		log.info(visitasEnProgreso.size()+"");
+		if (visitasEnProgreso.size()>0) {
+			throw new CustomAppException("El Visitante se encuentra en progreso", 409,
+					"El visitante debe finalizar su visita actual para que pueda ser registrado otra vez" , "VisitanteInProgressException",
+					HttpStatus.CONFLICT);
+		}
+		return true;
 	}
 }

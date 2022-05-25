@@ -1,6 +1,7 @@
 package com.system.backend.manage.building.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -116,6 +117,13 @@ public class ServicioServiceImpl implements ServicioService {
 					HttpStatus.CONFLICT);
 		}
 		return true;
+	}
+
+	@Override
+	public List<Servicio> listadoAllServicio() {
+
+		List<Servicio> servicios=servicioRepository.findAll();
+		return servicios;
 	}
 	
 }

@@ -58,7 +58,7 @@ public class Visita {
 	private Date createAt;
 	
 	@Column(name = "estado", nullable = false)
-	private int estado;//1: Registrado ; 2: Terminado; 3: Cancelado
+	private int estado;//0: Cancelada ;1:Programada ; 2: En Proceso; 3: Finalizada
 	/********************************************************
 	 * Relaciones con tablas
 	 *********************************************************/

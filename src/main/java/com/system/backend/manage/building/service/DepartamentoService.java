@@ -12,11 +12,11 @@ public interface DepartamentoService {
 
 	public DepartamentoDTO crearDepartamento(DepartamentoDTO departamentoDTO);
 
+	public DepartamentoDTO actualizarDepartamento(DepartamentoDTO departamentoDTO, long id);
+	
 	public PaginacionRespuesta obtenertodoslosDepartamento(int numeroDePagina,int medidaDePagina,String ordenarPor,String SortDir);
 
 	public Departamento obtenerDepartamentosPorId(long id) ;
-
-	public DepartamentoDTO actualizarDepartamento(DepartamentoDTO departamentoDTO, long id);
 	
 	public DepartamentoDTO eliminarDepartamento(long id);
 

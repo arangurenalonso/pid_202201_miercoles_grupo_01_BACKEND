@@ -1,6 +1,8 @@
 package com.system.backend.manage.building.repository;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,5 +26,16 @@ public interface IVisitaRepository extends JpaRepository<Visita, Long> {
 			+ " visPer.dni LIKE CONCAT('%',:dni,'%') and"
 			+ " v.estado= :estado")
 	public abstract Page<Visita> listarVisitasByNombreDniEstado( String nombre,String dni,int estado,Pageable pageable);
+	
+	@Query("SELECT  v FROM"
+			+ " Visita v "
+			+ " JOIN v.visitante vis "
+			+ " JOIN v.departamento dep "
+			+ " JOIN v.propietario prop "
+			+ " JOIN vis.persona visPer "
+			+ " where "
+			+ " vis.id= :visitanteId and"
+			+ " v.estado= 2")
+	public abstract List<Visita> isVisitaInProgress(long visitanteId);
 
 }

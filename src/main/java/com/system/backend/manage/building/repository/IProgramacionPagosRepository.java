@@ -15,11 +15,20 @@ public interface IProgramacionPagosRepository  extends JpaRepository<Programacio
 			+ " ProgramacionPagos pp "
 			+ " JOIN pp.departamento dep "
 			+ " JOIN pp.servicio vis "
+			+ " JOIN pp.monthYear my"
 			+ " where "
-			+ " pp.month=:month and "
-			+ " pp.year=:year and "
+			+ " my.month=:month and "
+			+ " my.year=:year and "
 			+ " dep.id= :idDepartamento ")
 	public abstract List<Visita> listarProgramacionPagosMonthYearDepartamento( int month,int year,long idDepartamento);
 	
+	@Query("SELECT pp FROM"
+			+ " ProgramacionPagos pp "
+			+ " JOIN pp.departamento dep "
+			+ " JOIN pp.servicio vis "
+			+ " where "
+			+ " pp.estado=1 and "
+			+ " dep.id= :idDepartamento ")
+	public abstract List<ProgramacionPagos> listarPagosPorPagarPorDepartamento( long idDepartamento);
 	
 }

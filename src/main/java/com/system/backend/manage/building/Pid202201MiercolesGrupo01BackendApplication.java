@@ -15,6 +15,7 @@ import com.system.backend.manage.building.dto.entrada.DepartamentoDTO;
 import com.system.backend.manage.building.dto.entrada.FamiliarCreateDTO;
 import com.system.backend.manage.building.dto.entrada.IncidenteDTO;
 import com.system.backend.manage.building.dto.entrada.MascotaDTO;
+import com.system.backend.manage.building.dto.entrada.ProgramacionPagosDTO;
 import com.system.backend.manage.building.dto.entrada.PropietarioDTO;
 import com.system.backend.manage.building.dto.entrada.ServicioDTO;
 import com.system.backend.manage.building.dto.entrada.VisitaDTO;
@@ -24,6 +25,7 @@ import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.jsonignore.DepartamentoIgnoreProperties;
 import com.system.backend.manage.building.service.PersonaService;
+import com.system.backend.manage.building.service.ProgramacionPagosService;
 import com.system.backend.manage.building.service.PropietarioService;
 import com.system.backend.manage.building.service.ServicioService;
 import com.system.backend.manage.building.service.DepartamentoService;
@@ -66,7 +68,8 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			VisitanteService visitanteService,
 			VisitaService visitaService,
 			ServicioService servicioService,
-			IncidenteService incidenteService) {
+			IncidenteService incidenteService,
+			ProgramacionPagosService programacionPagosService) {
 		// TODO Auto-generated method stub
 		return args -> {
 			userService.saveRole(new Role(null, "ROLE_USER"));
@@ -191,15 +194,12 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			VisitaDTO visita1=new VisitaDTO(null,new Date(),null,"Visita a amigos",null,(long)1,(long)1,(long)1,(long)1);
 			visitaService.registrarVisita(visita1);
 		
-			VisitaDTO visita2=new VisitaDTO(null,new Date(),null,"Analizar inventario",null,(long)2,(long)3,(long)2,(long)1);
+			VisitaDTO visita2=new VisitaDTO(null,new Date(),null,"Analizar inventario",null,(long)2,(long)2,(long)2,(long)1);
 			visitaService.registrarVisita(visita2);
 
-			VisitaDTO visita3=new VisitaDTO(null,new Date(),null,"Reunion de trabajo",null,(long)3,(long)4,(long)2,(long)1);
-			visitaService.registrarVisita(visita3);
-
-			VisitaDTO visita4=new VisitaDTO(null,new Date(),null,"Reunion de estudio",null,(long)4,(long)5,(long)3,(long)1);
+			VisitaDTO visita4=new VisitaDTO(null,new Date(),null,"Reunion de estudio",null,(long)3,(long)3,(long)3,(long)1);
 			visitaService.registrarVisita(visita4);
-			VisitaDTO visita5=new VisitaDTO(null,new Date(),null,"Reunion de Canto",null,(long)4,(long)5,(long)5,(long)1);
+			VisitaDTO visita5=new VisitaDTO(null,new Date(),null,"Reunion de Canto",null,(long)4,(long)4,(long)4,(long)1);
 			visitaService.registrarVisita(visita5);
 			
 			
@@ -229,7 +229,10 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			incidenteService.registrar(incidente4);
 			incidenteService.registrar(incidente5);
 			
-			
+			ProgramacionPagosDTO pp=new ProgramacionPagosDTO();
+			pp.setMonth(5);
+			pp.setYear(2022);
+			programacionPagosService.registrarPagos(pp);
 		};
 	}
 

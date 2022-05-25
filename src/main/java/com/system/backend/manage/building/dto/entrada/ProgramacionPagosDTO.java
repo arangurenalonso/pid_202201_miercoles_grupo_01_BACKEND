@@ -17,6 +17,8 @@ public class ProgramacionPagosDTO {
 	private int month;
 
 	private int year;
+	
+	private int estado;
 
 	private Long idDepartamento;
 }

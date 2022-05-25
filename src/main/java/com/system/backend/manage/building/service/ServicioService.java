@@ -1,5 +1,7 @@
 package com.system.backend.manage.building.service;
 
+import java.util.List;
+
 import com.system.backend.manage.building.dto.entrada.ServicioDTO;
 import com.system.backend.manage.building.dto.salida.PaginacionRespuesta;
 import com.system.backend.manage.building.dto.salida.ServicioDTOSalida;
@@ -16,5 +18,7 @@ public interface ServicioService {
 	public Servicio actualizar(ServicioDTO servicioDTO);
 	
 	public Servicio changeActive(long id);
+	
+	public List<Servicio> listadoAllServicio();
 
 }

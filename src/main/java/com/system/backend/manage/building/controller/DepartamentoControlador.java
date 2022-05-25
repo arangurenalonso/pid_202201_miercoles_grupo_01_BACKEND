@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.system.backend.manage.building.constant.PaginacionConstant;
 import com.system.backend.manage.building.dto.entrada.DepartamentoDTO;
+import com.system.backend.manage.building.dto.entrada.DepartamentoDTO.CreateDepartamento;
+import com.system.backend.manage.building.dto.entrada.DepartamentoDTO.UpdatedDepartamento;
 import com.system.backend.manage.building.dto.salida.PaginacionRespuesta;
 import com.system.backend.manage.building.dto.salida.Response;
 import com.system.backend.manage.building.dto.salida.ResponseDetails;
@@ -69,7 +72,7 @@ public class DepartamentoControlador {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> guardarDepartamento(@Valid @RequestBody DepartamentoDTO departamentoDTO) {
+	public ResponseEntity<?> guardarDepartamento( @Validated({ CreateDepartamento.class }) @RequestBody DepartamentoDTO departamentoDTO) {
 		DepartamentoDTO departamentoRespuesta = departamentoservice.crearDepartamento(departamentoDTO);
 		ResponseDetails detalles = new ResponseDetails(200, "Se creo el departamento", departamentoRespuesta);
 		Response response = new Response("Success","Se creo el departamento",detalles);
@@ -78,7 +81,7 @@ public class DepartamentoControlador {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> actualizarDepartamento(@RequestBody DepartamentoDTO departamentoDTO,
+	public ResponseEntity<?> actualizarDepartamento(@Validated({ UpdatedDepartamento.class }) @RequestBody DepartamentoDTO departamentoDTO,
 			@PathVariable(name = "id") long id) {
 
 		DepartamentoDTO departamentoRespuesta = departamentoservice.actualizarDepartamento(departamentoDTO, id);
