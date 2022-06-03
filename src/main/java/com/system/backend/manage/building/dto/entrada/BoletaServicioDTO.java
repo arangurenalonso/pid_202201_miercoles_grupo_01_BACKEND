@@ -11,7 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ProgramacionPagosDTO {
+public class BoletaServicioDTO {
 	private Long id;
 
 	private int month;

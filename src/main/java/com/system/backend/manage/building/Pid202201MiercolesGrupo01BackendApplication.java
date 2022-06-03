@@ -15,7 +15,7 @@ import com.system.backend.manage.building.dto.entrada.DepartamentoDTO;
 import com.system.backend.manage.building.dto.entrada.FamiliarCreateDTO;
 import com.system.backend.manage.building.dto.entrada.IncidenteDTO;
 import com.system.backend.manage.building.dto.entrada.MascotaDTO;
-import com.system.backend.manage.building.dto.entrada.ProgramacionPagosDTO;
+import com.system.backend.manage.building.dto.entrada.BoletaServicioDTO;
 import com.system.backend.manage.building.dto.entrada.PropietarioDTO;
 import com.system.backend.manage.building.dto.entrada.ServicioDTO;
 import com.system.backend.manage.building.dto.entrada.VisitaDTO;
@@ -25,7 +25,7 @@ import com.system.backend.manage.building.entity.Role;
 import com.system.backend.manage.building.entity.Usuario;
 import com.system.backend.manage.building.jsonignore.DepartamentoIgnoreProperties;
 import com.system.backend.manage.building.service.PersonaService;
-import com.system.backend.manage.building.service.ProgramacionPagosService;
+import com.system.backend.manage.building.service.BoletaServicioService;
 import com.system.backend.manage.building.service.PropietarioService;
 import com.system.backend.manage.building.service.ServicioService;
 import com.system.backend.manage.building.service.DepartamentoService;
@@ -69,7 +69,7 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			VisitaService visitaService,
 			ServicioService servicioService,
 			IncidenteService incidenteService,
-			ProgramacionPagosService programacionPagosService) {
+			BoletaServicioService programacionPagosService) {
 		// TODO Auto-generated method stub
 		return args -> {
 			userService.saveRole(new Role(null, "ROLE_USER"));
@@ -229,7 +229,7 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			incidenteService.registrar(incidente4);
 			incidenteService.registrar(incidente5);
 			
-			ProgramacionPagosDTO pp=new ProgramacionPagosDTO();
+			BoletaServicioDTO pp=new BoletaServicioDTO();
 			pp.setMonth(5);
 			pp.setYear(2022);
 			programacionPagosService.registrarPagos(pp);

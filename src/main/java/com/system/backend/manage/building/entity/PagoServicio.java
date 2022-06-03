@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -18,8 +19,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,46 +30,50 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Setter
-
 @Getter
-
 @AllArgsConstructor
-
 @NoArgsConstructor
 @ToString
-
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
-@Table(name = "servicios")
-public class Servicio {
+@Table(name = "pago_servicio")
+public class PagoServicio {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false, name = "nombre", unique = true )
-	private String nombre;
+	@Column( name="monto_total",nullable = false)
+	private double montoTotal;
 	
-	@Column( name = "descripcion" )
-	private String descripcion;
-	
-	@Column( name="costo",nullable = false)
-	private double costo;
-	
-	
-	
+	@Column(name = "create_at", updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_at",updatable = false)
 	private Date createAt;
-
-	@Column(name = "is_active")
-	private Boolean isActive;
 	
 	@ManyToOne(targetEntity = Persona.class, fetch = FetchType.EAGER)
 	@JsonIncludeProperties(value = {"id","nombre","apellido"})
     private Persona personaRegistro;
+
 	
-	@OneToMany(mappedBy = "servicio",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	@JsonIncludeProperties(value = {"id","month","year"})
-	private Set<BoletaServicio> boletaServicio = new HashSet<>();
+	@ManyToOne
+	@JoinColumn(name="departamento_id")
+	@JsonIgnore
+	private Departamento departamento;
+	
+	
+	public PagoServicio(Long id, double montoTotal, Date createAt, Persona personaRegistro, Departamento departamento) {
+		super();
+		this.id = id;
+		this.montoTotal = montoTotal;
+		this.createAt = createAt;
+		this.personaRegistro = personaRegistro;
+		this.departamento = departamento;
+	}
+
+
+	@OneToMany(mappedBy = "pagoServicio",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set <PagoServicioDetalle> pagoServicioDetalle = new HashSet<>();
+	
+
+	
 	
 }

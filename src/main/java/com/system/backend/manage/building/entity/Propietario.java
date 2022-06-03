@@ -73,6 +73,7 @@ public class Propietario {
 	@OneToMany(mappedBy = "propietario",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonIncludeProperties(value = {"id","fechaHoraLlegada","fechaHoraSalida","motivoVisita"})
 	private Set<Visita> visitas = new HashSet<>();
+
 	
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
 	@JoinColumn(name = "persona_id", referencedColumnName = "id")

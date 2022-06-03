@@ -1,11 +1,9 @@
 package com.system.backend.manage.building.dto.salida;
 
-
-
 import java.util.Date;
 
 
-import com.system.backend.manage.building.entity.ProgramacionPagos;
+import com.system.backend.manage.building.entity.BoletaServicio;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,21 +16,23 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ProgramacionPagosDTOSalida {
+public class BoletaServicioDTOSalida {
 	private Long id;
+	private MonthYearDTOSalida monthYear;
 	
 	private DepartamentoDTOSalida departamento;
 	
 	private ServicioDTOSalida servicio;
 	
-	
-	private MonthYearDTOSalida monthYear;
-	
 	private Date createAt;
 
-	private int estado;//1: pendiente, 2: cancelado
+	private int estado;//1: pendiente, 2: cancelado	
+	
+	private double costo;
+	
+	private Date fechaVenciemintoPago;
 
-	public ProgramacionPagosDTOSalida(ProgramacionPagos pp) {
+	public BoletaServicioDTOSalida(BoletaServicio pp) {
 		super();
 		this.id = pp.getId();
 		this.departamento =new DepartamentoDTOSalida( pp.getDepartamento());
@@ -40,6 +40,8 @@ public class ProgramacionPagosDTOSalida {
 		this.monthYear=new MonthYearDTOSalida(pp.getMonthYear());
 		this.createAt=pp.getCreateAt();
 		this.estado=pp.getEstado();
+		this.fechaVenciemintoPago=pp.getFechaVenciemintoPago();
+		this.costo=pp.getCosto();
 	}
 
 }
