@@ -3,40 +3,31 @@ package com.system.backend.manage.building.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.system.backend.manage.building.constant.UserImplConstant;
-import com.system.backend.manage.building.dto.entrada.BoletaServicioDTO;
 import com.system.backend.manage.building.dto.entrada.CancelarPagosDTO;
-import com.system.backend.manage.building.dto.salida.BoletaServicioDTOSalida;
-import com.system.backend.manage.building.entity.Departamento;
-import com.system.backend.manage.building.entity.MonthYear;
+import com.system.backend.manage.building.dto.salida.PaginacionRespuesta;
+import com.system.backend.manage.building.dto.salida.PagoServicioDTOSalida;
 import com.system.backend.manage.building.entity.PagoServicio;
 import com.system.backend.manage.building.entity.PagoServicioDetalle;
 import com.system.backend.manage.building.entity.Persona;
-import com.system.backend.manage.building.entity.Propietario;
-import com.system.backend.manage.building.entity.PropietarioDepartamento;
 import com.system.backend.manage.building.entity.BoletaServicio;
-import com.system.backend.manage.building.entity.Servicio;
 import com.system.backend.manage.building.excepciones.CustomAppException;
-import com.system.backend.manage.building.jsonignore.BoletaServicioIgnoreProperties;
-import com.system.backend.manage.building.repository.IMounthYearRepository;
 import com.system.backend.manage.building.repository.IPagoServicioDetalleRepository;
 import com.system.backend.manage.building.repository.IPagoServicioRepository;
 import com.system.backend.manage.building.repository.IBoletaServicioRepository;
-import com.system.backend.manage.building.service.DepartamentoService;
 import com.system.backend.manage.building.service.PagoServicioService;
 import com.system.backend.manage.building.service.PersonaService;
-import com.system.backend.manage.building.service.BoletaServicioService;
-import com.system.backend.manage.building.service.ServicioService;
-import com.system.backend.manage.building.utils.Calendario;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -52,13 +43,29 @@ public class PagoServicioServiceImpl implements PagoServicioService {
 	@Autowired
 	private PersonaService personaServ;
 	
-	
+	@Override
+	public PaginacionRespuesta paginacion(int numeroDePagina, int medidaDePagina,String ordenarPor,String sortDir) {
+		Sort sort=sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
+		Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina,sort);
+		Page<PagoServicio> page = pagoServicioRepository.findAll(pageable);
+		
+		
+		PaginacionRespuesta paginacion= new PaginacionRespuesta();
+		paginacion.setContenido(page.getContent().stream().map(obj->{
+																	return new PagoServicioDTOSalida(obj);
+																	}).collect(Collectors.toList()));
+		paginacion.setNumeroDePagina(page.getNumber());
+		paginacion.setMedidaPagina(page.getSize());
+		paginacion.setTotalElementos(page.getTotalElements());
+		paginacion.setTotalPaginas(page.getTotalPages());
+		paginacion.setUltima(page.isLast());
+		return paginacion;
 
+
+	}
 	@Override
 	@Transactional
 	public PagoServicio cancelarServicios(CancelarPagosDTO cancelarPagosDTO) {
-		log.info("ENTROOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-		log.info(cancelarPagosDTO.getIdPersonaRegistro().toString());
 		Persona personaRegistro=personaServ.BuscarPersonaId(cancelarPagosDTO.getIdPersonaRegistro());
 		List<BoletaServicio> listaBoletaServicioCancelar = new ArrayList<>();
 		
