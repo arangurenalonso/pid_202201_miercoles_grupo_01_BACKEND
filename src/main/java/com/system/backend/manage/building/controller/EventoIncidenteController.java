@@ -41,23 +41,18 @@ public class EventoIncidenteController {
 
 	@Autowired
 	private EventoIncidenteService eventoIncidenteService;
-//
-//	@PostMapping("/cancelar")
-//	public ResponseEntity<?> cancelar(@Valid @RequestBody CancelarPagosDTO familiarCreateDTO) {
-//		PagoServicio pagoServicio = pagoServicioService.cancelarServicios(familiarCreateDTO);
-//		ResponseDetails detalles = new ResponseDetails(200, "Se pagaron las boletas pendientes", pagoServicio);
-//		Response response = new Response("Success", "Pago Realizado", detalles);
-//		return new ResponseEntity<>(response, HttpStatus.CREATED);
-//	}
+
 
 	@GetMapping("/paginacion")
     public ResponseEntity<?>listarPropietarios(
 			@RequestParam(value = "numeroDePagina", defaultValue = PaginacionConstant.NUMERO_DE_PAGINA_POR_DEFECTO,required = false) int numeroDePagina,
 			@RequestParam(value = "pageSize",defaultValue = PaginacionConstant.MEDIDA_DE_PAGINA_POR_DEFECTO,required = false) int medidaDePagina,
 			@RequestParam(value = "sortBy", defaultValue = PaginacionConstant.ORDENAR_POR_DEFECTO, required = false) String ordenarPor,
-			@RequestParam(value = "sortDir", defaultValue = PaginacionConstant.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sorDir
+			@RequestParam(value = "sortDir", defaultValue = PaginacionConstant.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sorDir,
+			@RequestParam(value = "departamento", defaultValue = "-1", required = false) long depId,
+			@RequestParam(value = "incidente", defaultValue = "-1", required = false) long inciID
     		){
-		PaginacionRespuesta paginacion = eventoIncidenteService.paginacion(numeroDePagina, medidaDePagina, ordenarPor, sorDir);
+		PaginacionRespuesta paginacion = eventoIncidenteService.paginacion(numeroDePagina, medidaDePagina, ordenarPor, sorDir,depId,inciID);
 		
 		ResponseDetails detalleRespuesta = new ResponseDetails(200, "Se encontro la paginación ", paginacion);
         Response response = new Response("Success","Buscado encontrada",detalleRespuesta);

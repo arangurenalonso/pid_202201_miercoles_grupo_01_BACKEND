@@ -238,7 +238,7 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			programacionPagosService.registrarPagos(pp);
 			
 			EventoIncidenteDTO eventoIncidenteDTO1 =new EventoIncidenteDTO(null,(long) 1,(long) 2,(long) 1,"Reporte regitrado por el departamento del nivel 3",1);
-			EventoIncidenteDTO eventoIncidenteDTO2 =new EventoIncidenteDTO(null,(long) 4,(long) 2,(long) 1,"Excede del límite de hora",1);
+			EventoIncidenteDTO eventoIncidenteDTO2 =new EventoIncidenteDTO(null,(long) 4,(long) 3,(long) 1,"Excede del límite de hora",1);
 			
 			eventoIncidenteService.registrar(eventoIncidenteDTO1);
 			eventoIncidenteService.registrar(eventoIncidenteDTO2);

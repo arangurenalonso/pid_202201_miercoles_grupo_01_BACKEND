@@ -12,7 +12,7 @@ public interface EventoIncidenteService {
 
 	public EventoIncidenteDTOSalida statusUpdate(EventoIncidenteDTO eventoIncidenteDTO);
 	
-	public PaginacionRespuesta paginacion(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir);
+	public PaginacionRespuesta paginacion(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, long depId, long inciID);
 
 	public EventoIncidente getById(long id);
 	

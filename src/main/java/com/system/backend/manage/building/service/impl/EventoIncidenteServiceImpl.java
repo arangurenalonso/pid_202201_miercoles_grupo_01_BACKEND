@@ -61,10 +61,20 @@ public class EventoIncidenteServiceImpl implements EventoIncidenteService {
 	}
 
 	@Override
-	public PaginacionRespuesta paginacion(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir) {
-		Sort sort=sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
+	public PaginacionRespuesta paginacion(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir,long depId, long inciID) {
+		Sort sort=sortDir.equalsIgnoreCase(Sort.Direction.DESC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
 		Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina,sort);
-		Page<EventoIncidente> page = eventoIncidenteRepository.findAll(pageable);
+		Page<EventoIncidente> page;
+		if(depId>0){
+			page = eventoIncidenteRepository.filtroByDepartamento(depId,pageable);
+		}
+		else if(inciID>0){
+			 page = eventoIncidenteRepository.filtroByIncidente(inciID,pageable);
+		}
+		else {
+			page = eventoIncidenteRepository.findAll(pageable);
+		}
+		
 		
 		
 		PaginacionRespuesta paginacion= new PaginacionRespuesta();
