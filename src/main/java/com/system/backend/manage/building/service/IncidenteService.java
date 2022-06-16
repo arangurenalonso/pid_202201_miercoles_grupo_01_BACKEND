@@ -1,6 +1,9 @@
 package com.system.backend.manage.building.service;
 
 import com.system.backend.manage.building.entity.Incidente;
+
+import java.util.List;
+
 import com.system.backend.manage.building.dto.entrada.IncidenteDTO;
 import com.system.backend.manage.building.dto.salida.IncidenteDTOSalida;
 import com.system.backend.manage.building.dto.salida.PaginacionRespuesta;
@@ -18,4 +21,7 @@ public interface IncidenteService {
 	
 	public Incidente changeActive(long id);
 
+	public Incidente buscarIncidente(long id);
+
+	public List<Incidente> getAll();
 }

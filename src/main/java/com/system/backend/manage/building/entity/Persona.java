@@ -116,5 +116,9 @@ public class Persona implements Serializable {
 	@OneToMany(mappedBy = "personaRegistro", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonIncludeProperties(value = { "id" })
 	private Set<PagoServicio> pagoServicio = new HashSet<>();
+	
+	@OneToMany(mappedBy = "personaRegistro",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonIncludeProperties(value = {"id"})
+	private Set <HistorialIncidentes> historialIncidentes = new HashSet<>();
 
 }

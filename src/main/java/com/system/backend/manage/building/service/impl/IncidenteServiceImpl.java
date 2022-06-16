@@ -1,6 +1,7 @@
 package com.system.backend.manage.building.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,8 +68,8 @@ public class IncidenteServiceImpl implements IncidenteService {
 	}
 	@Override
 	public IncidenteDTOSalida BuscarPorID(long id) {
-		Incidente servicio = buscarIncidente(id);
-		return new IncidenteDTOSalida(servicio);
+		Incidente incidente = buscarIncidente(id);
+		return new IncidenteDTOSalida(incidente);
 	}
 	
 	
@@ -95,8 +96,8 @@ public class IncidenteServiceImpl implements IncidenteService {
 		return incidenteRepository.save(incidente);
 	}
 	
-	
-	private Incidente buscarIncidente(long id) {
+	@Override
+	public Incidente buscarIncidente(long id) {
 		Incidente incidente = incidenteRepository.findById(id).orElseThrow(() -> new CustomAppException(
 				"El id '" + id + "' no existe en la Base de datos", 400,
 				UserImplConstant.RESOURCE_NOT_FOUND_EXCEPTION, "ResourceNotFoundException", HttpStatus.BAD_REQUEST));
@@ -115,6 +116,12 @@ public class IncidenteServiceImpl implements IncidenteService {
 					HttpStatus.CONFLICT);
 		}
 		return true;
+	}
+
+	@Override
+	public List<Incidente> getAll() {
+		// TODO Auto-generated method stub
+		return incidenteRepository.findAll();
 	}
 	
 }

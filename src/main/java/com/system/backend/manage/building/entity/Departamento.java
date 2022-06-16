@@ -81,6 +81,8 @@ public class Departamento {
 	@JsonIncludeProperties(value = {"id","fechaHoraLlegada","fechaHoraSalida","motivoVisita"})
 	private Set <PagoServicio> pagoServicio = new HashSet<>();
 	
-
+	@OneToMany(mappedBy = "departamento",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonIncludeProperties(value = {"id"})
+	private Set <EventoIncidente> eventoIncidente = new HashSet<>();
 	
 }

@@ -2,6 +2,8 @@ package com.system.backend.manage.building.controller;
 
 
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,16 @@ public class IncidenteController {
 		PaginacionRespuesta paginacion = incidenteService.paginacion(numeroDePagina, medidaDePagina, ordenarPor, sorDir);
 		
 		ResponseDetails detalleRespuesta = new ResponseDetails(200, "Se encontro el listado correctamente ", paginacion);
+        Response response = new Response("Success","Buscado encontrada",detalleRespuesta);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+	}
+	
+	@GetMapping("/all")
+    public ResponseEntity<?>seleccionarTodo(){
+		List<Incidente> lista = incidenteService.getAll();
+		
+		ResponseDetails detalleRespuesta = new ResponseDetails(200, "Se encontro el listado correctamente ", lista);
         Response response = new Response("Success","Buscado encontrada",detalleRespuesta);
         return new ResponseEntity<>(response, HttpStatus.OK);
 

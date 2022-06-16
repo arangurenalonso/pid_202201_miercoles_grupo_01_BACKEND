@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.system.backend.manage.building.dto.entrada.DepartamentoDTO;
+import com.system.backend.manage.building.dto.entrada.EventoIncidenteDTO;
 import com.system.backend.manage.building.dto.entrada.FamiliarCreateDTO;
 import com.system.backend.manage.building.dto.entrada.IncidenteDTO;
 import com.system.backend.manage.building.dto.entrada.MascotaDTO;
@@ -29,6 +30,7 @@ import com.system.backend.manage.building.service.BoletaServicioService;
 import com.system.backend.manage.building.service.PropietarioService;
 import com.system.backend.manage.building.service.ServicioService;
 import com.system.backend.manage.building.service.DepartamentoService;
+import com.system.backend.manage.building.service.EventoIncidenteService;
 import com.system.backend.manage.building.service.FamiliarService;
 import com.system.backend.manage.building.service.IncidenteService;
 import com.system.backend.manage.building.service.MascotaService;
@@ -69,7 +71,8 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			VisitaService visitaService,
 			ServicioService servicioService,
 			IncidenteService incidenteService,
-			BoletaServicioService programacionPagosService) {
+			BoletaServicioService programacionPagosService,
+			EventoIncidenteService eventoIncidenteService) {
 		// TODO Auto-generated method stub
 		return args -> {
 			userService.saveRole(new Role(null, "ROLE_USER"));
@@ -233,6 +236,15 @@ public class Pid202201MiercolesGrupo01BackendApplication implements WebMvcConfig
 			pp.setMonth(5);
 			pp.setYear(2022);
 			programacionPagosService.registrarPagos(pp);
+			
+			EventoIncidenteDTO eventoIncidenteDTO1 =new EventoIncidenteDTO(null,(long) 1,(long) 2,(long) 1,"Reporte regitrado por el departamento del nivel 3",1);
+			EventoIncidenteDTO eventoIncidenteDTO2 =new EventoIncidenteDTO(null,(long) 4,(long) 2,(long) 1,"Excede del límite de hora",1);
+			
+			eventoIncidenteService.registrar(eventoIncidenteDTO1);
+			eventoIncidenteService.registrar(eventoIncidenteDTO2);
+			EventoIncidenteDTO eventoIncidenteDTO3 =new EventoIncidenteDTO((long) 1,null,null,(long) 2,"Conversamos con el propietario y va a aplicar medidas",2);
+			
+			eventoIncidenteService.statusUpdate(eventoIncidenteDTO3);
 		};
 	}
 
