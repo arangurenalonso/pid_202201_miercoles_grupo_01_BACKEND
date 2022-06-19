@@ -22,6 +22,7 @@ import com.system.backend.manage.building.entity.PagoServicio;
 import com.system.backend.manage.building.entity.PagoServicioDetalle;
 import com.system.backend.manage.building.entity.Persona;
 import com.system.backend.manage.building.entity.BoletaServicio;
+import com.system.backend.manage.building.entity.EventoIncidente;
 import com.system.backend.manage.building.excepciones.CustomAppException;
 import com.system.backend.manage.building.repository.IPagoServicioDetalleRepository;
 import com.system.backend.manage.building.repository.IPagoServicioRepository;
@@ -44,10 +45,18 @@ public class PagoServicioServiceImpl implements PagoServicioService {
 	private PersonaService personaServ;
 	
 	@Override
-	public PaginacionRespuesta paginacion(int numeroDePagina, int medidaDePagina,String ordenarPor,String sortDir) {
-		Sort sort=sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
+	public PaginacionRespuesta paginacion(int numeroDePagina, int medidaDePagina,String ordenarPor,String sortDir,long depId) {
+		Sort sort=sortDir.equalsIgnoreCase(Sort.Direction.DESC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
 		Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina,sort);
-		Page<PagoServicio> page = pagoServicioRepository.findAll(pageable);
+		
+		Page<PagoServicio> page;
+		if(depId>0){
+			page = pagoServicioRepository.filtroByDepartamento(depId,pageable);
+		}
+		else {
+			page = pagoServicioRepository.findAll(pageable);
+		}
+		
 		
 		
 		PaginacionRespuesta paginacion= new PaginacionRespuesta();

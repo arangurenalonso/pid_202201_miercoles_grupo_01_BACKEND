@@ -9,6 +9,6 @@ public interface PagoServicioService {
 	
 	public PagoServicio cancelarServicios(CancelarPagosDTO cancelarPagosDTO);
 
-	PaginacionRespuesta paginacion(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir);
+	PaginacionRespuesta paginacion(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir,long depId);
 	
 }
